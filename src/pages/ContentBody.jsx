@@ -34,17 +34,20 @@ class ContentBody extends React.Component {
       content: 'thsaldkfja;lkj dsalkfadlfkjldskafja;lkdjf;lkjjadsflkj',
     },
     ],
+    todayNovel: {
+      name: 'neuromancer',
+      quotation: '항구의 하늘은 방송이 끝난 텔레비전 색이였다.',
+    },
   }
 
   render() {
-    return(
+    return (
       <Fragment>
-        <TodayNovel style={{ padding: 10 }} />
+        <TodayNovel style={{ padding: 10 }} todayNovelData={this.state.todayNovel} />
         <NovellaList novelData={this.state.novelData} />
       </Fragment>
     );
   }
-
 }
 
 export default ContentBody;

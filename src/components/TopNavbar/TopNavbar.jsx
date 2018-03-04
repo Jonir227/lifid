@@ -1,12 +1,15 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Alignment, Navbar, NavbarGroup, NavbarHeading, NavbarDivider, Button, InputGroup, Icon } from '@blueprintjs/core';
+import PropTypes from 'prop-types';
+import { Alignment, Navbar, NavbarGroup, NavbarHeading, NavbarDivider, Button, InputGroup } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import styles from './TopNavbar.scss';
 
 const cx = classNames.bind(styles);
 
-const TopNavbar = () => {
+const TopNavbar = ({ searchFucntion }) => {
+  const a = 12;
+  console.log(a);
   return (
     <Navbar className={cx('top-nav-bar')}>
       <NavbarGroup align={Alignment.LEFT}>
@@ -18,7 +21,7 @@ const TopNavbar = () => {
           className="pt-round"
           placeholder="search"
           leftIcon="search"
-          rightElement={<Button className="pt-minimal" icon="arrow-right" />}
+          rightElement={<Button className="pt-minimal" icon="arrow-right" onClick={searchFucntion} />}
         />
         <NavbarDivider />
         <Link to="/"><Button className="pt-minimal" icon="home" text="Home" /></Link>
@@ -26,6 +29,10 @@ const TopNavbar = () => {
       </NavbarGroup>
     </Navbar>
   );
+};
+
+TopNavbar.propTypes = {
+  searchFucntion: PropTypes.func.isRequired,
 };
 
 export default TopNavbar;

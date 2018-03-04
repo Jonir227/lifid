@@ -8,4 +8,4 @@ const Reader = () => {
   );
 };
 
-export default Reader ;
+export default Reader;

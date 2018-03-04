@@ -17,7 +17,7 @@ class App extends Component {
         <Route path="/" component={TopNavbar} />
         <div className={cx('content-body')}>
           <Route exact path="/" component={ContentBody} />
-          <Route path="/editor" component={Editor} />
+          <Route exact path="/editor" component={Editor} />
           <Route path="/" component={BtmFooter} />
         </div>
       </Fragment>
