@@ -1,0 +1,14 @@
+.editor {
+  padding: 1rem;
+  .card-wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+  .text-write-area {
+    padding: 1rem;
+    width: 100%;
+    height: 45rem;
+    resize: none;
+    border: none;
+  }
+}

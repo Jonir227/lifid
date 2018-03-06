@@ -6,18 +6,7 @@ const LeftBar = ({ sections, indexFunction }) => {
   return (
     <div style={{ padding: 10, width: '15rem' }}>
       <Card >
-        Left bar is he0re&nbsp;
-        <br />
-        alsdkjfasdflkd
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+        Table Of Content
       </Card>
     </div>
   );

@@ -8,8 +8,6 @@ import styles from './TopNavbar.scss';
 const cx = classNames.bind(styles);
 
 const TopNavbar = ({ searchFucntion }) => {
-  const a = 12;
-  console.log(a);
   return (
     <Navbar className={cx('top-nav-bar')}>
       <NavbarGroup align={Alignment.LEFT}>
