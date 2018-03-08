@@ -7,6 +7,13 @@ import styles from './TopNavbar.scss';
 
 const cx = classNames.bind(styles);
 
+const BtnTxt = ({ txt }) => <span className={cx('btn-text')}>{txt}</span>;
+
+BtnTxt.propTypes = {
+  txt: PropTypes.string.isRequired,
+};
+
+
 const TopNavbar = ({ searchFucntion }) => {
   return (
     <Navbar className={cx('top-nav-bar')}>
@@ -14,7 +21,6 @@ const TopNavbar = ({ searchFucntion }) => {
         <NavbarHeading><strong>LiFiD</strong></NavbarHeading>
       </NavbarGroup>
       <NavbarGroup align={Alignment.RIGHT}>
-        <NavbarDivider />
         <InputGroup
           className="pt-round"
           placeholder="search"
@@ -22,8 +28,8 @@ const TopNavbar = ({ searchFucntion }) => {
           rightElement={<Button className="pt-minimal" icon="arrow-right" onClick={searchFucntion} />}
         />
         <NavbarDivider />
-        <Link to="/"><Button className="pt-minimal" icon="home" text="Home" /></Link>
-        <Link to="/editor"><Button className="pt-minimal" icon="edit" text="Start Writing" /></Link>
+        <Link to="/"><Button className="pt-minimal" icon="home" text={<BtnTxt txt="home" />} /></Link>
+        <Link to="/editor"><Button className="pt-minimal" icon="edit" text={<BtnTxt txt="start writing" />} /></Link>
       </NavbarGroup>
     </Navbar>
   );

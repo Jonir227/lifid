@@ -1,0 +1,11 @@
+@import 'utils';
+
+.left-bar {
+  padding: 1rem;
+  width: 15rem;
+  text-align: center;
+  @media screen and (max-width: $width-small) {
+    display: none !important;
+  }
+}
+

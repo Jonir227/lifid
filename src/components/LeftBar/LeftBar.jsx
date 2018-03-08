@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ClassNames from 'classnames/bind';
 import { Card } from '@blueprintjs/core';
+import styles from './LeftBar.scss';
+
+const cx = ClassNames.bind(styles);
 
 const LeftBar = ({ sections, indexFunction }) => {
   return (
-    <div style={{ padding: 10, width: '15rem' }}>
+    <div className={cx('left-bar')}>
       <Card >
-        Table Of Content
+        <strong>Table Of Content</strong>
+        <div>
+        </div>
       </Card>
     </div>
   );

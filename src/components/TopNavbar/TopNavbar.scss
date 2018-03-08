@@ -5,3 +5,8 @@
   position: fixed;
   top: 0;
 }
+@media screen and (max-width: $width-small) {
+  .btn-text {
+    display: none !important;
+  }
+}
