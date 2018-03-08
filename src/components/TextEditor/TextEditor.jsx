@@ -14,6 +14,7 @@ class TextEditor extends React.Component {
   }
 
   onChange = (editorState) => {
+    console.log(editorState);
     this.setState({ editorState });
   }
 

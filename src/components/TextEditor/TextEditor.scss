@@ -32,7 +32,7 @@
       }
       .editor-wrapper {
         .text-write-area {
-          padding-top: 50px;
+          margin-top: calc(1rem + 50px);
           font-size: 1rem;
           width: 100%;
           min-height: 500px;
