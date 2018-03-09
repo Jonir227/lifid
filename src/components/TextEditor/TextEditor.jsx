@@ -14,7 +14,6 @@ class TextEditor extends React.Component {
   }
 
   onChange = (editorState) => {
-    console.log(editorState);
     this.setState({ editorState });
   }
 
@@ -23,25 +22,34 @@ class TextEditor extends React.Component {
   }
 
   _RichUtilCickFunc = styleMutator =>
-    () => { this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, styleMutator)); };
+    () => { this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, styleMutator)); console.log('hi' + styleMutator); };
+
+  _handleKeyCommand(command, editorState) {
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      this.onChange(newState);
+      return true;
+    }
+    return false;
+  }
 
   render() {
     return (
       <div className={cx('editor')}>
         <Card className={cx('card-wrapper')}>
-          <LeftBar className={cx('left-bar')}/>
+          <LeftBar />
           <div className={cx('text-wrapper')}>
             <div className={cx('today-novel')}>
               &quot; 항구의 하늘은 방송이 끝난 텔레비전 색이였다 &quot;
             </div>
-            <div className={cx('editor-wrapper')} role="presentation" onClick={this.editorFocus} onKeyPress={this.focus}>
+            <div className={cx('editor-wrapper')} >
               <div className={cx('tool-box')}>
                 <ButtonGroup minimal>
                   <Button icon="header-one" />
                   <Button icon="header-two" />
                   <div className={cx('menu-divider')} />
                   <Button icon="bold" onClick={this._RichUtilCickFunc('BOLD')} />
-                  <Button icon="italic" />
+                  <Button icon="italic" onClick={this._RichUtilCickFunc('ITALIC')} />
                   <Button icon="underline" />
                   <Button icon="strikethrough" />
                   <div className={cx('menu-divider')} />
@@ -51,11 +59,12 @@ class TextEditor extends React.Component {
                   <Button icon="align-justfy" />
                 </ButtonGroup>
               </div>
-              <div className={cx('text-write-area')}>
+              <div className={cx('text-write-area')} role="presentation" onClick={this.editorFocus} onKeyPress={this.editorFocus}>
                 <Editor
                   ref={(ref) => { this.editor = ref; }}
                   editorState={this.state.editorState}
                   onChange={this.onChange}
+                  handleKeyCommand={this._handleKeyCommand}
                   placeholder="this area can be edited"
                 />
               </div>

@@ -34,7 +34,6 @@
         .text-write-area {
           margin-top: calc(1rem + 50px);
           font-size: 1rem;
-          width: 100%;
           min-height: 500px;
           max-height: 700px;
           overflow: auto;
@@ -50,11 +49,5 @@
     .menu-divider {
       padding: 1rem;
     }
-  }
-}
-
-@media screen and (max-width: $width-small) {
-  .left-bar {
-    display: none !important;
   }
 }
