@@ -1,11 +1,21 @@
 @import 'utils';
 
 .left-bar {
-  padding: 1rem;
-  width: 15rem;
+  margin: 1rem;
+  width: 20rem;
+  height: calc(7.5rem + 660px);
   text-align: center;
   @media screen and (max-width: $width-small) {
     display: none !important;
+  }
+  .sections {
+    text-align: left;
+    margin-top: 15px;
+    height: 100%;
+    overflow: auto;
+    .section-item {
+      margin-top: 0.2rem;
+    }
   }
 }
 

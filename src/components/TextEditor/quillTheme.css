@@ -1,0 +1,13 @@
+@import '~react-quill/dist/quill.snow.css';
+
+.ql-container.ql-snow {
+  border: 0px;
+}
+
+.ql-toolbar.ql-snow {
+  border: 0px solid #ccc;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  padding: 8px;
+}
