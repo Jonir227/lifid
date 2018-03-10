@@ -32,8 +32,9 @@ class TextEditor extends React.Component {
     const ctnt = editor.getText();
     if (delta.ops[1] !== undefined
         && (delta.ops[1].insert === '\n'
-        || delta.ops[1].length > 1
-        || delta.ops[1].delete === 1)) {
+          || delta.ops[1].insert === '#'
+          || delta.ops[1].length > 1
+          || delta.ops[1].delete === 1)) {
       const ctntArr = ctnt.slice(0, ctnt.length - 2).split('\n');
       const sec = _.filter(ctntArr, str => str.startsWith('##'));
       this.setState({
