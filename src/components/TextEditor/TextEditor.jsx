@@ -34,7 +34,7 @@ class TextEditor extends React.Component {
         && (delta.ops[1].insert === '\n'
           || delta.ops[1].insert === '#'
           || delta.ops[1].length > 1
-          || delta.ops[1].delete === 1)) {
+          || delta.ops[1].delete >= 1)) {
       const ctntArr = ctnt.slice(0, ctnt.length - 2).split('\n');
       const sec = _.filter(ctntArr, str => str.startsWith('##'));
       this.setState({
@@ -59,7 +59,10 @@ class TextEditor extends React.Component {
               placeholder="start your dream"
               onChange={this.onChange}
             />
-            <div className={cx('insight-line')} >line count: {this.state.contentArr.length}&nbsp;&nbsp;&nbsp;word conut: {_.split(this.state.text, ' ').length}</div>
+            <div className={cx('insight-line')} >
+              line count: {this.state.contentArr.length}&nbsp;&nbsp;&nbsp;
+              word conut: {this.state.contentArr.reduce((prev, curr) => (prev + curr.split(' ').length), 0)}
+            </div>
           </div>
         </Card>
       </div>

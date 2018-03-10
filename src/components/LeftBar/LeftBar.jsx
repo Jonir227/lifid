@@ -13,7 +13,7 @@ const LeftBar = ({ sections }) => (
     <div className={cx('sections')}>
       {
         _.map(sections, section =>
-          (section.lenght >= 3 ? <div className={cx('section-item')}>{section.substring(2)}</div> : null))
+          (<div calssName={cx('section-item')}>{section.substring(2)}</div>))
       }
     </div>
   </Card>
