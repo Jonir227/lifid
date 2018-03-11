@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Elevation } from '@blueprintjs/core';
 
-const itemStyle = {
-  padding: 10,
-};
-
 const NovellaListItem = (props) => {
+  const styles = {
+    padding: 3,
+  };
   const {
     novellaName,
     novellaContent,
@@ -14,8 +13,8 @@ const NovellaListItem = (props) => {
   } = props;
 
   return (
-    <div style={itemStyle}>
-      <Card interactive elevation={Elevation.TWO}>
+    <div style={styles}>
+      <Card interactive>
         <h1>{ novellaName }</h1>
         <h4 style={{ textAlign: 'right' }}>{ author }</h4>
         <h3>{ novellaContent }</h3>
