@@ -7,8 +7,9 @@ const TodayNovel = ({ style, todayNovelData }) => {
     <Fragment>
       <div style={style}>
         <Card interactive >
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div style={{ flex: 2, margin: '10rem', marginRight: '3rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}>
+            <div style={{ flex: '20rem', backgroundColor: '#3C3C3C' }}> picture is here </div>
+            <div style={{ flex: 1, paddingTop: '2rem' }}>
               <h3>today&apos;s novel is <strong>{todayNovelData.name}</strong>.</h3>
               <br />
               <h2>&quot; {todayNovelData.quotation} &quot;</h2>
@@ -16,7 +17,6 @@ const TodayNovel = ({ style, todayNovelData }) => {
                 <Button className="pt-minimal" icon="edit" text={<div>start writing</div>} />
               </div>
             </div>
-            <div style={{ flex: 1, backgroundColor: '#3C3C3C', marginRight: '5%' }}> picture is here </div>
           </div>
         </Card>
       </div>

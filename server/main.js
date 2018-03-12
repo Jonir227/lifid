@@ -4,7 +4,7 @@ exports.startServer = (port) => {
   const app = express();
   app.use('/', express.static('build/'));
 
-  app.get('/hello', (req, res) =>
+  app.get('/api/name', (req, res) =>
     (res.send('can you hear me?')));
 
   app.listen(port, () => {

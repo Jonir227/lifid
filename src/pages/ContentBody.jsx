@@ -6,7 +6,7 @@ class ContentBody extends React.Component {
     novelData: [{
       name: 'bj',
       author: 'bjbj6363',
-      content: 'thsaldkfja;lkj dsalkfadlfkjldskafja;lkdjf;lkjjadsflkj',
+      content: 'thsaldkfja;tlkj dsalkfadlfkjldskafja;lkdjf;lkjjadsflkj',
     },
     {
       name: 'bj',
@@ -43,7 +43,7 @@ class ContentBody extends React.Component {
   render() {
     return (
       <Fragment>
-        <TodayNovel style={{ padding: 10 }} todayNovelData={this.state.todayNovel} />
+        <TodayNovel style={{ padding: 5 }} todayNovelData={this.state.todayNovel} />
         <NovellaList novelData={this.state.novelData} />
       </Fragment>
     );

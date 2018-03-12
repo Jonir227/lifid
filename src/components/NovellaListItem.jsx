@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Elevation } from '@blueprintjs/core';
+import { Card } from '@blueprintjs/core';
 
 const NovellaListItem = (props) => {
   const styles = {

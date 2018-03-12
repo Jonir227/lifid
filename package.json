@@ -12,6 +12,7 @@
     "babel-loader": "7.1.2",
     "babel-preset-react-app": "^3.1.1",
     "babel-runtime": "6.26.0",
+    "body-parser": "^1.18.2",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
     "chalk": "1.1.3",
     "classnames": "^2.2.5",
@@ -55,7 +56,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_PATH=src node scripts/start.js",
-    "start-server": "yarn build && cross-env NODE_PATH=src node scripts/start-server.js",
+    "start-server": "cross-env NODE_PATH=src node scripts/build.js && cross-env NODE_PATH=src node scripts/start-server.js",
     "build": "cross-env NODE_PATH=src node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
