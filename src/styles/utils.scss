@@ -1,6 +1,24 @@
 @import '~open-color/open-color';
 @import '~@blueprintjs/core/src/blueprint.scss';
 
-$width-small : 500px;
-$width-medium: 800px;
-$width-large: 1200px;
+$width-small : 560px;
+$width-medium: 900px;
+$width-large: 1280px;
+
+@mixin respond-to($device-screen) {
+    @if $device-screen == handhelds {
+        @media only screen and (max-width: $width-small) {
+            @content;
+        }
+    }
+    @else if $device-screen == medium-screen {
+        @media only screen and (min-width: $width-small + 1 ) and (max-width: $width-medium) {
+            @content;
+        }
+    }
+    @else if $device-screen == large-screen {
+        @media only screen and (min-width: $width-medium + 1) {
+            @content;
+        }
+    }
+}
