@@ -17,11 +17,9 @@ exports.startServer = (port) => {
 
   mongoose.connect('mongodb://jonir:qjawns227@ds213239.mlab.com:13239/lifid');
 
+  require('./api')(app);
+
   app.use('/', express.static('build/'));
-
-
-  app.get('/api/name', (req, res) =>
-    (res.send('can you hear me?')));
 
   app.listen(port, () => {
     console.log('Express listening on port', port);

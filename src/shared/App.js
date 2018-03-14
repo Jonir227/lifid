@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Route } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { ContentBody, Editor, Reader } from 'pages';
+import { ContentBody, Editor, ReaderView } from 'pages';
 import { TopNavbar, BtmFooter } from 'components';
 import styles from 'styles/base.scss';
 
@@ -18,7 +18,7 @@ class App extends Component {
         <div className={cx('content-body')}>
           <Route exact path="/" component={ContentBody} />
           <Route exact path="/editor" component={Editor} />
-          <Route exact path="/reader" component={Reader} />
+          <Route exact path="/reader" component={ReaderView} />
           <Route path="/" component={BtmFooter} />
         </div>
       </Fragment>

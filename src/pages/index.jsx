@@ -1,9 +1,9 @@
 import ContentBody from './ContentBody';
 import Editor from './Editor';
-import Reader from './Reader';
+import ReaderView from './ReaderView';
 
 export {
   ContentBody,
   Editor,
-  Reader,
+  ReaderView,
 };

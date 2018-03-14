@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Reader } from 'component/Reader';
+import { Reader } from 'components';
 
 const ReaderView = () => {
   return (

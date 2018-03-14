@@ -7,20 +7,20 @@ class Reader extends Component {
   }
 
   componentDidMount() {
-    this.fetchNovel(1);
+    this.fetchNovel();
   }
 
-  fetchNovel = (novelId) => {
-    axios.get('/api/novella', {
-      params: {
-        id: novelId,
-      },
-    }).then((res) => { console.log(res); })
+  fetchNovel = () => {
+    axios.get('/api/novella')
+      .then((res) => {
+        console.log(res.data);
+        this.setState({ textData: res.data.content }); 
+      })
       .catch((err) => { console.log(err); });
   }
 
   render() {
-    return <div></div>;
+    return <div>{this.state.textData}</div>;
   }
 }
 

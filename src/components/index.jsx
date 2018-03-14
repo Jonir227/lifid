@@ -5,6 +5,7 @@ import NovellaList from './NovellaList';
 import NovellaListItem from './NovellaListItem';
 import LeftBar from './LeftBar';
 import TextEditor from './TextEditor';
+import Reader from './Reader';
 
 export {
   TopNavbar,
@@ -14,4 +15,5 @@ export {
   NovellaListItem,
   LeftBar,
   TextEditor,
+  Reader,
 };
