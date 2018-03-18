@@ -61,7 +61,7 @@ class TextEditor extends React.Component {
             />
             <div className={cx('insight-line')} >
               line count: {this.state.contentArr.length}&nbsp;&nbsp;&nbsp;
-              word conut: {this.state.contentArr.reduce((prev, curr) => (prev + curr.split(' ').length), 0)}
+              word count: {this.state.contentArr.reduce((prev, curr) => (prev + curr.split(' ').length), 0)}
             </div>
           </div>
         </Card>

@@ -3,17 +3,15 @@ import PropTypes from 'prop-types';
 import { Card } from '@blueprintjs/core';
 
 const NovellaListItem = (props) => {
-  const styles = {
-    padding: 3,
-  };
   const {
     novellaName,
     novellaContent,
     author,
+    className,
   } = props;
 
   return (
-    <div style={styles}>
+    <div className={className}>
       <Card interactive>
         <h1>{ novellaName }</h1>
         <h4 style={{ textAlign: 'right' }}>{ author }</h4>

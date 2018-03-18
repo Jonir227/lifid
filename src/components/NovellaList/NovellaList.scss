@@ -1,0 +1,11 @@
+.novellalist-wrapper {
+    display: flex;
+    flex: 3;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    .novella-item {
+        padding: 3px;
+        flex: 1;
+    }
+}
+
