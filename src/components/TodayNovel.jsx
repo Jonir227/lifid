@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button } from '@blueprintjs/core';
 
-const TodayNovel = ({ style, todayNovelData }) => {
-  return (
+const TodayNovel = ({ style, todayNovelData }) =>
+  (
     <Fragment>
       <div style={style}>
         <Card interactive >
@@ -22,7 +22,6 @@ const TodayNovel = ({ style, todayNovelData }) => {
       </div>
     </Fragment>
   );
-};
 
 TodayNovel.propTypes = {
   style: PropTypes.objectOf(PropTypes.string).isRequired,

@@ -18,7 +18,7 @@ const TopNavbar = ({ searchFucntion }) => {
   return (
     <Navbar className={cx('top-nav-bar')}>
       <NavbarGroup align={Alignment.LEFT}>
-        <NavbarHeading><strong>LiFiD</strong></NavbarHeading>
+        <Link to="/"><NavbarHeading><strong>LiFiD</strong></NavbarHeading></Link>
       </NavbarGroup>
       <NavbarGroup align={Alignment.RIGHT}>
         <InputGroup
@@ -28,8 +28,20 @@ const TopNavbar = ({ searchFucntion }) => {
           rightElement={<Button className="pt-minimal" icon="arrow-right" onClick={searchFucntion} />}
         />
         <NavbarDivider />
-        <Link to="/"><Button className="pt-minimal" icon="home" text={<BtnTxt txt="home" />} /></Link>
-        <Link to="/editor"><Button className="pt-minimal" icon="edit" text={<BtnTxt txt="start writing" />} /></Link>
+        <Link to="/editor">
+          <Button
+            className="pt-minimal"
+            icon="edit"
+            text={<BtnTxt txt="Start writing" />}
+          />
+        </Link>
+        <Link to="/login">
+          <Button
+            className="pt-minimal"
+            icon="log-in"
+            text={<BtnTxt txt="Log in" />}
+          />
+        </Link>
       </NavbarGroup>
     </Navbar>
   );

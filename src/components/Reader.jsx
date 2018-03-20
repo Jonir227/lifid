@@ -14,7 +14,7 @@ class Reader extends Component {
     axios.get('/api/novella')
       .then((res) => {
         console.log(res.data);
-        this.setState({ textData: res.data[0].content }); 
+        this.setState({ textData: res.data[0].content });
       })
       .catch((err) => { console.log(err); });
   }

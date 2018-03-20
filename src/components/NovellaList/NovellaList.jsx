@@ -15,6 +15,7 @@ const NovellaList = ({ novelData }) => (
           novellaName={novel.name}
           novellaContent={novel.content}
           author={novel.author}
+          authorInfo={novel.authorInfo}
         />
       ))
     }

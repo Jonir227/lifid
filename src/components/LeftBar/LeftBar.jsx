@@ -7,20 +7,33 @@ import styles from './LeftBar.scss';
 
 const cx = ClassNames.bind(styles);
 
-const LeftBar = ({ sections }) => (
+const LeftBar = ({ sections, indexFunction }) => (
   <Card className={cx('left-bar')}>
     <strong>Table Of Content</strong>
-    <div className={cx('sections')}>
+    <divocusable className={cx('sections')}>
       {
-        _.map(sections, section =>
-          (<div calssName={cx('section-item')}>{section.substring(2)}</div>))
+        _.map(sections, (section, index) => (
+          <div>
+            <button
+              style={{
+                border: '0px',
+                backgroundColor: 'transparent',
+              }}
+              className={cx('section-item')}
+              onClick={indexFunction(index)}
+            >
+              {section.substring(2)}
+            </button>
+          </div>
+        ))
       }
-    </div>
+    </divocusable>
   </Card>
 );
 
 LeftBar.propTypes = {
   sections: PropTypes.objectOf(PropTypes.string).isRequired,
+  indexFunction: PropTypes.func.isRequired,
 };
 
 export default LeftBar;

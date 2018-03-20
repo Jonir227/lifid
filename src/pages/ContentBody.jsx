@@ -4,33 +4,39 @@ import { TodayNovel, NovellaList } from 'components';
 class ContentBody extends React.Component {
   state = {
     novelData: [{
-      name: 'bj',
+      name: 'novelName',
       author: 'bjbj6363',
+      authorInfo: '나는 글을 씁니다. SF를 좋아해요',
       content: 'thsaldkfja;tlkj dsalkfadlfkjldskafja;lkdjf;lkjjadsflkj',
     },
     {
-      name: 'bj',
+      name: 'novelName',
       author: 'bjbj6363',
+      authorInfo: '나는 글을 씁니다. SF를 좋아해요',
       content: 'thsaldkfja;lkj dsalkfadlfkjldskafja;lkdjf;lkjjadsflkj',
     },
     {
-      name: 'bj',
+      name: 'novelName',
       author: 'bjbj6363',
+      authorInfo: '나는 글을 씁니다. SF를 좋아해요',
       content: 'thsaldkfja;lkj dsalkfadlfkjldskafja;lkdjf;lkjjadsflkj',
     },
     {
-      name: 'bj',
+      name: 'novelName',
       author: 'bjbj6363',
+      authorInfo: '나는 글을 씁니다. SF를 좋아해요',
       content: 'thsaldkfja;lkj dsalkfadlfkjldskafja;lkdjf;lkjjadsflkj',
     },
     {
-      name: 'bj',
+      name: 'novelName',
       author: 'bjbj6363',
+      authorInfo: '나는 글을 씁니다. SF를 좋아해요',
       content: 'thsaldkfja;lkj dsalkfadlfkjldskafja;lkdjf;lkjjadsflkj',
     },
     {
-      name: 'bj',
+      name: 'novelName',
       author: 'bjbj6363',
+      authorInfo: '나는 글을 씁니다. SF를 좋아해요',
       content: 'thsaldkfja;lkj dsalkfadlfkjldskafja;lkdjf;lkjjadsflkj',
     },
     ],

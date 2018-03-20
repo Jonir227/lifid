@@ -12,8 +12,7 @@ const cx = ClassNames.bind(styles);
 class TextEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.quillRef = null;
-    this.reactQuillRef = null;
+    this.editor = null;
   }
 
   state = {
@@ -36,24 +35,42 @@ class TextEditor extends React.Component {
           || delta.ops[1].length > 1
           || delta.ops[1].delete >= 1)) {
       const ctntArr = ctnt.slice(0, ctnt.length - 2).split('\n');
-      const sec = _.filter(ctntArr, str => str.startsWith('##'));
+      const secs = {};
+      _.forEach(ctntArr, (str, index) => {
+        if (str.startsWith('##')) {
+          secs[index] = str;
+        }
+      });
       this.setState({
         contentArr: ctntArr,
-        sections: sec,
+        sections: secs,
       });
+      console.log(this.state.sections);
     }
   }
+
+  indexFunction = index =>
+    () => {
+      this.editor.editingArea.firstElementChild.scrollTop =
+        this.editor.editingArea.firstElementChild.scrollHeight *
+        (index / this.state.contentArr.length);
+    };
+
 
   render() {
     return (
       <div className={cx('editor')}>
         <Card className={cx('card-wrapper')}>
-          <LeftBar sections={this.state.sections} />
+          <LeftBar
+            sections={this.state.sections}
+            indexFunction={this.indexFunction}
+          />
           <div className={cx('text-wrapper')}>
             <div className={cx('today-novel')}>
               &quot; 항구의 하늘은 방송이 끝난 텔레비전 색이였다 &quot;
             </div>
             <ReactQuill
+              ref={(refs) => { this.editor = refs; }}
               className={cx('text-write-area')}
               value={this.state.text}
               placeholder="start your dream"
