@@ -7,9 +7,7 @@ const Editor = () => {
   FocusStyleManager.onlyShowFocusOnTabs();
 
   return (
-    <div>
-      <TextEditor />
-    </div>
+    <TextEditor />
   );
 };
 
