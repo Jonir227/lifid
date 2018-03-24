@@ -9,15 +9,14 @@ import 'styles/utils.scss';
 const cx = classNames.bind(styles);
 
 class App extends Component {
+  // isLoginOpen 상태에 따라서 Login component의 랜더링 여부 결정.
   state = {
     isLoginOpen: false,
   }
   openLogin = () => {
-    this.setState((prevState) => {
-      return {
-        isLoginOpen: !prevState.isLoginOpen,
-      };
-    });
+    this.setState(prevState => ({
+      isLoginOpen: !prevState.isLoginOpen,
+    }));
   }
   render() {
     return (

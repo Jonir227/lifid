@@ -22,3 +22,7 @@ $width-large: 1280px;
         }
     }
 }
+
+input:required {
+    box-shadow: none;
+}
