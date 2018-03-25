@@ -4,7 +4,6 @@ import classNames from 'classnames/bind';
 import { ContentBody, Editor, ReaderView } from 'pages';
 import { TopNavbar, BtmFooter, Login } from 'components';
 import styles from 'styles/base.scss';
-import 'styles/utils.scss';
 
 const cx = classNames.bind(styles);
 

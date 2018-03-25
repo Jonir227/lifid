@@ -1,5 +1,4 @@
 @import '~open-color/open-color';
-@import '~@blueprintjs/core/src/blueprint.scss';
 
 $width-small : 560px;
 $width-medium: 900px;
@@ -23,6 +22,3 @@ $width-large: 1280px;
     }
 }
 
-input:required {
-    box-shadow: none;
-}
