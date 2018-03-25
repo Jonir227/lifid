@@ -1,3 +1,4 @@
+@import '~@blueprintjs/core/src/blueprint.scss';
 @import 'utils';
 
 .content-body {
@@ -5,4 +6,8 @@
   @include respond-to(handhelds) { padding-right: 0rem; padding-left: 0rem; };
   @include respond-to(medium-screen) { padding-right: 5rem; padding-left: 5rem; };
   @include respond-to(large-screen) { padding-right: 10rem; padding-left: 10rem; };
+}
+
+input:required {
+  box-shadow: none;
 }
