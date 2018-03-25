@@ -64,6 +64,11 @@
           margin: 5px 0;
           border: 1px solid slategray;
         }
+        .button-area {
+          padding-top: 12px;
+          display: flex;
+          justify-content: space-between;
+        }
       }
     }
   }

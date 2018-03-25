@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ClassNames from 'classnames/bind';
-import { Button, Icon, FocusStyleManager } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
+import { Link } from 'react-router-dom';
 import styles from './Login.scss';
 
 const cx = ClassNames.bind(styles);
@@ -13,35 +15,31 @@ class Login extends Component {
     },
   }
 
-  handleUserNameChange = (event) => {
+  handleChange = (event) => {
+    const {
+      name,
+      value,
+    } = event.target;
     this.setState(prevState => ({
-      loginVal: {
-        username: event.target.value,
-        password: prevState.loginVal.password,
-      },
+      loginVal: Object.assign(prevState.loginVal, { [name]: value }),
     }));
   }
 
-  handlePasswordChange = (event) => {
-    this.setState(prevState => ({
-      loginVal: {
-        username: prevState.loginVal.username,
-        password: event.target.value,
-      },
-    }));
-  }
 
-  loginRequst = (event) => {
+  loginRequest = (event) => {
     console.log(this.state.loginVal);
     event.preventDefault();
   }
 
   render() {
     const {
+      handleChange,
+      loginRequest,
+    } = this;
+
+    const {
       onLoginClick,
     } = this.props;
-
-    FocusStyleManager.onlyShowFocusOnTabs();
 
     return (
       <div className={cx('login-background')}>
@@ -56,12 +54,27 @@ class Login extends Component {
                 LiFiD에서 매일 새로운 소설을 쓰고,<br />매일 새로운 소설을 읽어 보세요.
               </h4>
             </div>
-            <form className={cx('login-input-fields')} onSubmit={this.loginRequst}>
+            <form className={cx('login-input-fields')} onSubmit={loginRequest}>
               <div style={{ fontSize: '1.3rem' }}><strong>Username</strong></div>
-              <input type="text" className={cx('text-input')} onChange={this.handleUserNameChange} placeholder="Enter Username" required />
+              <input
+                type="text"
+                name="username"
+                className={cx('text-input')}
+                onChange={handleChange}
+                placeholder="Enter Username"
+                required
+              />
               <div style={{ fontSize: '1.3rem' }}><strong>Password</strong></div>
-              <input type="password" className={cx('text-input')} onChange={this.handlePasswordChange} placeholder="Enter Password" required />
-              <div>
+              <input
+                type="password"
+                name="password"
+                className={cx('text-input')}
+                onChange={handleChange}
+                placeholder="Enter Password"
+                required
+              />
+              <div className={cx('button-area')}>
+                <Link to="/register"><Button className="pt-minimal pt-intent-primary" text="register" onClick={onLoginClick} /></Link>
                 <Button className="pt-minimal pt-intent-success" text="Log In" type="submit" />
               </div>
             </form>
@@ -71,5 +84,9 @@ class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  onLoginClick: PropTypes.func.isRequired,
+};
 
 export default Login;

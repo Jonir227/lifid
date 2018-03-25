@@ -6,6 +6,7 @@ import LeftBar from './LeftBar';
 import TextEditor from './TextEditor';
 import Reader from './Reader';
 import Login from './Login';
+import Register from './Register';
 
 export {
   TopNavbar,
@@ -16,4 +17,5 @@ export {
   TextEditor,
   Reader,
   Login,
+  Register,
 };

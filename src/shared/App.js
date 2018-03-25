@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { Route } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { ContentBody, Editor, ReaderView } from 'pages';
+import { FocusStyleManager } from '@blueprintjs/core';
+import { ContentBody, Editor, ReaderView, UserRegister } from 'pages';
 import { TopNavbar, BtmFooter, Login } from 'components';
 import styles from 'styles/base.scss';
-import 'styles/utils.scss';
 
 const cx = classNames.bind(styles);
 
@@ -19,6 +19,10 @@ class App extends Component {
     }));
   }
   render() {
+    // Blueprintjs의 특징은 Focus가 갔을때 파란 테두리가 쳐지는 점인데,
+    // 이거 보기 싫어서 나오지 않는 옵션을 넣엇음.
+    FocusStyleManager.onlyShowFocusOnTabs();
+
     return (
       <Fragment>
         <TopNavbar onLoginClick={this.openLogin} />
@@ -26,8 +30,9 @@ class App extends Component {
           <Route exact path="/" component={ContentBody} />
           <Route exact path="/editor" component={Editor} />
           <Route exact path="/reader" component={ReaderView} />
-          <Route path="/" component={BtmFooter} />
+          <Route exact path="/register" component={UserRegister} />
         </div>
+        <BtmFooter />
         {
           this.state.isLoginOpen ?
             <Login onLoginClick={this.openLogin} />
