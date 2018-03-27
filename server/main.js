@@ -6,7 +6,6 @@ const config = require('./config');
 
 exports.startServer = (port) => {
   const app = express();
-  
   mongoose.connect(config.mongodbURL);
   const db = mongoose.connection;
   db.on('error', console.error);
@@ -26,11 +25,6 @@ exports.startServer = (port) => {
 
   app.use('/api', require('./api'));
   app.use('/', express.static('build/'));
-  
-
-  
-
-  
 
   app.listen(port, () => {
     console.log('Express listening on port', port);

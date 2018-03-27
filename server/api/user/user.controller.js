@@ -29,5 +29,8 @@ exports.assignAdmin = (req, res) => {
     .then((user) => { user.assignAdmin(); })
     .then(res.json({
       success: true,
+    }))
+    .catch(res.json({
+      success: false,
     }));
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Register } from 'compoenets/Register';
+import Register from 'components/Register';
 
 const UserRegister = () => (
   <Register />

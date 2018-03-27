@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../../models/user');
 
-
 /*
 
   POST /api/auth/register
@@ -16,6 +15,12 @@ exports.register = (req, res) => {
     if (user) {
       throw new Error('user name exists');
     } else {
+    // TODO:
+    // 비밀번호 검증
+    // 비밀번호 기준에 통과했는지?
+    // username 검증
+    // username에 맞는 규칙이 통과됫는지?
+    // 정규표현식을 사용해야함...
       return User.create(username, password);
     }
   };
