@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Alignment, Navbar, NavbarGroup, NavbarHeading, NavbarDivider, Button, InputGroup } from '@blueprintjs/core';
@@ -14,7 +14,7 @@ BtnTxt.propTypes = {
 };
 
 
-const TopNavbar = ({ onLoginClick }) => (
+const TopNavbar = ({ modalModify }) => (
   <Navbar className={cx('top-nav-bar')}>
     <NavbarGroup align={Alignment.LEFT}>
       <Link to="/"><NavbarHeading><strong>LiFiD</strong></NavbarHeading></Link>
@@ -38,14 +38,14 @@ const TopNavbar = ({ onLoginClick }) => (
         className="pt-minimal"
         icon="log-in"
         text={<BtnTxt txt="Log in" />}
-        onClick={onLoginClick}
+        onClick={() => { modalModify('Login'); }}
       />
     </NavbarGroup>
   </Navbar>
 );
 
 TopNavbar.propTypes = {
-  onLoginClick: PropTypes.func.isRequired,
+  modalModify: PropTypes.func.isRequired,
 };
 
 export default TopNavbar;

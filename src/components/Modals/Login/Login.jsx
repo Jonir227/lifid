@@ -38,14 +38,14 @@ class Login extends Component {
     } = this;
 
     const {
-      onLoginClick,
+      modalModify,
     } = this.props;
 
     return (
-      <div className={cx('login-background')}>
-        <div className={cx('login-modal')}>
+      <div className={cx('modal-background')}>
+        <div className={cx('modal-body')}>
           <div className={cx('exit-wrapper')}>
-            <Button className="pt-minimal" icon="cross" onClick={onLoginClick} />
+            <Button className="pt-minimal" icon="cross" onClick={() => { modalModify('Exit'); }} />
           </div>
           <div className={cx('modal-contents')}>
             <div className={cx('login-banner')}>
@@ -74,7 +74,7 @@ class Login extends Component {
                 required
               />
               <div className={cx('button-area')}>
-                <Link to="/register"><Button className="pt-minimal pt-intent-primary" text="register" onClick={onLoginClick} /></Link>
+                <Button className="pt-minimal pt-intent-primary" text="register" onClick={() => { modalModify('Register'); }} />
                 <Button className="pt-minimal pt-intent-success" text="Log In" type="submit" />
               </div>
             </form>
@@ -86,7 +86,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  onLoginClick: PropTypes.func.isRequired,
+  modalModify: PropTypes.func.isRequired,
 };
 
 export default Login;

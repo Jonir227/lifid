@@ -1,0 +1,28 @@
+@import '../Modal';
+
+.login-banner {
+    flex: 6;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: gainsboro;
+}
+.login-input-fields {
+  flex: 8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  .text-input {
+    font-size: 0.8rem;
+    padding: 12px 20px;
+    margin: 5px 0;
+    border: 1px solid slategray;
+  }
+  .button-area {
+    padding-top: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+}

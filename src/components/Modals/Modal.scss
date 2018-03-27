@@ -1,6 +1,6 @@
 @import 'utils';
 
-.login-background {
+.modal-background {
   position: fixed;
   background-color: rgba(45,45,45,0.4);
   width: 100%;
@@ -8,7 +8,7 @@
   z-index: 100;
   left: 0;
   top: 0;
-  .login-modal {
+  .modal-body {
     z-index: 101;
     margin: 15% auto;
     background-color: ghostwhite;
@@ -43,32 +43,6 @@
       @include respond-to(handhelds) {
         padding-right: 3%;
         padding-left: 3%;
-      }
-      .login-banner {
-        flex: 6;
-        display: flex;
-        text-align: center;
-        flex-direction: column;
-        justify-content: center;
-        background-color: gainsboro;
-      }
-      .login-input-fields {
-        flex: 8;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-content: center;
-        .text-input {
-          font-size: 0.8rem;
-          padding: 12px 20px;
-          margin: 5px 0;
-          border: 1px solid slategray;
-        }
-        .button-area {
-          padding-top: 12px;
-          display: flex;
-          justify-content: space-between;
-        }
       }
     }
   }

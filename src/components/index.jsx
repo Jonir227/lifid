@@ -5,8 +5,7 @@ import NovellaList from './NovellaList';
 import LeftBar from './LeftBar';
 import TextEditor from './TextEditor';
 import Reader from './Reader';
-import Login from './Login';
-import Register from './Register';
+import Modals from './Modals';
 
 export {
   TopNavbar,
@@ -16,6 +15,5 @@ export {
   LeftBar,
   TextEditor,
   Reader,
-  Login,
-  Register,
+  Modals,
 };
