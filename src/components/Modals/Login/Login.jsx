@@ -49,10 +49,10 @@ class Login extends Component {
           </div>
           <div className={cx('modal-contents')}>
             <div className={cx('login-banner')}>
-              <h1>LiFiD</h1>
-              <h4>
+              <div style={{ fontWeight: '400', fontSize: '3rem' }}>LiFiD</div>
+              <div style={{ fontWeight: '200', fontSize: '1.3rem' }}>
                 LiFiD에서 매일 새로운 소설을 쓰고,<br />매일 새로운 소설을 읽어 보세요.
-              </h4>
+              </div>
             </div>
             <form className={cx('login-input-fields')} onSubmit={loginRequest}>
               <div style={{ fontSize: '1.3rem' }}><strong>Username</strong></div>

@@ -1,1 +1,18 @@
 @import '../Modal';
+
+.register-modal-contents {
+  @extend .modal-contents;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  .tags {
+    margin: 8px 0;
+  }
+  .tag-text {
+    color: rgb(129, 129, 129);
+  }
+  @include respond-to(handhelds) {
+    padding-right: 8%;
+    padding-left: 8%;
+  }
+}
