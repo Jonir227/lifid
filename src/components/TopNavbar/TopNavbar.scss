@@ -5,9 +5,13 @@
   position: fixed;
   top: 0;
 }
-@media screen and (max-width: $width-small) {
-  .btn-text {
-    display: none !important;
-  }
-  
+.pt-icon-search {
+  @include respond-to(large-screen){display: none !important;}
+  @include respond-to(medium-screen){display: none !important;}
+}
+.btn-text {
+  @include respond-to(handhelds){display: none !important;}
+}
+.pt-round {
+  @include respond-to(handhelds){display: none !important;}
 }
