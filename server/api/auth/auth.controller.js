@@ -7,7 +7,13 @@ const User = require('../../models/user');
 
 */
 exports.register = (req, res) => {
-  const { username, password } = req.body;
+  const {
+    username,
+    password,
+    tags,
+    profilePicture,
+    description,
+  } = req.body;
   let newUser = null;
 
   // User 객체를 생성
@@ -21,7 +27,7 @@ exports.register = (req, res) => {
     // username 검증
     // username에 맞는 규칙이 통과됫는지?
     // 정규표현식을 사용해야함...
-      return User.create(username, password);
+      return User.create(username, password, tags, profilePicture, description);
     }
   };
 

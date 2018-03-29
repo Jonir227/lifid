@@ -3,6 +3,8 @@ import { Button } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import Select from 'react-select-plus';
+import _ from 'lodash';
+import axios from 'axios';
 import 'react-select-plus/dist/react-select-plus.css';
 import styles from './Register.scss';
 
@@ -16,13 +18,26 @@ const cx = classNames.bind(styles);
 
 class Register extends Component {
   state = {
+    tagData: [],
     userRegData: {
       username: '',
       password: '',
-      tags: '',
+      tags: {},
       profilePicture: '',
       description: '',
     },
+  }
+
+  componentDidMount() {
+    axios.get('/api/tag/list')
+      .then((response) => {
+        const { tags } = response.data;
+        this.setState({
+          tagData: _.map(tags, tag => ({
+            value: tag.name, label: tag.name,
+          })),
+        });
+      });
   }
 
   handleChange = (event) => {
@@ -31,16 +46,16 @@ class Register extends Component {
       value,
     } = event.target;
     this.setState(prevState => ({
-      userRegData: Object.assign({}, ...prevState.userRegData, { [name]: value }),
+      ...prevState,
+      userRegData: Object.assign({}, prevState.userRegData, { [name]: value }),
     }));
+    console.log(this.state);
   }
 
   handleSelectChange = (selectedOption) => {
     this.setState(prevState => ({
-      userRegData: {
-        ...[prevState.userRegData],
-        tags: selectedOption,
-      },
+      ...prevState,
+      userRegData: Object.assign({}, prevState.userRegData, { tags: _.map(selectedOption, 'value') }),
     }));
   }
 
@@ -53,7 +68,13 @@ class Register extends Component {
     const {
       handleSubmit,
       handleChange,
+      handleSelectChange,
     } = this;
+
+    const {
+      userRegData,
+      tagData,
+    } = this.state;
 
     const {
       modalModify,
@@ -107,13 +128,10 @@ class Register extends Component {
                 <br />
                 <Select
                   className={cx('tags')}
-                  value={this.state.userRegData.tags}
-                  onChange={this.handleSelectChange}
+                  value={userRegData.tags}
+                  onChange={handleSelectChange}
                   multi
-                  options={[
-                    { value: 'SF', label: 'SF' },
-                    { value: 'Romance', label: 'Romance' },
-                  ]}
+                  options={tagData}
                 />
                 <span className={cx('tag-text')}>
                 설정한 tag에 따라서 메인 페이지에 선호한 컨텐츠가 표시됩니다.<br />
@@ -132,7 +150,7 @@ class Register extends Component {
                   placeholder="간략한 자기소개를 입력해주세요"
                 />
               </label>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '10px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '15px' }}>
                 <Button className="pt-minimal pt-intent-success" text="Submit" type="submit" />
               </div>
             </form>

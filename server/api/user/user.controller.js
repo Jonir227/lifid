@@ -1,4 +1,4 @@
-const User = require('server/models/user');
+const User = require('../../models/user');
 
 // apit for admin
 

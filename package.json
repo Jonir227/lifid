@@ -63,6 +63,7 @@
   "scripts": {
     "start": "cross-env NODE_PATH=src node scripts/start.js",
     "start-server": "cross-env NODE_PATH=src node scripts/build.js && cross-env NODE_PATH=src node scripts/start-server.js",
+    "server": "cross-env NODE_PATH=src node scripts/start-server.js",
     "build": "cross-env NODE_PATH=src node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },

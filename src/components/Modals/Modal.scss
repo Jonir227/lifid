@@ -31,7 +31,7 @@
       width: 65%;
     }
     @include respond-to(large-screen) {
-      width: 53%;
+      width: 550px;
     }
     .exit-wrapper {
       display: flex;

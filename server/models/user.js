@@ -10,9 +10,16 @@ const { Schema } = mongoose;
   필요한 것은 나중에 추가해보자.
 
 */
+
 const User = new Schema({
   username: String,
   password: String,
+  tags: Array,
+  description: String,
+  profilePicture: {
+    type: String,
+    default: 'default',
+  },
   admin: {
     type: Boolean,
     default: false,
