@@ -5,7 +5,7 @@
   width: 20rem;
   height: calc(7.5rem + 660px);
   text-align: center;
-  @include respond-to(width-small) {
+  @include respond-to(handhelds) {
     display: none !important;
   }
   .sections {
