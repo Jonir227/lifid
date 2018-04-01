@@ -22,7 +22,7 @@ class Register extends Component {
     userRegData: {
       username: '',
       password: '',
-      tags: {},
+      tags: '',
       profilePicture: '',
       description: '',
     },

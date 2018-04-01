@@ -1,0 +1,29 @@
+@import 'utils';
+
+.background {
+  position: fixed;
+  background-color: rgba(45,45,45,0.4);
+  width: 100%;
+  height: 100%;
+  z-index: 105;
+  left: 0;
+  top: 0;
+  .alert {
+    z-index: 106;
+    margin: 13% auto;
+    background-color: ghostwhite;
+    border: dimgray 3px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    display: flex;
+    height: 150px;
+    @include respond-to(handhelds) {
+      width: 80%;
+    }
+    @include respond-to(medium-screen) {
+      width: 350px;
+    }
+    @include respond-to(large-screen) {
+      width: 350px;
+    }
+  }
+}
