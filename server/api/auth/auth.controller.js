@@ -27,7 +27,7 @@ exports.register = (req, res) => {
     // username 검증
     // username에 맞는 규칙이 통과됫는지?
     // 정규표현식을 사용해야함...
-      return User.create(username, password, tags, profilePicture, description);
+      return User.create(username, password, tags, description, profilePicture);
     }
   };
 

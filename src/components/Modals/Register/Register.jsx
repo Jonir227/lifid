@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Button, Intent } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
@@ -49,7 +49,6 @@ class Register extends Component {
     this.setState(prevState => ({
       userRegData: Object.assign({}, prevState.userRegData, { [name]: value }),
     }));
-    console.log(this.state);
   }
 
   handleSelectChange = (selectedOption) => {
@@ -59,9 +58,18 @@ class Register extends Component {
   }
 
   handleSubmit = (event) => {
-    axios.post('/api/auth/register')
+    const {
+      userRegData,
+    } = this.state;
+    axios.post('/api/auth/register', {
+      username: userRegData.username,
+      password: userRegData.password,
+      description: userRegData.description,
+      tags: userRegData.tags,
+    })
       .then((response) => {
-        const { success } = response;
+        const { success } = response.data;
+        console.log(response);
         if (success) {
           AppToaster.show({
             message: '회원가입에 성공했습니다',

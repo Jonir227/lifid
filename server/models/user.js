@@ -32,13 +32,16 @@ const hashKey = 'thiSIsHaSh!Key';
 // do not use arrow functions : 중요!
 // this를 바인딩 하지 않기 때문에 에러가 날 수 있다.
 
-User.statics.create = function (username, password) {
+User.statics.create = function (username, password, tags, description, profilePicture) {
   const encrypted = crypto.createHmac('sha1', hashKey)
     .update(password)
     .digest('base64');
   const user = new this({
     username,
     password: encrypted,
+    tags,
+    description,
+    profilePicture,
   });
   return user.save();
 };
