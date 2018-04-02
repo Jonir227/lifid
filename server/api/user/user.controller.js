@@ -17,6 +17,8 @@ exports.list = (req, res) => {
     });
 };
 
+// POST /api/user/checkUser username => 중복되는 유저 이름이 있는지? T/F
+
 // POST /api/user/assignAdmin/:username
 exports.assignAdmin = (req, res) => {
   if (!req.decoded.admin) {
