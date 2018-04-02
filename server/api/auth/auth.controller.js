@@ -48,7 +48,7 @@ exports.register = (req, res) => {
   // 생성에 성공했다는 response를 보냄.
   const respond = (isAdmin) => {
     res.json({
-      message: 'registered sucessfully',
+      success: true,
       admin: isAdmin,
     });
   };
@@ -56,6 +56,7 @@ exports.register = (req, res) => {
   // Error handling
   const onError = (error) => {
     res.status(400).json({
+      success: false,
       message: error.message,
     });
   };

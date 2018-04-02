@@ -6,19 +6,15 @@ import styles from './Alert.scss';
 const cx = classNames.bind(styles);
 
 class Alert extends React.PureComponent {
-
-  state = {
-    showAlert: false,
-  }
-
   render() {
     const {
       message,
+      showAlert,
     } = this.props;
     return (
       <Fragment>
         {
-          this.state.showAlert && (
+          showAlert && (
             <div className={cx('background')}>
               <div className={cx('alert')}>
                 {message}
@@ -30,5 +26,10 @@ class Alert extends React.PureComponent {
     );
   }
 }
+
+Alert.propTypes = {
+  message: PropTypes.string.isRequired,
+  showAlert: PropTypes.bool.isRequired,
+};
 
 export default Alert;

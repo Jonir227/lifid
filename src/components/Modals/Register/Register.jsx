@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { Button } from '@blueprintjs/core';
+import React, { Component, Fragment } from 'react';
+import { Button, Intent } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import Select from 'react-select-plus';
 import _ from 'lodash';
 import axios from 'axios';
+import { AppToaster } from 'components';
 import 'react-select-plus/dist/react-select-plus.css';
 import styles from './Register.scss';
 
@@ -46,7 +47,6 @@ class Register extends Component {
       value,
     } = event.target;
     this.setState(prevState => ({
-      ...prevState,
       userRegData: Object.assign({}, prevState.userRegData, { [name]: value }),
     }));
     console.log(this.state);
@@ -54,13 +54,38 @@ class Register extends Component {
 
   handleSelectChange = (selectedOption) => {
     this.setState(prevState => ({
-      ...prevState,
       userRegData: Object.assign({}, prevState.userRegData, { tags: _.map(selectedOption, 'value') }),
     }));
   }
 
   handleSubmit = (event) => {
-    console.log(this.state.userRegData);
+    axios.post('/api/auth/register')
+      .then((response) => {
+        const { success } = response;
+        if (success) {
+          AppToaster.show({
+            message: '회원가입에 성공했습니다',
+            intent: Intent.PRIMARY,
+            action: {
+              onClick: () => {
+                this.props.modalModify('Login');
+              },
+              text: '로그인',
+            },
+          });
+          this.props.modalModify('Exit');
+        } else {
+          AppToaster.show({
+            message: '실패했습니다. 다시 시도해 주세요',
+            intent: Intent.DANGER,
+          });
+        }
+      }).catch(() => {
+        AppToaster.show({
+          intent: Intent.DANGER,
+          message: '회원가입에 실패했습니다. 다시 시도해 주세요',
+        });
+      });
     event.preventDefault();
   }
 
@@ -102,6 +127,7 @@ class Register extends Component {
                 <br />
                 <input
                   className={cx('text-input')}
+                  type="text"
                   id="username"
                   name="username"
                   onChange={handleChange}
@@ -115,6 +141,7 @@ class Register extends Component {
                 <br />
                 <input
                   className={cx('text-input')}
+                  type="password"
                   id="passoword"
                   name="password"
                   onChange={handleChange}
@@ -144,6 +171,7 @@ class Register extends Component {
                 <br />
                 <input
                   className={cx('text-input')}
+                  type="text"
                   id="description"
                   name="description"
                   onChange={handleChange}

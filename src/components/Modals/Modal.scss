@@ -5,11 +5,11 @@
   background-color: rgba(45,45,45,0.4);
   width: 100%;
   height: 100%;
-  z-index: 100;
+  z-index: 10;
   left: 0;
   top: 0;
   .modal-body {
-    z-index: 101;
+    z-index: 11;
     margin: 13% auto;
     background-color: ghostwhite;
     border: dimgray 3px;
