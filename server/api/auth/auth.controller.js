@@ -16,17 +16,24 @@ exports.register = (req, res) => {
   } = req.body;
   let newUser = null;
 
+  const valid = (email, pw) => {
+    const emailPattern = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    const pwPattern = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
+    if (!emailPattern.test(email) && pwPattern.test(pw)) {
+      throw new Error('Email is invalid');
+    } else if (emailPattern.test(email) && !pwPattern.test(pw)) {
+      throw new Error('Password is invaild');
+    } else {
+      throw new Error('Email and Password is invalid');
+    }
+  };
+
   // User 객체를 생성
   const create = (user) => {
     if (user) {
       throw new Error('user name exists');
     } else {
-    // TODO:
-    // 비밀번호 검증
-    // 비밀번호 기준에 통과했는지?
-    // username 검증
-    // username에 맞는 규칙이 통과됫는지?
-    // 정규표현식을 사용해야함...
+      valid('username', 'password');
       return User.create(username, password, tags, description, profilePicture);
     }
   };
