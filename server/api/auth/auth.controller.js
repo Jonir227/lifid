@@ -23,7 +23,7 @@ exports.register = (req, res) => {
       throw new Error('Email is invalid');
     } else if (emailPattern.test(email) && !pwPattern.test(pw)) {
       throw new Error('Password is invaild');
-    } else {
+    } else if (!emailPattern.test(email) && !pwPattern.test(pw)) {
       throw new Error('Email and Password is invalid');
     }
   };
