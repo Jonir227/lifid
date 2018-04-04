@@ -1,6 +1,24 @@
 const jwt = require('jsonwebtoken');
 const User = require('../../models/user');
 
+
+// POST /api/user/check-user username => 중복되는 유저 이름이 있는지? T/F
+exports.checkUser = (req, res) => {
+  console.log(req.body);
+  User.findOneByUsername(req.body.username)
+    .then((user) => {
+      if (user) {
+        res.json({
+          exists: true,
+        });
+      } else {
+        res.json({
+          exists: false,
+        });
+      }
+    });
+};
+
 /*
 
   POST /api/auth/register

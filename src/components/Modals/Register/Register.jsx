@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Intent } from '@blueprintjs/core';
+import { Button, Intent, Icon } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import Select from 'react-select-plus';
@@ -11,6 +11,17 @@ import styles from './Register.scss';
 
 const cx = classNames.bind(styles);
 
+const FormCheck = ({ message, cn }) => (
+  <span className={cx(cn)}>
+    <Icon icon={(text => (text.includes('alright') ? 'tick' : 'cross'))(cn)} /> {message}
+  </span>
+);
+
+FormCheck.propTypes = {
+  cn: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+};
+
 /*
 
   prop = modalModify: 모달의 상태를 받아서 변경하는 함수
@@ -21,6 +32,7 @@ class Register extends Component {
   state = {
     isValidForm: {
       id: false,
+      isExists: false,
       pw: false,
     },
     tagData: [],
@@ -61,28 +73,29 @@ class Register extends Component {
     }
   }
 
-  checkUserId = _.throttle(() => {
-    const emailPattern = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    console.log('idchecked');
-    if (emailPattern.test(this.state.userRegData.username)) {
-      this.setState({
-        isValidForm: {
-          id: true,
-        },
+  // id, password check in evry 240ms
+  checkUserId = _.debounce(() => {
+    const isValidEmail = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(this.state.userRegData.username);
+
+    axios.post('/api/auth/check-user', this.state.userRegData)
+      .then((response) => {
+        const isExists = response.data.exists;
+        this.setState({
+          isValidForm: {
+            id: isValidEmail && !isExists,
+            isExists,
+          },
+        });
       });
-    }
   }, 250);
 
-  checkPW = _.throttle(() => {
+  checkPW = _.debounce(() => {
     const pwPattern = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
-    console.log('pwchecked');
-    if (pwPattern.test(this.state.userRegData.password)) {
-      this.setState({
-        isValidForm: {
-          pw: true,
-        },
-      });
-    }
+    this.setState({
+      isValidForm: {
+        pw: pwPattern.test(this.state.userRegData.password),
+      },
+    });
   }, 250);
 
   handleSelectChange = (selectedOption) => {
@@ -151,6 +164,7 @@ class Register extends Component {
     const {
       userRegData,
       tagData,
+      isValidForm,
     } = this.state;
 
     const {
@@ -166,7 +180,7 @@ class Register extends Component {
           <div className={cx('register-modal-contents')}>
             <div style={{
               fontSize: '1.3rem',
-              padding: '20px',
+              padding: '10px',
               paddingBottom: '50px',
               textAlign: 'center',
               }}
@@ -183,9 +197,23 @@ class Register extends Component {
                   id="username"
                   name="username"
                   onChange={handleChange}
-                  placeholder="아이디를 입력해주세요"
+                  placeholder="이메일을 입력해주세요"
                   required
                 />
+                {
+                  this.state.isValidForm.id ?
+                    <FormCheck cn="alright-text" message="가입 가능한 이메일입니다" />
+                  :
+                    <FormCheck
+                      cn="support-text"
+                      message={((isExists) => {
+                        if (isExists) {
+                          return '이미 가입된 이메일입니다.';
+                        }
+                        return '올바른 Email을 입력해주세요';
+                      })(isValidForm.isExists)}
+                    />
+                }
               </label>
               <br />
               <label htmlFor="password">
@@ -194,12 +222,18 @@ class Register extends Component {
                 <input
                   className={cx('text-input')}
                   type="password"
-                  id="passoword"
+                  id="password"
                   name="password"
                   onChange={handleChange}
                   placeholder="비밀번호를 입력해주세요"
                   required
                 />
+                {
+                  this.state.isValidForm.pw ?
+                    <FormCheck cn="alright-text" message="올바른 비밀번호입니다" />
+                  :
+                    <FormCheck cn="support-text" message="비밀번호는 8~16자의 영문, 숫자, 특수문자의 조합입니다" />
+                }
               </label>
               <br />
               <label htmlFor="tags">
@@ -212,7 +246,7 @@ class Register extends Component {
                   multi
                   options={tagData}
                 />
-                <span className={cx('tag-text')}>
+                <span className={cx('support-text')}>
                 설정한 tag에 따라서 메인 페이지에 선호한 컨텐츠가 표시됩니다.<br />
                 이는 나중에 변경할 수 있습니다.
                 </span>

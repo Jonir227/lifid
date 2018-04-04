@@ -8,4 +8,6 @@ router.post('/login', controller.login);
 router.use('/check', authMiddleWare);
 router.get('/check', controller.check);
 
+router.post('/check-user', controller.checkUser);
+
 module.exports = router;

@@ -5,10 +5,17 @@
   flex-direction: column;
   justify-content: center;
   align-content: center;
+  label {
+    size: 1.2rem;
+    font-weight: 400;
+  }
   .tags {
     margin: 8px 0;
   }
-  .tag-text {
+  .alright-text {
+    color: rgb(136, 176, 75);
+  }
+  .support-text {
     color: rgb(129, 129, 129);
   }
   @include respond-to(handhelds) {
