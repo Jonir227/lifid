@@ -33,7 +33,7 @@ exports.register = (req, res) => {
     if (user) {
       throw new Error('user name exists');
     } else {
-      valid('username', 'password');
+      valid(username, password);
       return User.create(username, password, tags, description, profilePicture);
     }
   };

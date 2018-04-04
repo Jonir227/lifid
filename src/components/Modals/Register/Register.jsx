@@ -19,10 +19,15 @@ const cx = classNames.bind(styles);
 
 class Register extends Component {
   state = {
+    isValidForm: {
+      id: false,
+      pw: false,
+    },
     tagData: [],
     userRegData: {
       username: '',
       password: '',
+      nickname: '',
       tags: '',
       profilePicture: '',
       description: '',
@@ -49,7 +54,36 @@ class Register extends Component {
     this.setState(prevState => ({
       userRegData: Object.assign({}, prevState.userRegData, { [name]: value }),
     }));
+    if (name === 'username') {
+      this.checkUserId();
+    } else if (name === 'password') {
+      this.checkPW();
+    }
   }
+
+  checkUserId = _.throttle(() => {
+    const emailPattern = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    console.log('idchecked');
+    if (emailPattern.test(this.state.userRegData.username)) {
+      this.setState({
+        isValidForm: {
+          id: true,
+        },
+      });
+    }
+  }, 250);
+
+  checkPW = _.throttle(() => {
+    const pwPattern = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
+    console.log('pwchecked');
+    if (pwPattern.test(this.state.userRegData.password)) {
+      this.setState({
+        isValidForm: {
+          pw: true,
+        },
+      });
+    }
+  }, 250);
 
   handleSelectChange = (selectedOption) => {
     this.setState(prevState => ({
@@ -58,6 +92,14 @@ class Register extends Component {
   }
 
   handleSubmit = (event) => {
+    event.preventDefault();
+    if (!(this.state.isValidForm.id && this.state.isValidForm.pw)) {
+      AppToaster.show({
+        message: '입력 폼을 다시 확인해주세요',
+        intent: Intent.DANGER,
+      });
+      return;
+    }
     const {
       userRegData,
     } = this.state;
@@ -88,13 +130,15 @@ class Register extends Component {
             intent: Intent.DANGER,
           });
         }
-      }).catch(() => {
+      }).catch((error) => {
+        const { status } = error.response;
+        const { message } = error.response.data;
         AppToaster.show({
           intent: Intent.DANGER,
-          message: '회원가입에 실패했습니다. 다시 시도해 주세요',
+          message: `회원가입에 실패했습니다.
+          ${status}: ${message}`,
         });
       });
-    event.preventDefault();
   }
 
   render() {
