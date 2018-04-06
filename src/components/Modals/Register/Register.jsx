@@ -22,6 +22,7 @@ FormCheck.propTypes = {
   message: PropTypes.string.isRequired,
 };
 
+
 /*
 
   prop = modalModify: 모달의 상태를 받아서 변경하는 함수
@@ -124,7 +125,6 @@ class Register extends Component {
     })
       .then((response) => {
         const { success } = response.data;
-        console.log(response);
         if (success) {
           AppToaster.show({
             message: '회원가입에 성공했습니다',

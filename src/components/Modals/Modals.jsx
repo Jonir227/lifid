@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import Login from './Login';
 import Register from './Register';
 
-const Modals = ({ modalState, modalModify }) => {
+const Modals = ({ modalState, modalModify, login }) => {
   let CurrentModal = null;
+  let defaultProps = Object.assign({}, { modalState, modalModify });
   switch (modalState) {
     case 'Login':
       CurrentModal = Login;
+      defaultProps = Object.assign({}, defaultProps, { login });
       break;
     case 'Register':
       CurrentModal = Register;
@@ -19,13 +21,14 @@ const Modals = ({ modalState, modalModify }) => {
       CurrentModal = Login;
   }
   return (
-    <CurrentModal modalModify={modalModify} />
+    React.createElement(CurrentModal, defaultProps)
   );
 };
 
 Modals.propTypes = {
   modalState: PropTypes.string.isRequired,
   modalModify: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
 };
 
 export default Modals;

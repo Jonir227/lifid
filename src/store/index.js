@@ -1,3 +1,3 @@
 import configure from './configure';
 
-export default configure;
+export default configure();

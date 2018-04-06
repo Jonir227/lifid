@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ClassNames from 'classnames/bind';
-import { Button } from '@blueprintjs/core';
+import { Button, Intent } from '@blueprintjs/core';
+import axios from 'axios';
+import { AppToaster } from 'components';
 import styles from './Login.scss';
 
 const cx = ClassNames.bind(styles);
@@ -24,10 +26,26 @@ class Login extends Component {
     }));
   }
 
-
   loginRequest = (event) => {
-    console.log(this.state.loginVal);
     event.preventDefault();
+    axios.post('/api/auth/login', this.state.loginVal)
+      .then((response) => {
+        const { token } = response.data;
+        localStorage.setItem('token', token);
+        AppToaster.show({
+          message: '환영합니다',
+          intent: Intent.SUCCESS,
+        });
+        this.props.login();
+        this.props.modalModify('Exit');
+      })
+      .catch((response) => {
+        console.log(response);
+        AppToaster.show({
+          message: '아이디와 비밀번호를 확인해주세요',
+          intent: Intent.DANGER,
+        });
+      });
   }
 
   render() {
@@ -86,6 +104,7 @@ class Login extends Component {
 
 Login.propTypes = {
   modalModify: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
 };
 
 export default Login;

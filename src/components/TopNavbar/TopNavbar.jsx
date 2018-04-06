@@ -35,6 +35,12 @@ class TopNavbar extends Component {
       modalModify,
     } = this;
 
+    const {
+      login,
+      logout,
+      isLoggedIn,
+    } = this.props;
+
     return (
       <Fragment>
         <Navbar className={cx('top-nav-bar')}>
@@ -61,17 +67,25 @@ class TopNavbar extends Component {
                 text={<BtnTxt txt="Start writing" />}
               />
             </Link>
-            <Button
-              className="pt-minimal"
-              icon="log-in"
-              text={<BtnTxt txt="Log in" />}
-              onClick={() => { modalModify('Login'); }}
-            />
+            {
+              !isLoggedIn &&
+              <Button
+                className="pt-minimal"
+                icon="log-in"
+                text={<BtnTxt txt="Log in" />}
+                onClick={() => { modalModify('Login'); }}
+              />
+            }
           </NavbarGroup>
         </Navbar>
         {
           (modalState !== 'Exit') &&
-            <Modals modalState={modalState} modalModify={this.modalModify} />
+            <Modals
+              modalState={modalState}
+              modalModify={this.modalModify}
+              login={login}
+              isLoggedIn={isLoggedIn}
+            />
         }
       </Fragment>
     );

@@ -26,9 +26,11 @@ exports.startServer = (port) => {
   app.use('/api', require('./api'));
   app.use('/', express.static('build/'));
 
+  app.get('/*', (req, res) => {
+    res.sendfile(express.static('build'));
+  });
+
   app.listen(port, () => {
     console.log('Express listening on port', port);
   });
-
-  
 };
