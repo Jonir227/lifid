@@ -7,6 +7,7 @@ import TextEditor from './TextEditor';
 import Reader from './Reader';
 import Modals from './Modals';
 import AppToaster from './AppToaster';
+import UserIcon from './UserIcon';
 
 export {
   TopNavbar,
@@ -18,4 +19,5 @@ export {
   Reader,
   Modals,
   AppToaster,
+  UserIcon,
 };

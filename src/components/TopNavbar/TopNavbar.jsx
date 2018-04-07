@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Alignment, Navbar, NavbarGroup, NavbarHeading, NavbarDivider, Button, InputGroup, Icon } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
-import { Modals } from 'components';
+import { Modals, UserIcon } from 'components';
 import styles from './TopNavbar.scss';
 
 const cx = classNames.bind(styles);
@@ -39,6 +39,7 @@ class TopNavbar extends Component {
       login,
       logout,
       isLoggedIn,
+      userData,
     } = this.props;
 
     return (
@@ -75,6 +76,13 @@ class TopNavbar extends Component {
                 text={<BtnTxt txt="Log in" />}
                 onClick={() => { modalModify('Login'); }}
               />
+            }
+            {
+              isLoggedIn &&
+              <Fragment>
+                <NavbarDivider />
+                <UserIcon userData={userData} />
+              </Fragment>
             }
           </NavbarGroup>
         </Navbar>

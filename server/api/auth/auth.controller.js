@@ -123,7 +123,7 @@ exports.login = (req, res) => {
             if (err) {
               reject(err);
             } else {
-              resolve(token);
+              resolve({ token, user });
             }
           },
         );
@@ -134,10 +134,18 @@ exports.login = (req, res) => {
     }
   };
 
-  const respond = (token) => {
+  const respond = (value) => {
+    const { token, user } = value;
+    const userData = Object.assign({}, {
+      username: user.username,
+      tags: user.tags,
+      description: user.description,
+      profilePicture: user.profilePicture,
+    });
     res.json({
       message: 'logged in successfully',
       token,
+      userData,
     });
   };
 
@@ -160,8 +168,22 @@ exports.login = (req, res) => {
 
 */
 exports.check = (req, res) => {
-  res.json({
-    success: true,
-    info: req.decoded,
-  });
+  User.findOneByUsername(req.decoded.username)
+    .then((user) => {
+      res.json({
+        success: true,
+        userData: {
+          username: user.username,
+          tags: user.tags,
+          description: user.description,
+          profilePicture: user.profilePicture,
+        },
+      });
+    })
+    .catch((err) => {
+      res.status(400).json({
+        success: false,
+        message: err.message,
+      });
+    });
 };

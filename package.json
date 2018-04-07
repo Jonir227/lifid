@@ -63,11 +63,13 @@
   },
   "scripts": {
     "start": "cross-env NODE_PATH=src node scripts/start.js",
+    "start-dev": "cross-env NODE_PATH=src NODE_ENV=developement BABEL_ENV=development node scripts/dev-start",
     "start-server": "cross-env NODE_PATH=src node scripts/build.js && cross-env NODE_PATH=src node scripts/start-server.js",
     "server": "cross-env NODE_PATH=src node scripts/start-server.js",
     "build": "cross-env NODE_PATH=src node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
+  "proxy": "http://localhost:3001",
   "devDependencies": {
     "eslint": "^4.18.1",
     "eslint-config-airbnb": "^16.1.0",
@@ -77,6 +79,7 @@
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "7.4.0",
+    "nodemon": "^1.17.3",
     "webpack-dev-server": "2.9.4"
   },
   "jest": {

@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const config = require('./config');
+const path = require('path');
 
 exports.startServer = (port) => {
   const app = express();
@@ -23,12 +24,19 @@ exports.startServer = (port) => {
   // 로그를 출력하기 위함
   app.use(morgan('dev'));
 
-  app.use('/api', require('./api'));
-  app.use('/', express.static('build/'));
-
-  app.get('/*', (req, res) => {
-    res.sendfile(express.static('build'));
+  app.all('/*', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+    next();
   });
+
+  app.use('/api', require('./api'));
+  app.use('/', express.static(path.join(__dirname, '../public/')));
+
+  // app.get('/*', (req, res) => {
+  //   res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+  // });
 
   app.listen(port, () => {
     console.log('Express listening on port', port);

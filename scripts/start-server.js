@@ -1,4 +1,4 @@
 const serverMain = require('../server/main');
 
-serverMain.startServer(3000);
+serverMain.startServer(3001);
 

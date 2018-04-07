@@ -1,4 +1,5 @@
 const User = require('../../models/user');
+const path = require('path');
 
 // apit for admin
 
@@ -33,4 +34,29 @@ exports.assignAdmin = (req, res) => {
     .catch(res.json({
       success: false,
     }));
+};
+
+// GET /api/user/profliepic/:username
+exports.profilepic = (req, res) => {
+  const options = {
+    root: path.join('data'),
+    dotfiles: 'deny',
+    headers: {
+      'x-timestamp': Date.now(),
+      'x-sent': true,
+    },
+  };
+  User.findOneByUsername(req.params.username)
+    .then((user) => {
+      if (user.profilePicture === 'default') {
+        res.sendFile('default.jpg', options);
+      } else {
+        res.sendFile(user._id, options);
+      }
+    })
+    .catch((error) => {
+      res.status(400).json({
+        message: error.message,
+      });
+    });
 };

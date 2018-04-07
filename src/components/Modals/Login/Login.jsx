@@ -30,13 +30,14 @@ class Login extends Component {
     event.preventDefault();
     axios.post('/api/auth/login', this.state.loginVal)
       .then((response) => {
-        const { token } = response.data;
+        const { token, userData } = response.data;
         localStorage.setItem('token', token);
         AppToaster.show({
           message: '환영합니다',
           intent: Intent.SUCCESS,
         });
-        this.props.login();
+        console.log(userData);
+        this.props.login(userData);
         this.props.modalModify('Exit');
       })
       .catch((response) => {
