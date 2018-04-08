@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as loginActions from 'store/modules/loginStatus';
 import App from 'shared/App';
 
 class AppContainer extends Component {
-  handleLogin = () => {
-    this.props.login();
+  handleLogin = (data) => {
+    this.props.LoginStateActions.login(data);
   }
 
   handleLogout = () => {
-    this.props.logout();
+    this.props.LoginStateActions.logout();
+  }
+
+  handleCheckUser = () => {
+    this.props.LoginStateActions.getCheck();
   }
 
   render() {
     const {
       handleLogin,
       handleLogout,
+      handleCheckUser,
     } = this;
 
     const {
@@ -31,6 +37,7 @@ class AppContainer extends Component {
         logout={handleLogout}
         isLoggedIn={isLoggedIn}
         userData={userData}
+        checkUser={handleCheckUser}
       />
     );
   }
@@ -54,8 +61,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  login: userData => dispatch(loginActions.login(userData)),
-  logout: () => dispatch(loginActions.logout()),
+  LoginStateActions: bindActionCreators(loginActions, dispatch),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AppContainer));
