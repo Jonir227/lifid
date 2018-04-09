@@ -1,5 +1,20 @@
+.profile-btn-wrapper {
+  border: 0;
+  background-color: transparent;
+}
+
 .round-icon {
   width: 37px;
   height: 37px;
   border-radius: 37px;
+}
+
+.profile-menu {
+  right: 15px;
+  top: 50px;
+  padding-top: 50px;
+  position: absolute;
+  width: 330px;
+  height: 250px; 
+  background-color: gainsboro;
 }

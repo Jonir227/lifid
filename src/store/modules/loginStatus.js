@@ -5,15 +5,19 @@ const getCheckAPI = () => axios.get('/api/auth/check', { headers: { 'x-access-to
 
 const LOGIN = 'loginStatus/LOGIN';
 const LOGOUT = 'loginStatus/LOGOUT';
-const CHECK = 'loginStatus/CHECK';
+const CHECK_PENDING = 'loginStatus/CHECK_PENDING';
+const CHECK_SUCCESS = 'loginStatus/CHECK_SUCCESS';
+const CHECK_FAIL = 'loginStatus/CHECK_FAIL';
 
 export const login = createAction(LOGIN);
 export const logout = createAction(LOGOUT);
-export const check = createAction(CHECK);
-
+export const checkPending = createAction(CHECK_PENDING);
+export const checkSuccess = createAction(CHECK_SUCCESS);
+export const checkFail = createAction(CHECK_FAIL);
 
 const initialState = {
   isLoggedIn: false,
+  pending: false,
   userData: {
     username: '',
     tags: [],
@@ -23,15 +27,28 @@ const initialState = {
 };
 
 export const getCheck = () => (dispatch) => {
-  console.log('hello!');
-  if (!localStorage.getItem('token')) return;
+  dispatch({ type: CHECK_PENDING });
 
-  return getCheckAPI().then((res) => {
+  if (!localStorage.getItem('token')) {
+    localStorage.removeItem('token');
     dispatch({
-      type: CHECK,
-      payload: res.data,
+      type: CHECK_FAIL,
     });
-  });
+    return;
+  }
+
+  return getCheckAPI()
+    .then((res) => {
+      dispatch({
+        type: CHECK_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch(() => {
+      dispatch({
+        type: CHECK_FAIL,
+      });
+    });
 };
 
 export default handleActions({
@@ -40,8 +57,12 @@ export default handleActions({
     userData: action.payload,
   }),
   [LOGOUT]: () => ({ isLoggedOut: false, userData: {} }),
-  [CHECK]: (state, action) => {
+  [CHECK_PENDING]: state => ({ ...state, pending: true }),
+  [CHECK_SUCCESS]: (state, action) => {
     const { userData } = action.payload;
-    return { isLoggedIn: true, userData };
+    return { pending: false, isLoggedIn: true, userData };
+  },
+  [CHECK_FAIL]: (state, action) => {
+    return { pending: false, isLoggedIn: false };
   },
 }, initialState);

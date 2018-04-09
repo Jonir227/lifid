@@ -12,7 +12,6 @@ const cx = classNames.bind(styles);
 class App extends Component {
   componentDidMount() {
     this.props.checkUser();
-    console.log(this.props);
   }
 
   render() {
@@ -25,6 +24,7 @@ class App extends Component {
       logout,
       isLoggedIn,
       userData,
+      pending,
     } = this.props;
 
     return (
@@ -34,6 +34,7 @@ class App extends Component {
           logout={logout}
           isLoggedIn={isLoggedIn}
           userData={userData}
+          pending={pending}
         />
         <div className={cx('content-body')}>
           <Route exact path="/" component={ContentBody} />

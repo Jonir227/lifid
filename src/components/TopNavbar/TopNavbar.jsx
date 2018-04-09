@@ -40,6 +40,7 @@ class TopNavbar extends Component {
       logout,
       isLoggedIn,
       userData,
+      pending,
     } = this.props;
 
     return (
@@ -69,7 +70,7 @@ class TopNavbar extends Component {
               />
             </Link>
             {
-              !isLoggedIn &&
+              !isLoggedIn && !pending &&
               <Button
                 className="pt-minimal"
                 icon="log-in"
@@ -78,10 +79,10 @@ class TopNavbar extends Component {
               />
             }
             {
-              isLoggedIn &&
+              isLoggedIn && !pending &&
               <Fragment>
                 <NavbarDivider />
-                <UserIcon userData={userData} />
+                <UserIcon userData={userData} logout={logout} />
               </Fragment>
             }
           </NavbarGroup>

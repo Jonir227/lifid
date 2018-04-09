@@ -29,6 +29,7 @@ class AppContainer extends Component {
     const {
       isLoggedIn,
       userData,
+      pending,
     } = this.props;
 
     return (
@@ -37,6 +38,7 @@ class AppContainer extends Component {
         logout={handleLogout}
         isLoggedIn={isLoggedIn}
         userData={userData}
+        pending={pending}
         checkUser={handleCheckUser}
       />
     );
@@ -58,6 +60,7 @@ AppContainer.propTypes = {
 const mapStateToProps = state => ({
   isLoggedIn: state.loginStatus.isLoggedIn,
   userData: state.loginStatus.userData,
+  pending: state.loginStatus.pending,
 });
 
 const mapDispatchToProps = dispatch => ({
