@@ -92,11 +92,12 @@ class Register extends Component {
 
   checkPW = _.debounce(() => {
     const pwPattern = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
-    this.setState({
+    this.setState(prevState => ({
       isValidForm: {
+        ...prevState.isValidForm,
         pw: pwPattern.test(this.state.userRegData.password),
       },
-    });
+    }));
   }, 250);
 
   handleSelectChange = (selectedOption) => {
