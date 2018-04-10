@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from '@blueprintjs/core';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import ClassNames from 'classnames/bind';
 import _ from 'lodash';
 import { LeftBar } from 'components';
