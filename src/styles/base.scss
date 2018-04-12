@@ -1,9 +1,10 @@
 @import 'utils';
 
-body {
+* {
   font-family: 'Spoqa Han Sans', 'Sans-serif';
-  font-weight: 300
+  font-weight: 300;
 }
+
 .content-body {
   padding-top: $pt-navbar-height;
   @include respond-to(handhelds) { padding-right: 0rem; padding-left: 0rem; };

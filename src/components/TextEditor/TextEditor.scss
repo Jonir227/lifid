@@ -22,17 +22,19 @@
         }
       }
       .text-write-area {
-        font-size: 1.5rem;
+        font-size: 16px;
         margin-bottom: auto;
         height: 650px;
         @include respond-to(handhelds) {
-          height: 400px;
+          height: 490px;
         }
       }
-      .insight-line {
+      .bottom-bar {
+        padding-top: 42px;
+        display: flex;
+        justify-content: space-between;
         color: slategrey;
-        text-align: right;
-        font-size: 1rem;
+        font-size: 1.1rem;
       }
     }
   }

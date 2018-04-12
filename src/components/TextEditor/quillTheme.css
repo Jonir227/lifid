@@ -2,12 +2,15 @@
 
 .ql-container.ql-snow {
   border: 0px;
+  font-size: 1.2rem;
+}
+.ql-editor {
+  line-height: 2.1rem;
 }
 
 .ql-toolbar.ql-snow {
   border: 0px solid #ccc;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   padding: 8px;
 }

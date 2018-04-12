@@ -9,8 +9,8 @@ const cx = ClassNames.bind(styles);
 
 const LeftBar = ({ sections, indexFunction }) => (
   <Card className={cx('left-bar')}>
-    <strong>Table Of Content</strong>
-    <divocusable className={cx('sections')}>
+    <div className={cx('head')}>Table Of Content</div>
+    <div className={cx('sections')}>
       {
         _.map(sections, (section, index) => (
           <div>
@@ -27,7 +27,7 @@ const LeftBar = ({ sections, indexFunction }) => (
           </div>
         ))
       }
-    </divocusable>
+    </div>
   </Card>
 );
 

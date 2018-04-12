@@ -8,7 +8,12 @@
   @include respond-to(handhelds) {
     display: none !important;
   }
+  .head {
+    font-size: 1.15rem;
+    font-weight: 400;
+  }
   .sections {
+    font-size: 1.1rem;
     text-align: left;
     margin-top: 15px;
     height: 100%;

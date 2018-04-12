@@ -38,13 +38,15 @@ class UserIcon extends React.Component {
     ],
   };
 
-  componentDidMount() {
-  }
-
   onProfileClick = () => {
     this.setState(prevState => ({
       menuOut: !prevState.menuOut,
     }));
+  }
+
+  onClickLogout = () => {
+    localStorage.removeItem('token');
+    this.props.logout();
   }
 
   render() {
@@ -95,8 +97,16 @@ class UserIcon extends React.Component {
                   </div>);
               })
             }
-            <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-              <Button className="pt-minimal" icon="cog" text="내 설정" />
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div>
+                <Button className="pt-minimal" icon="caret-left" />
+                <Button className="pt-minimal" icon="caret-right" />
+              </div>
+              <div>
+                <Button className="pt-minimal" icon="timeline-line-chart" title="통계" />
+                <Button className="pt-minimal" icon="cog" title="설정" />
+                <Button className="pt-minimal" icon="log-out" title="로그 아웃" onClick={this.onClickLogout} />
+              </div>
             </div>
           </div>
         }

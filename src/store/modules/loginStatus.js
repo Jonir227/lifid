@@ -15,15 +15,17 @@ export const checkPending = createAction(CHECK_PENDING);
 export const checkSuccess = createAction(CHECK_SUCCESS);
 export const checkFail = createAction(CHECK_FAIL);
 
+const emptyUserData = {
+  username: '',
+  tags: [],
+  description: '',
+  profilePicture: '',
+};
+
 const initialState = {
   isLoggedIn: false,
   pending: false,
-  userData: {
-    username: '',
-    tags: [],
-    description: '',
-    profilePicture: '',
-  },
+  userData: emptyUserData,
 };
 
 export const getCheck = () => (dispatch) => {
@@ -56,13 +58,11 @@ export default handleActions({
     isLoggedIn: true,
     userData: action.payload,
   }),
-  [LOGOUT]: () => ({ isLoggedOut: false, userData: {} }),
+  [LOGOUT]: () => ({ isLoggedIn: false, userData: emptyUserData }),
   [CHECK_PENDING]: state => ({ ...state, pending: true }),
   [CHECK_SUCCESS]: (state, action) => {
     const { userData } = action.payload;
     return { pending: false, isLoggedIn: true, userData };
   },
-  [CHECK_FAIL]: (state, action) => {
-    return { pending: false, isLoggedIn: false };
-  },
+  [CHECK_FAIL]: () => ({ pending: false, isLoggedIn: false }),
 }, initialState);

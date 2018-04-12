@@ -73,7 +73,7 @@ class Login extends Component {
               </div>
             </div>
             <form className={cx('login-input-fields')} onSubmit={loginRequest}>
-              <div style={{ fontSize: '1.3rem' }}><strong>Username</strong></div>
+              <div style={{ fontSize: '1.3rem', fontWeight: '400' }}>Username</div>
               <input
                 type="text"
                 name="username"
@@ -82,7 +82,7 @@ class Login extends Component {
                 placeholder="Enter Username"
                 required
               />
-              <div style={{ fontSize: '1.3rem' }}><strong>Password</strong></div>
+              <div style={{ fontSize: '1.3rem', fontWeight: '400' }}>Password</div>
               <input
                 type="password"
                 name="password"

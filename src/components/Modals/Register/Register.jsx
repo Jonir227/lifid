@@ -22,13 +22,9 @@ FormCheck.propTypes = {
   message: PropTypes.string.isRequired,
 };
 
-
 /*
-
   prop = modalModify: 모달의 상태를 받아서 변경하는 함수
-
 */
-
 class Register extends Component {
   state = {
     isValidForm: {
@@ -182,89 +178,93 @@ class Register extends Component {
             <div style={{
               fontSize: '1.3rem',
               padding: '10px',
-              paddingBottom: '50px',
               textAlign: 'center',
               }}
             >
               LiFiD에 오신 것을 환영합니다.
             </div>
             <form onSubmit={handleSubmit}>
-              <label htmlFor="username">
-                Username
-                <br />
-                <input
-                  className={cx('text-input')}
-                  type="text"
-                  id="username"
-                  name="username"
-                  onChange={handleChange}
-                  placeholder="이메일을 입력해주세요"
-                  required
-                />
-                {
-                  this.state.isValidForm.id ?
-                    <FormCheck cn="alright-text" message="가입 가능한 이메일입니다" />
-                  :
-                    <FormCheck
-                      cn="support-text"
-                      message={((isExists) => {
-                        if (isExists) {
-                          return '이미 가입된 이메일입니다.';
-                        }
-                        return '올바른 Email을 입력해주세요';
-                      })(isValidForm.isExists)}
-                    />
-                }
-              </label>
-              <br />
-              <label htmlFor="password">
-                Password
-                <br />
-                <input
-                  className={cx('text-input')}
-                  type="password"
-                  id="password"
-                  name="password"
-                  onChange={handleChange}
-                  placeholder="비밀번호를 입력해주세요"
-                  required
-                />
-                {
-                  this.state.isValidForm.pw ?
-                    <FormCheck cn="alright-text" message="올바른 비밀번호입니다" />
-                  :
-                    <FormCheck cn="support-text" message="비밀번호는 8~16자의 영문, 숫자, 특수문자의 조합입니다" />
-                }
-              </label>
-              <br />
-              <label htmlFor="tags">
-                Tags
-                <br />
-                <Select
-                  className={cx('tags')}
-                  value={userRegData.tags}
-                  onChange={handleSelectChange}
-                  multi
-                  options={tagData}
-                />
-                <span className={cx('support-text')}>
-                설정한 tag에 따라서 메인 페이지에 선호한 컨텐츠가 표시됩니다.<br />
-                이는 나중에 변경할 수 있습니다.
-                </span>
-              </label>
-              <br />
-              <label htmlFor="description">
-                Description
-                <br />
-                <input
-                  className={cx('text-input')}
-                  type="text"
-                  id="description"
-                  name="description"
-                  onChange={handleChange}
-                  placeholder="간략한 자기소개를 입력해주세요"
-                />
-              </label>
+              <div className={cx('container')}>
+                <label htmlFor="username">
+                  Username
+                  <br />
+                  <input
+                    className={cx('text-input')}
+                    type="text"
+                    id="username"
+                    name="username"
+                    onChange={handleChange}
+                    placeholder="이메일을 입력해주세요"
+                    required
+                  />
+                  {
+                    this.state.isValidForm.id ?
+                      <FormCheck cn="alright-text" message="가입 가능한 이메일입니다" />
+                    :
+                      <FormCheck
+                        cn="support-text"
+                        message={((isExists) => {
+                          if (isExists) {
+                            return '이미 가입된 이메일입니다.';
+                          }
+                          return '올바른 Email을 입력해주세요';
+                        })(isValidForm.isExists)}
+                      />
+                  }
+                </label>
+              </div>
+              <div className={cx('container')}>
+                <label htmlFor="password">
+                  Password
+                  <br />
+                  <input
+                    className={cx('text-input')}
+                    type="password"
+                    id="password"
+                    name="password"
+                    onChange={handleChange}
+                    placeholder="비밀번호를 입력해주세요"
+                    required
+                  />
+                  {
+                    this.state.isValidForm.pw ?
+                      <FormCheck cn="alright-text" message="올바른 비밀번호입니다" />
+                    :
+                      <FormCheck cn="support-text" message="비밀번호는 8~16자의 영문, 숫자, 특수문자의 조합입니다" />
+                  }
+                </label>
+              </div>
+              <div className={cx('container')}>
+                <label htmlFor="tags">
+                  Tags
+                  <br />
+                  <Select
+                    className={cx('tags')}
+                    value={userRegData.tags}
+                    onChange={handleSelectChange}
+                    multi
+                    options={tagData}
+                  />
+                  <span className={cx('support-text')}>
+                  설정한 tag에 따라서 메인 페이지에 선호한 컨텐츠가 표시됩니다.<br />
+                  이는 나중에 변경할 수 있습니다.
+                  </span>
+                </label>
+              </div>
+              <div className={cx('container')}>
+                <label htmlFor="description">
+                  Description
+                  <br />
+                  <input
+                    className={cx('text-input')}
+                    type="text"
+                    id="description"
+                    name="description"
+                    onChange={handleChange}
+                    placeholder="간략한 자기소개를 입력해주세요"
+                  />
+                </label>
+              </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '15px' }}>
                 <Button className="pt-minimal pt-intent-success" text="Submit" type="submit" />
               </div>
