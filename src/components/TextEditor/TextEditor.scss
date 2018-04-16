@@ -25,6 +25,7 @@
         font-size: 16px;
         margin-bottom: auto;
         height: 650px;
+        word-break: break-all;
         @include respond-to(handhelds) {
           height: 490px;
         }
@@ -34,7 +35,7 @@
         display: flex;
         justify-content: space-between;
         color: slategrey;
-        font-size: 1.1rem;
+        font-size: 1.05rem;
       }
     }
   }

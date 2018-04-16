@@ -15,9 +15,9 @@ class TodayNovel extends Component {
           <img src="http://lastbookstorela.com/wp-content/uploads/2014/11/bookholelarge.jpg" alt="None" />
           <div className={cx('todayNovel-contents')}>
             <div className={cx('todayNovel-quotation')}>
-              <h3 className={cx('todayNovel-info')}>today&apos;s novel is <strong>{this.props.todayNovelData.name}</strong>.</h3>
+              <div className={cx('todayNovel-info')}>today&apos;s novel is {this.props.todayNovelData.name}</div>
               <br />
-              <h2 className={cx('todayNovel-info')}>&quot; {this.props.todayNovelData.quotation} &quot;</h2>
+              <div className={cx('todayNovel-info')}>&quot; {this.props.todayNovelData.quotation} &quot;</div>
               <div className={cx('scale')}>
                 <div className={cx('button')}>
                   <Link to="/editor">

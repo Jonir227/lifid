@@ -7,23 +7,16 @@ import styles from './LeftBar.scss';
 
 const cx = ClassNames.bind(styles);
 
-const LeftBar = ({ sections, indexFunction }) => (
+const LeftBar = ({ sections }) => (
   <Card className={cx('left-bar')}>
     <div className={cx('head')}>Table Of Content</div>
     <div className={cx('sections')}>
       {
         _.map(sections, (section, index) => (
           <div>
-            <button
-              style={{
-                border: '0px',
-                backgroundColor: 'transparent',
-              }}
-              className={cx('section-item')}
-              onClick={indexFunction(index)}
-            >
+            <a href={`#sec${index}`}>
               {section.substring(2)}
-            </button>
+            </a>
           </div>
         ))
       }
@@ -33,7 +26,6 @@ const LeftBar = ({ sections, indexFunction }) => (
 
 LeftBar.propTypes = {
   sections: PropTypes.objectOf(PropTypes.string).isRequired,
-  indexFunction: PropTypes.func.isRequired,
 };
 
 export default LeftBar;

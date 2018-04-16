@@ -70,7 +70,7 @@ class Register extends Component {
     }
   }
 
-  // id, password check in evry 240ms
+  // id, password check in evry 250ms
   checkUserId = _.debounce(() => {
     const isValidEmail = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(this.state.userRegData.username);
 

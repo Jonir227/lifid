@@ -9,20 +9,21 @@
         blend-mode: darken;
     }
     overflow: hidden;
+    & img{
+        display: block;
+        mix-blend-mode: darken;
+        position: absolute;
+        max-width: 100%;
+        max-width: 100%;
+        align-self: center;
+        transform: scale(1.4);
+        transition: all 0.3s ease-in-out;
+    }
+    &:hover img{
+        transform: scale(1.6);
+    }
 }
-.pt-card img{
-    display: block;
-    mix-blend-mode: darken;
-    position: absolute;
-    max-width: 100%;
-    max-width: 100%;
-    align-self: center;
-    transform: scale(1.4);
-    transition: all 0.3s ease-in-out;
-}
-.pt-card:hover img{
-    transform: scale(1.6);
-}
+
 .todayNovel-contents{
     display: flex;
     flex-direction: column;
@@ -40,13 +41,14 @@
 }
 .todayNovel-quotation{
     flex: 1;
+    font-size: 2.1rem;
     padding-top: 2rem;
     text-align: center;
 }
 .scale {
     transform: scale(1);
     transition: all 0.3s ease-in-out;
-}
-.scale:hover {
-    transform: scale(1.2);
+    &:hover {
+        transform: scale(1.2);
+    }
 }
