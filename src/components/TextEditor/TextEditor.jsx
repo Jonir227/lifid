@@ -1,8 +1,9 @@
 import React from 'react';
-import { Card, Button } from '@blueprintjs/core';
+import { Card, Button, Spinner } from '@blueprintjs/core';
 import ReactQuill, { Quill } from 'react-quill';
 import ClassNames from 'classnames/bind';
 import _ from 'lodash';
+import moment from 'moment';
 import { LeftBar } from 'components';
 import styles from './TextEditor.scss';
 import IDtag from './IDtag';
@@ -27,6 +28,9 @@ class TextEditor extends React.Component {
     sections: [],
     lines: 0,
     length: 0,
+    lastSaved: 'none',
+    tmpSavePending: false,
+    publishPending: false,
   }
 
   componentDidMount() {
@@ -35,6 +39,7 @@ class TextEditor extends React.Component {
 
   onChange = (content) => {
     this.setState({ text: content }, this.checkNovel);
+    this.saveWorker();
     this.updateInsight();
   }
 
@@ -66,7 +71,15 @@ class TextEditor extends React.Component {
   }
 
   saveTmp = () => {
+    const tmp = this.editor.getEditor();
+    console.log(tmp);
+    this.setState({
+      tmpSavePending: true,
+      lastSaved: moment().format('MMMM Do YYYY, h:mm:ss a'),
+    });
   }
+
+  saveWorker = _.debounce(this.saveTmp, 1000 * 60 * 5);
 
   modules = {
     toolbar: [
@@ -101,9 +114,16 @@ class TextEditor extends React.Component {
             <div className={cx('bottom-bar')} >
               <div>
                 Lines : {this.state.lines}&nbsp;&nbsp;Length: {this.state.length}
+                <br />
+                Saved: {this.state.lastSaved}
               </div>
               <div>
-                <Button className="pt-minimal" icon="floppy-disk" text="저장" onClick={this.saveTmp} />
+                {
+                  this.state.tmpSavePending ?
+                    <Spinner className={cx('spinner')} />
+                  :
+                    <Button className="pt-minimal" icon="floppy-disk" text="저장" onClick={this.saveTmp} />
+                }
                 <Button className="pt-minimal" icon="draw" text="게시" />
               </div>
             </div>

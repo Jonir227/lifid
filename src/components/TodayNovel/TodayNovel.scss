@@ -4,6 +4,7 @@
     display: flex;
     position: relative;
     justify-content: center;
+    color: white;
     background: {
         color: rgba(0, 0, 0, 0.5);
         blend-mode: darken;
@@ -38,6 +39,7 @@
 }
 .todayNovel-info{
     color: white;
+    padding: 1rem;
 }
 .todayNovel-quotation{
     flex: 1;

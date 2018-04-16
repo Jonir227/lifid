@@ -34,8 +34,13 @@
         padding-top: 42px;
         display: flex;
         justify-content: space-between;
+        align-content: center;
         color: slategrey;
         font-size: 1.05rem;
+        .spinner {
+          width: 1.05rem;
+          height: 1.05rem;
+        }
       }
     }
   }

@@ -2,12 +2,15 @@ import React, { Fragment, Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ClassNames from 'classnames/bind';
+import moment, { duration } from 'moment';
 import { Card, Button, Icon } from '@blueprintjs/core';
 import styles from './TodayNovel.scss';
 
 const cx = ClassNames.bind(styles);
 class TodayNovel extends Component {
-  state = {}
+  state = {
+    time: Math.floor(moment.duration(moment([2018, 4, 30]).diff(moment())).asHours()),
+  }
   render() {
     return (
       <Fragment>
@@ -16,8 +19,8 @@ class TodayNovel extends Component {
           <div className={cx('todayNovel-contents')}>
             <div className={cx('todayNovel-quotation')}>
               <div className={cx('todayNovel-info')}>today&apos;s novel is {this.props.todayNovelData.name}</div>
-              <br />
               <div className={cx('todayNovel-info')}>&quot; {this.props.todayNovelData.quotation} &quot;</div>
+              <div>{this.state.time} 시간</div>
               <div className={cx('scale')}>
                 <div className={cx('button')}>
                   <Link to="/editor">
