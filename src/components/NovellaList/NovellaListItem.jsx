@@ -15,7 +15,9 @@ const NovellaListItem = (props) => {
     <div className={className}>
       <Card interactive>
         <h1>{ novellaName }</h1>
+        <br />
         <h3>{ novellaContent }</h3>
+        <br />
         <div style={{ display: 'flex', flexDirection: 'row', flex: 5 }}>
           <div style={{
             flex: 0.25,
