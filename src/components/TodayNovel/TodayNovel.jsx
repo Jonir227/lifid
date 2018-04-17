@@ -9,7 +9,7 @@ import styles from './TodayNovel.scss';
 const cx = ClassNames.bind(styles);
 class TodayNovel extends Component {
   state = {
-    time: Math.floor(moment.duration(moment([2018, 4, 30]).diff(moment())).asHours()),
+    time: Math.floor(duration(moment([2018, 4, 30]).diff(moment())).asHours()),
   }
   render() {
     return (
@@ -24,7 +24,7 @@ class TodayNovel extends Component {
               <div className={cx('scale')}>
                 <div className={cx('button')}>
                   <Link to="/editor">
-                    <Button onClick=""className="pt-minimal" icon={<Icon icon="edit" color="white" />} text={<div style={{ color: 'white' }}>start writing</div>} />
+                    <Button className="pt-minimal" icon={<Icon icon="edit" color="white" />} text={<div style={{ color: 'white' }}>start writing</div>} />
                   </Link>
                 </div>
               </div>
