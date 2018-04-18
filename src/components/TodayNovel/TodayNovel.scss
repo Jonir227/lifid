@@ -1,56 +1,80 @@
 @import 'utils';
 
 .pt-card{ 
-    display: flex;
-    position: relative;
-    justify-content: center;
-    color: white;
-    background: {
-        color: rgba(0, 0, 0, 0.5);
-        blend-mode: darken;
-    }
-    overflow: hidden;
-    & img{
-        display: block;
-        mix-blend-mode: darken;
-        position: absolute;
-        max-width: 100%;
-        max-width: 100%;
-        align-self: center;
-        transform: scale(1.4);
-        transition: all 0.3s ease-in-out;
-    }
-    &:hover img{
-        transform: scale(1.6);
-    }
+  display: flex;
+  position: relative;
+  justify-content: center;
+  color: white;
+  background: {
+    color: rgba(0, 0, 0, 0.5);
+    blend-mode: darken;
+  }
+  overflow: hidden;
+  & img{
+    display: block;
+    mix-blend-mode: darken;
+    position: absolute;
+    max-width: 100%;
+    max-width: 100%;
+    align-self: center;
+    transform: scale(1.4);
+    transition: all 0.3s ease-in-out;
+  }
+  &:hover img{
+    transform: scale(1.6);
+  }
 }
 
-.todayNovel-contents{
+.novel-contents{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  z-index: 1;
+  text-align: center;
+  .time-counter {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-content: center;
-    z-index: 1;
-}
-.button{
+    justify-content: center;
+    .time-counter-item {
+      text-align: center;
+      padding-left: 30px;
+      padding-right: 30px;
+      @include respond-to(handhelds) {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      .time {
+        font-size: 2.1rem;
+        font-weight: 400;
+      }
+      .desc {
+        font-size: 1rem;
+      }
+    }
+  }
+  .button{
     display: flex;
     justify-content: center;
     margin-top: 3rem;
     margin-bottom: 2rem;
-}
-.todayNovel-info{
+  }
+  .novel-info{
     color: white;
     padding: 1rem;
-}
-.todayNovel-quotation{
+  }
+  .novel-quotation{
     flex: 1;
     font-size: 2.1rem;
     padding-top: 2rem;
     text-align: center;
-}
-.scale {
+  }
+  .scale {
     transform: scale(1);
     transition: all 0.3s ease-in-out;
     &:hover {
-        transform: scale(1.2);
+      transform: scale(1.2);
     }
+  }
 }

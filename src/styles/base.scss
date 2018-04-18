@@ -7,7 +7,7 @@
 
 .content-body {
   padding-top: $pt-navbar-height;
-  @include respond-to(handhelds) { padding-right: 0; padding-left: 0; };
+  @include respond-to(handhelds) { padding-right: 3px; padding-left: 3px; };
   @include respond-to(medium-screen) { padding-right: 80px; padding-left: 80px; };
   @include respond-to(large-screen) { padding-right: 160px; padding-left: 160px; };
 }
