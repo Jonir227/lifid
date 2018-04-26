@@ -3,15 +3,18 @@ import { Route } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
+import axios from 'axios';
 import { ContentBody, Editor, ReaderView } from 'pages';
 import { BtmFooter, TopNavbar } from 'components';
 import styles from 'styles/base.scss';
 
 const cx = classNames.bind(styles);
 
+
 class App extends Component {
   componentDidMount() {
     this.props.checkUser();
+    axios.defaults.headers['x-access-token'] = localStorage.getItem('token');
   }
 
   render() {

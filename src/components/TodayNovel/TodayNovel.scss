@@ -39,15 +39,15 @@
     justify-content: center;
     .time-counter-item {
       text-align: center;
-      padding-left: 30px;
-      padding-right: 30px;
+      margin-left: 25px;
+      margin-right: 25px;
       @include respond-to(handhelds) {
         padding-left: 15px;
         padding-right: 15px;
       }
       .time {
         font-size: 2.1rem;
-        font-weight: 400;
+        font-weight: 200;
       }
       .desc {
         font-size: 1rem;

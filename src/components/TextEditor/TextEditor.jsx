@@ -1,20 +1,19 @@
 import React from 'react';
-import { Card, Button, Spinner } from '@blueprintjs/core';
-import ReactQuill, { Quill } from 'react-quill';
+import { Card, Button, Spinner, Intent } from '@blueprintjs/core';
+import ReactQuill from 'react-quill';
 import ClassNames from 'classnames/bind';
 import _ from 'lodash';
-import moment from 'moment';
-import { LeftBar } from 'components';
+import axios from 'axios';
+import { LeftBar, AppToaster } from 'components';
 import styles from './TextEditor.scss';
-import IDtag from './IDtag';
 import './quillTheme.css';
 
 const cx = ClassNames.bind(styles);
 
+// TODO: title field 추가
 class TextEditor extends React.Component {
   constructor(props) {
     super(props);
-    Quill.register(IDtag);
     this.editor = null;
     this.checkNovel.bind(this);
   }
@@ -72,11 +71,32 @@ class TextEditor extends React.Component {
 
   saveTmp = () => {
     const tmp = this.editor.getEditor();
-    console.log(tmp);
     this.setState({
       tmpSavePending: true,
-      lastSaved: moment().format('MMMM Do YYYY, h:mm:ss a'),
     });
+    const contentHTML = tmp.container.querySelector('.ql-editor').innerHTML;
+    axios.post('/api/novella', {
+      content: contentHTML,
+      quillDelta: tmp.getContents(),
+      title: 'title',
+      published_date: Date.now(),
+      isPublished: false,
+    })
+      .then((res) => {
+        if (res.data.success) {
+          this.setState({
+            tmpSavePending: false,
+            lastSaved: new Date(Date.now()).toLocaleString(),
+          });
+          AppToaster.show({
+            message: '임시 저장되었습니다',
+            intent: Intent.PRIMARY,
+          });
+        }
+      })
+      .catch((res) => {
+        console.log(res);
+      });
   }
 
   saveWorker = _.debounce(this.saveTmp, 1000 * 60 * 5);

@@ -25,8 +25,14 @@ class NovellaListItem extends Component {
           <br />
           <h3>{ novellaContent }</h3>
           <br />
-          <div style={{ display: 'flex', flexDirection: 'row', flex: 5 }}>
-            <img src={`/api/user/profile/${author}`} alt="profile" />
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignContent: 'center',
+            flex: 5,
+            }}
+          >
+            <img style={{ width: 35, height: 35, borderRadius: 30 }} src={`/api/user/profile-pic/${author}`} alt="profile" />
             <div stlye={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
               <h4>{ author }</h4>
               <div style={{ color: '#C1C1C1' }}>{ authorInfo }</div>

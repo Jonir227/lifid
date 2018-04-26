@@ -2,29 +2,36 @@ import React, { Fragment, Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ClassNames from 'classnames/bind';
-import moment, { duration } from 'moment';
-import _ from 'lodash';
+import moment from 'moment';
 import { Card, Button, Icon } from '@blueprintjs/core';
 import styles from './TodayNovel.scss';
 
 const cx = ClassNames.bind(styles);
 class TodayNovel extends Component {
+  constructor(props) {
+    super(props);
+    this.interval = null;
+  }
+
   state = {
     time: {
-      days: 0,
-      hours: 0,
-      min: 0,
-      sec: 0,
+      days: '00',
+      hours: '00',
+      min: '00',
+      sec: '00',
     },
-    dueDate: '2018-04-30',
   }
 
   componentDidMount() {
-    setInterval(this.updateTime, 1000);
+    this.interval = setInterval(this.updateTime, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   updateTime = () => {
-    const diffTime = moment(this.state.dueDate).diff(Date.now());
+    const diffTime = moment(this.props.todayNovelData.dueDate).diff(Date.now());
     const times = moment(diffTime).format('DD hh mm ss').split(' ');
     this.setState({
       time: {
@@ -101,6 +108,7 @@ TodayNovel.propTypes = {
   todayNovelData: PropTypes.shape({
     name: PropTypes.string.isRequired,
     quotation: PropTypes.string.isRequired,
+    dueDate: PropTypes.string.isRequired,
   }).isRequired,
 };
 
