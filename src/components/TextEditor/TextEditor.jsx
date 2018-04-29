@@ -96,6 +96,10 @@ class TextEditor extends React.Component {
       })
       .catch((res) => {
         console.log(res);
+        AppToaster.show({
+          message: '서버와 통신에 오류가 생겼습니다.',
+          intent: Intent.DANGER,
+        });
       });
   }
 

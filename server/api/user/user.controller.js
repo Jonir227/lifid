@@ -4,7 +4,6 @@ const path = require('path');
 // apit for admin
 
 // GET /api/user/list
-
 exports.list = (req, res) => {
   if (!req.decoded.admin) {
     return res.status(403).json({

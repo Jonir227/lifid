@@ -112,6 +112,7 @@ exports.login = (req, res) => {
             _id: user._id,
             username: user.username,
             password: user.password,
+            admin: user.admin,
           },
           secret,
           {

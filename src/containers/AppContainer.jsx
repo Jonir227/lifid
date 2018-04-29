@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as loginActions from 'store/modules/loginStatus';
+import * as todayNovel from 'store/modules/todayNovel';
 import App from 'shared/App';
 
 class AppContainer extends Component {
@@ -17,6 +18,10 @@ class AppContainer extends Component {
 
   handleCheckUser = () => {
     this.props.LoginStateActions.getCheck();
+  }
+
+  handlefetchTodayNovel = () => {
+    this.props.TodayNovelActions.getTodayNovel();
   }
 
   render() {
@@ -40,6 +45,7 @@ class AppContainer extends Component {
         userData={userData}
         pending={pending}
         checkUser={handleCheckUser}
+        
       />
     );
   }
@@ -55,16 +61,25 @@ AppContainer.propTypes = {
     description: PropTypes.string.isRequired,
     profilePicture: PropTypes.string.isRequired,
   }).isRequired,
+  pending: PropTypes.bool.isRequired,
+  novelPending: PropTypes.bool.isRequired,
+  novelData: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    quotation: PropTypes.string.isRequired,
+    dueDate: PropTypes.string.isRequired,
+  }),
 };
 
 const mapStateToProps = state => ({
   isLoggedIn: state.loginStatus.isLoggedIn,
   userData: state.loginStatus.userData,
   pending: state.loginStatus.pending,
+  novelData: state.todayNovel,
 });
 
 const mapDispatchToProps = dispatch => ({
   LoginStateActions: bindActionCreators(loginActions, dispatch),
+  TodayNovelActions: bindActionCreators(todayNovel, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AppContainer));
