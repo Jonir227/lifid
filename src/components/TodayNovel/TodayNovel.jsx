@@ -24,6 +24,7 @@ class TodayNovel extends Component {
 
   componentDidMount() {
     this.interval = setInterval(this.updateTime, 1000);
+    console.log(this.props.novelData);
   }
 
   componentWillUnmount() {
@@ -31,7 +32,7 @@ class TodayNovel extends Component {
   }
 
   updateTime = () => {
-    const diffTime = moment(this.props.todayNovelData.dueDate).diff(Date.now());
+    const diffTime = moment(this.props.novelData.dueDate).diff(Date.now());
     const times = moment(diffTime).format('DD hh mm ss').split(' ');
     this.setState({
       time: {
@@ -53,8 +54,8 @@ class TodayNovel extends Component {
           <img src="http://lastbookstorela.com/wp-content/uploads/2014/11/bookholelarge.jpg" alt="None" />
           <div className={cx('novel-contents')}>
             <div className={cx('novel-quotation')}>
-              <div className={cx('novel-info')}>today&apos;s novel is {this.props.todayNovelData.name}</div>
-              <div className={cx('novel-info')}>&quot; {this.props.todayNovelData.quotation} &quot;</div>
+              <div className={cx('novel-info')}>today&apos;s novel is {this.props.novelData.name}</div>
+              <div className={cx('novel-info')}>&quot; {this.props.novelData.quotation} &quot;</div>
             </div>
             <div className={cx('time-counter')}>
               <div className={cx('time-counter-item')}>
@@ -105,10 +106,11 @@ class TodayNovel extends Component {
 }
 
 TodayNovel.propTypes = {
-  todayNovelData: PropTypes.shape({
+  novelData: PropTypes.shape({
     name: PropTypes.string.isRequired,
     quotation: PropTypes.string.isRequired,
     dueDate: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
   }).isRequired,
 };
 

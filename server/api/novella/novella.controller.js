@@ -16,9 +16,10 @@ exports.novellaPOST = (req, res) => {
     content,
     isPublished,
     published_date: savedDate,
-  }).then(() => {
+  }).then((novella) => {
     res.json({
       success: true,
+      docNo: novella.doc_number,
     });
   }).catch((err) => {
     res.status(400).json({

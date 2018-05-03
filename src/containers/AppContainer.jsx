@@ -29,12 +29,14 @@ class AppContainer extends Component {
       handleLogin,
       handleLogout,
       handleCheckUser,
+      handlefetchTodayNovel,
     } = this;
 
     const {
       isLoggedIn,
       userData,
       pending,
+      novelData,
     } = this.props;
 
     return (
@@ -45,7 +47,8 @@ class AppContainer extends Component {
         userData={userData}
         pending={pending}
         checkUser={handleCheckUser}
-        
+        getTodayNovel={handlefetchTodayNovel}
+        novelData={novelData}
       />
     );
   }
@@ -62,19 +65,18 @@ AppContainer.propTypes = {
     profilePicture: PropTypes.string.isRequired,
   }).isRequired,
   pending: PropTypes.bool.isRequired,
-  novelPending: PropTypes.bool.isRequired,
   novelData: PropTypes.shape({
     name: PropTypes.string.isRequired,
     quotation: PropTypes.string.isRequired,
     dueDate: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
 };
 
 const mapStateToProps = state => ({
   isLoggedIn: state.loginStatus.isLoggedIn,
   userData: state.loginStatus.userData,
   pending: state.loginStatus.pending,
-  novelData: state.todayNovel,
+  novelData: state.todayNovel.novelData,
 });
 
 const mapDispatchToProps = dispatch => ({

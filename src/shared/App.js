@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
 import axios from 'axios';
+import { PropsRoute } from 'util/RouterUtil';
 import { ContentBody, Editor, ReaderView } from 'pages';
 import { BtmFooter, TopNavbar } from 'components';
 import styles from 'styles/base.scss';
@@ -27,6 +28,7 @@ class App extends Component {
     //   .catch((err) => {
     //     console.error(err);
     //   });
+    this.props.getTodayNovel();
   }
 
   render() {
@@ -40,6 +42,7 @@ class App extends Component {
       isLoggedIn,
       userData,
       pending,
+      novelData,
     } = this.props;
 
     return (
@@ -52,9 +55,9 @@ class App extends Component {
           pending={pending}
         />
         <div className={cx('content-body')}>
-          <Route exact path="/" component={ContentBody} />
-          <Route exact path="/editor" component={Editor} />
-          <Route exact path="/reader" component={ReaderView} />
+          <PropsRoute exact path="/" component={ContentBody} novelData={novelData} />
+          <PropsRoute exact path="/editor" component={Editor} />
+          <PropsRoute exact path="/reader" component={ReaderView} />
         </div>
         <BtmFooter />
       </Fragment>
@@ -73,6 +76,13 @@ App.propTypes = {
     profilePicture: PropTypes.string.isRequired,
   }).isRequired,
   checkUser: PropTypes.func.isRequired,
+
+  novelData: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    quotation: PropTypes.string.isRequired,
+    dueDate: PropTypes.string.isRequired,
+  }).isRequired,
+  getTodayNovel: PropTypes.func.isRequired,
 };
 
 export default App;

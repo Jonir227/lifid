@@ -12,11 +12,18 @@ const novellaCounter = mongoose.model('novellaCounter', novellaCounterSchema);
 
 const novellaShema = new Schema({
   doc_number: String,
-  title: String,
+  title: {
+    type: String,
+    default: '',
+  },
   author: String,
-  content: String,
+  content: {
+    type: String,
+    default: '',
+  },
   quillDelta: {
     type: Object,
+    default: {},
   },
   published_date: {
     type: Date,
@@ -34,7 +41,6 @@ novellaShema.pre('save', function (next) {
     .then((count) => {
       console.log(`...count: ${JSON.stringify(count)}`);
       this.doc_number = count.seq;
-      console.log(this);
       next();
     })
     .catch((err) => {

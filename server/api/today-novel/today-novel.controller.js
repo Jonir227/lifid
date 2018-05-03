@@ -9,7 +9,7 @@ exports.now = (req, res) => {
         author,
         quotation,
         dueDate,
-      } = data;
+      } = data[0];
       res.json({
         name,
         author,
@@ -25,7 +25,6 @@ exports.now = (req, res) => {
 };
 
 // POST /api/today-novel
-
 exports.post = (req, res) => {
   if (!req.decoded.admin) {
     res.status(403).json({
@@ -48,7 +47,6 @@ exports.post = (req, res) => {
         });
       })
       .catch((result) => {
-        console.log(req.body);
         res.status(403).json({
           success: false,
           message: result,

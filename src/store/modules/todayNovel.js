@@ -10,9 +10,10 @@ export const todayNovelDataSuccess = createAction(TODAY_NOVEL_DATA_SUCCESS);
 export const todayNovelDataFail = createAction(TODAY_NOVEL_DATA_FAIL);
 
 const defaultData = {
-  novePending: false,
+  novelPending: false,
   novelData: {
     name: '',
+    author: '',
     quotation: '',
     dueDate: '',
   },
@@ -21,7 +22,7 @@ const defaultData = {
 export const getTodayNovel = () => (dispatch) => {
   dispatch({ type: TODAY_NOVEL_DATA_PENDING });
 
-  axios.get('/api/today-novel')
+  return axios.get('/api/today-novel/now')
     .then((res) => {
       dispatch({
         type: TODAY_NOVEL_DATA_SUCCESS,
@@ -33,13 +34,13 @@ export const getTodayNovel = () => (dispatch) => {
         type: TODAY_NOVEL_DATA_FAIL,
       });
     });
-}
+};
 
 export default handleActions({
-  [TODAY_NOVEL_DATA_PENDING]: state => ({ ...state, pending: true }),
+  [TODAY_NOVEL_DATA_PENDING]: state => ({ ...state, novelPending: true }),
   [TODAY_NOVEL_DATA_SUCCESS]: (state, action) => {
-    const { novelData } = action.payload;
-    return { pending: false, novelData };
+    const novelData = action.payload;
+    return { novelPending: false, novelData };
   },
-  [TODAY_NOVEL_DATA_FAIL]: () => ({ pending: false }),
+  [TODAY_NOVEL_DATA_FAIL]: () => ({ novelPending: false }),
 }, defaultData);
