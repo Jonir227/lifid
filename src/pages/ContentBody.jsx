@@ -3,7 +3,7 @@ import { TodayNovel, NovellaList } from 'components';
 
 class ContentBody extends React.Component {
   state = {
-    novelData: [{
+    novelDatas: [{
       name: 'novelName',
       author: 'bjbj6363@gmail.com',
       authorInfo: '나는 글을 씁니다. SF를 좋아해요',
@@ -43,10 +43,14 @@ class ContentBody extends React.Component {
   }
 
   render() {
+    const {
+      novelData,
+      userData,
+    } = this.props;
     return (
       <Fragment>
-        <TodayNovel style={{ padding: 5 }} novelData={this.props.novelData} />
-        <NovellaList novelData={this.state.novelData} />
+        <TodayNovel style={{ padding: 5 }} novelData={novelData} />
+        <NovellaList novelData={this.state.novelDatas} userData={userData} />
       </Fragment>
     );
   }

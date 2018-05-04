@@ -2,7 +2,7 @@ const Novella = require('../../models/novella');
 
 // api for novella
 
-exports.novellaPOST = (req, res) => {
+exports.editorPost = (req, res) => {
   const {
     quillDelta,
     content,
@@ -29,13 +29,40 @@ exports.novellaPOST = (req, res) => {
   });
 };
 
-exports.novellaPUT = (req, res) => {
+exports.editorDelete = (req, res) => {
+  const {
+    doc_number,
+  } = req.body;
+  Novella.deleteOne({ doc_number })
+    .then((doc) => {
+      console.log(doc);
+      res.json({
+        success: true,
+      });
+    })
+    .catch((err) => {
+      res.status(403).json({
+        success: false,
+        error: err,
+      });
+    });
+};
+
+exports.editorPut = (req, res) => {
   const {
     author,
     quillDelta,
     content,
     savedDate,
     isPublished,
-    id,
+    doc_number,
   } = req.body;
+
+  Novella.findByIdAndUpdate({ doc_number })
+    .then((doc) => {
+      // do something
+    })
+    .catch((err) => {
+      // do something
+    });
 };

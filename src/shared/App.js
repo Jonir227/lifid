@@ -55,7 +55,7 @@ class App extends Component {
           pending={pending}
         />
         <div className={cx('content-body')}>
-          <PropsRoute exact path="/" component={ContentBody} novelData={novelData} />
+          <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} />
           <PropsRoute exact path="/editor" component={Editor} />
           <PropsRoute exact path="/reader" component={ReaderView} />
         </div>
