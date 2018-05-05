@@ -50,11 +50,20 @@ exports.editorPut = (req, res) => {
     doc_number,
   } = req.body;
 
-  Novella.findByIdAndUpdate({ doc_number })
+  Novella.findOneAndUpdate({ doc_number }, {
+    quillDelta, content, savedDate, isPublished,
+  })
     .then((doc) => {
-      // do something
+      console.log(doc);
+
+      res.json({
+        success: true,
+      });
     })
     .catch((err) => {
-      // do something
+      res.status(403).json({
+        success: false,
+        error: err,
+      });
     });
 };
