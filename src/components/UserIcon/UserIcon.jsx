@@ -76,7 +76,7 @@ class UserIcon extends React.Component {
                     notiLine = `팔로우하는 ${notifiCation.who}님이 새 소설을 게시했습니다`;
                     break;
                   default:
-                    console.log('invalid input');
+                    console.error('invalid input');
                     return;
                 }
                 let itemStyle = 'noti-item';

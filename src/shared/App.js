@@ -11,7 +11,6 @@ import styles from 'styles/base.scss';
 
 const cx = classNames.bind(styles);
 
-
 class App extends Component {
   componentDidMount() {
     this.props.checkUser();
@@ -56,7 +55,7 @@ class App extends Component {
         />
         <div className={cx('content-body')}>
           <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} />
-          <PropsRoute exact path="/editor" component={Editor} />
+          <PropsRoute exact path="/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
           <PropsRoute exact path="/reader" component={ReaderView} />
         </div>
         <BtmFooter />

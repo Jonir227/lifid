@@ -1,29 +1,47 @@
 @import 'utils';
 
 .editor {
-  padding: 1rem;
+  padding: 0.5rem;
+  .today-novel {
+    margin: 5px;
+    padding-left: 8rem;
+    padding-right: 8rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    @include respond-to(handhelds) {
+      font-size: 1.1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    .quotation {
+      padding: 0.3rem;
+      padding-bottom: 0.7rem;
+    }
+    .name-author {
+      font-size: 1.2rem;
+      text-align: right;
+    }
+  }
   .card-wrapper {
     display: flex;
     flex-direction: row;
-    padding-top: 1rem;
-    padding-bottom: 1.5rem;
+    margin: 5px;
     .text-wrapper {
       width: 100%;
       display: flex;
       flex-direction: column;
-      .today-novel {
-        font-size: 1.5em;
-        font-weight: bold;
+      .title {
+        margin: 1rem;
+        font-size: 1.6rem;
         text-align: center;
-        padding: 2rem;
-        @include respond-to(handhelds) {
-          font-size: 1.1rem;
-          padding: 0.5rem;
+        border: none;
+        &::placeholder {
+          font-style: italic;
         }
       }
       .text-write-area {
-        font-size: 16px;
-        margin-bottom: auto;
+        font-size: 1rem;
+        margin-bottom: 25px;
         height: 650px;
         word-break: break-all;
         @include respond-to(handhelds) {
@@ -31,17 +49,28 @@
         }
       }
       .bottom-bar {
-        padding-top: 42px;
+        margin-top: 25px;
         display: flex;
         justify-content: space-between;
         align-content: center;
         color: slategrey;
         font-size: 1.05rem;
-        .spinner {
-          width: 1.05rem;
-          height: 1.05rem;
-        }
       }
+    }
+  }
+  .btm-box {
+    margin: 5px;
+    display: flex;
+    flex: 5;
+    justify-content: space-between;
+    .selection {
+      flex: 3.5;
+    }
+    .save {
+      display: flex;
+      flex: 1.5;
+      flex-direction: row-reverse;
+      align-content: center;
     }
   }
 }

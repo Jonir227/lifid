@@ -10,6 +10,7 @@ exports.now = (req, res) => {
         quotation,
         dueDate,
       } = data[0];
+
       res.json({
         name,
         author,

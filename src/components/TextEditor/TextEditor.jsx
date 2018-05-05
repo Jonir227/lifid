@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Button, Spinner, Intent } from '@blueprintjs/core';
 import ReactQuill from 'react-quill';
 import ClassNames from 'classnames/bind';
+import Select from 'react-select-plus';
 import _ from 'lodash';
 import axios from 'axios';
 import { LeftBar, AppToaster } from 'components';
@@ -20,26 +21,54 @@ class TextEditor extends React.Component {
 
   state = {
     /*
-    text: editor의 내용
-    sections: ##[something] 형태로 작성된 것. Table Of Content에 들어간다.
+      text: editor의 내용
+      sections: ##[something] 형태로 작성된 것. Table Of Content에 들어간다.
+      lines: 줄,
+      lenght: 문서 전체의 길이
+      lastSaved: 마지막으로 저장된 날짜.
+      tmpSavePending / publishPending
     */
     text: '',
+    title: '',
     sections: [],
     lines: 0,
     length: 0,
+    tags: [],
     lastSaved: 'none',
     tmpSavePending: false,
     publishPending: false,
+    tagData: [],
   }
 
   componentDidMount() {
     this.editor.focus();
+    axios.get('/api/tag/list')
+      .then((response) => {
+        const { tags } = response.data;
+        this.setState({
+          tagData: _.map(tags, tag => ({
+            value: tag.name, label: tag.name,
+          })),
+        });
+      });
   }
 
   onChange = (content) => {
     this.setState({ text: content }, this.checkNovel);
-    this.saveWorker();
+    this.saveWorker(false);
     this.updateInsight();
+  }
+
+  onChangeTitle = (input) => {
+    this.setState({
+      title: input.target.value,
+    });
+  }
+
+  onSelectChange = (selectedOption) => {
+    this.setState({
+      tags: _.map(selectedOption, 'value'),
+    });
   }
 
   checkNovel = _.debounce(async () => {
@@ -69,33 +98,60 @@ class TextEditor extends React.Component {
     });
   }
 
-  saveTmp = () => {
+  save = isPublished => () => {
+    // 에디터를 가져져옴
     const tmp = this.editor.getEditor();
-    this.setState({
-      tmpSavePending: true,
-    });
+    /*
+      HTML요소를 가져옴. 에디터와 따로 HTML을 사용하는 이유는
+      보여줄 컨텐츠에는 a태그가 따로 있어서 이정표 이동에 사용되기 때문.
+    */
     const contentHTML = tmp.container.querySelector('.ql-editor').innerHTML;
-    axios.post('/api/novella', {
+    /*
+      DB에 보낼 데이터. isPublished에 따라서 아래 작동이 달라진다.
+    */
+    const publishData = {
       content: contentHTML,
       quillDelta: tmp.getContents(),
-      title: 'title',
+      title: this.state.title,
       published_date: Date.now(),
-      isPublished: false,
-    })
+      todayNovel: this.props.novelData,
+      tags: this.state.tags,
+      isPublished,
+    };
+
+    let pendingStatus = 'tmpSavePending';
+
+    if (isPublished) {
+      pendingStatus = 'publishPending';
+      if (this.state.tags.length === 0) {
+        AppToaster.show({
+          message: '소설 게시에는 1개 이상의 태그가 필요합니다',
+          intent: Intent.PRIMARY,
+        });
+        return;
+      }
+    }
+
+    this.setState({
+      [pendingStatus]: true,
+    });
+
+    axios.post('/api/novella/editor', publishData)
       .then((res) => {
+        console.log(res.data);
         if (res.data.success) {
           this.setState({
-            tmpSavePending: false,
+            [pendingStatus]: false,
             lastSaved: new Date(Date.now()).toLocaleString(),
           });
           AppToaster.show({
-            message: '임시 저장되었습니다',
+            message: isPublished ? '게시되었습니다!' : '임시 저장되었습니다',
             intent: Intent.PRIMARY,
           });
         }
       })
       .catch((res) => {
-        console.log(res);
+        console.error(res);
         AppToaster.show({
           message: '서버와 통신에 오류가 생겼습니다.',
           intent: Intent.DANGER,
@@ -103,7 +159,7 @@ class TextEditor extends React.Component {
       });
   }
 
-  saveWorker = _.debounce(this.saveTmp, 1000 * 60 * 5);
+  saveWorker = _.debounce(this.save, 1000 * 60 * 5);
 
   modules = {
     toolbar: [
@@ -115,22 +171,31 @@ class TextEditor extends React.Component {
   };
 
   render() {
+    const {
+      novelData,
+    } = this.props;
     return (
       <div className={cx('editor')}>
+        <Card className={cx('today-novel')}>
+          <div className={cx('quotation')}>
+            &quot; {novelData.quotation} &quot;
+          </div>
+          <div className={cx('name-author')}>
+            -&nbsp;{novelData.name},&nbsp;&nbsp;{this.props.novelData.author}
+          </div>
+        </Card>
         <Card className={cx('card-wrapper')}>
           <LeftBar
             sections={this.state.sections}
           />
           <div className={cx('text-wrapper')}>
-            <div className={cx('today-novel')}>
-              &quot; 항구의 하늘은 방송이 끝난 텔레비전 색이였다 &quot;
-            </div>
+            <input placeholder="제목을 입력하세요" className={cx('title')} value={this.state.title} onChange={this.onChangeTitle} />
             <div id="editor">
               <ReactQuill
                 ref={(refs) => { this.editor = refs; }}
                 className={cx('text-write-area')}
                 value={this.state.text}
-                placeholder="start your dream"
+                placeholder={`${novelData.quotation}...이어서 작성하세요`}
                 onChange={this.onChange}
                 modules={this.modules}
               />
@@ -138,19 +203,37 @@ class TextEditor extends React.Component {
             <div className={cx('bottom-bar')} >
               <div>
                 Lines : {this.state.lines}&nbsp;&nbsp;Length: {this.state.length}
-                <br />
-                Saved: {this.state.lastSaved}
               </div>
               <div>
-                {
-                  this.state.tmpSavePending ?
-                    <Spinner className={cx('spinner')} />
-                  :
-                    <Button className="pt-minimal" icon="floppy-disk" text="저장" onClick={this.saveTmp} />
-                }
-                <Button className="pt-minimal" icon="draw" text="게시" />
+                Saved: {this.state.lastSaved}
               </div>
             </div>
+          </div>
+        </Card>
+        <Card className={cx('btm-box')}>
+          <div className={cx('selection')}>
+            <div>태그 입력</div>
+            <Select
+              name="tag-select"
+              value={this.state.tags}
+              options={this.state.tagData}
+              onChange={this.onSelectChange}
+              multi
+            />
+          </div>
+          <div className={cx('save')}>
+            {
+              this.state.publishPending ?
+                <Spinner className={cx('spinner')} />
+              :
+                <Button className="pt-minimal" icon="draw" text="게시" onClick={this.save(true)} />
+            }
+            {
+              this.state.tmpSavePending ?
+                <Spinner className={cx('spinner')} />
+              :
+                <Button className="pt-minimal" icon="floppy-disk" text="저장" onClick={this.save(false)} />
+            }
           </div>
         </Card>
       </div>

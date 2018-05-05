@@ -24,7 +24,6 @@ class TodayNovel extends Component {
 
   componentDidMount() {
     this.interval = setInterval(this.updateTime, 1000);
-    console.log(this.props.novelData);
   }
 
   componentWillUnmount() {
