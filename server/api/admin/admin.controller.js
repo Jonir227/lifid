@@ -4,18 +4,7 @@ const Admin = require('../../models/admin');
 exports.adminGet = (req, res) => {
   Admin.find().sort({ dueDate: -1 })
     .then((data) => {
-      const {
-        author,
-        name,
-        quotation,
-        dueDate,
-      } = data[0];
-      res.json({
-        author,
-        name,
-        quotation,
-        dueDate,
-      });
+      res.json(data);
     })
     .catch((err) => {
       res.status(403).json({
