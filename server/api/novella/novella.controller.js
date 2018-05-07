@@ -5,10 +5,24 @@ const Novella = require('../../models/novella');
 exports.editorPost = (req, res) => {
   const {
     published_date,
+    quillDelta,
+    content,
+    savedDate,
+    isPublished,
+    doc_number,
+    title,
+    tags,
   } = req.body;
   Novella.create({
     author: req.decoded.username,
     published_date,
+    quillDelta,
+    content,
+    savedDate,
+    isPublished,
+    doc_number,
+    title,
+    tags,
   }).then((novella) => {
     res.json({
       success: true,
@@ -42,20 +56,28 @@ exports.editorDelete = (req, res) => {
 
 exports.editorPut = (req, res) => {
   const {
-    author,
     quillDelta,
     content,
     savedDate,
+    published_date,
     isPublished,
     doc_number,
+    title,
+    tags,
   } = req.body;
 
-  Novella.findOneAndUpdate({ doc_number }, {
-    quillDelta, content, savedDate, isPublished,
+  Novella.findOneAndUpdate({ doc_number, author: req.decoded.username }, {
+    $set: {
+      quillDelta,
+      content,
+      savedDate,
+      isPublished,
+      tags,
+      published_date,
+      title,
+    },
   })
-    .then((doc) => {
-      console.log(doc);
-
+    .then(() => {
       res.json({
         success: true,
       });

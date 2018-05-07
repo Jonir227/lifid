@@ -1,4 +1,5 @@
 import React from 'react';
+import { Prompt } from 'react-router-dom';
 import { Card, Button, Spinner, Intent } from '@blueprintjs/core';
 import ReactQuill from 'react-quill';
 import ClassNames from 'classnames/bind';
@@ -17,6 +18,9 @@ class TextEditor extends React.Component {
     super(props);
     this.editor = null;
     this.checkNovel.bind(this);
+    if (this.props.doc_number !== 0) {
+      this.setState(() => { isNew: false });
+    }
   }
 
   state = {
@@ -38,6 +42,8 @@ class TextEditor extends React.Component {
     tmpSavePending: false,
     publishPending: false,
     tagData: [],
+    isBlocking: true,
+    isNew: true,
   }
 
   componentDidMount() {
@@ -54,7 +60,7 @@ class TextEditor extends React.Component {
   }
 
   onChange = (content) => {
-    this.setState({ text: content }, this.checkNovel);
+    this.setState({ text: content, isBlocking: true }, this.checkNovel);
     this.saveWorker(false);
     this.updateInsight();
   }
@@ -99,6 +105,7 @@ class TextEditor extends React.Component {
   }
 
   save = isPublished => () => {
+    this.setState(() => ({ isBlocking: false }));
     // 에디터를 가져져옴
     const tmp = this.editor.getEditor();
     /*
@@ -110,6 +117,7 @@ class TextEditor extends React.Component {
       DB에 보낼 데이터. isPublished에 따라서 아래 작동이 달라진다.
     */
     const publishData = {
+      doc_number: this.props.docNumber,
       content: contentHTML,
       quillDelta: tmp.getContents(),
       title: this.state.title,
@@ -123,10 +131,17 @@ class TextEditor extends React.Component {
 
     if (isPublished) {
       pendingStatus = 'publishPending';
+      if (this.state.title === '') {
+        AppToaster.show({
+          message: '소설 게시에는 반드시 제목이 필요합니다',
+          intent: Intent.DANGER,
+        });
+        return;
+      }
       if (this.state.tags.length === 0) {
         AppToaster.show({
           message: '소설 게시에는 1개 이상의 태그가 필요합니다',
-          intent: Intent.PRIMARY,
+          intent: Intent.DANGER,
         });
         return;
       }
@@ -136,27 +151,45 @@ class TextEditor extends React.Component {
       [pendingStatus]: true,
     });
 
-    axios.post('/api/novella/editor', publishData)
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.success) {
-          this.setState({
-            [pendingStatus]: false,
-            lastSaved: new Date(Date.now()).toLocaleString(),
-          });
-          AppToaster.show({
-            message: isPublished ? '게시되었습니다!' : '임시 저장되었습니다',
-            intent: Intent.PRIMARY,
-          });
-        }
-      })
-      .catch((res) => {
-        console.error(res);
-        AppToaster.show({
-          message: '서버와 통신에 오류가 생겼습니다.',
-          intent: Intent.DANGER,
+    if (this.state.isNew) {
+      axios.post('/api/novella/editor', publishData)
+        .then((res) => {
+          this.setState({ isNew: false });
+          this.successFunc(res, isPublished, pendingStatus);
+        })
+        .catch((res) => {
+          this.failFunc(res);
         });
+    } else {
+      axios.put('/api/novella/editor', publishData)
+        .then((res) => {
+          this.successFunc(res, isPublished, pendingStatus);
+        })
+        .catch((res) => {
+          this.failFunc(res);
+        });
+    }
+  }
+
+  successFunc = (res, isPublished, pendingStatus) => {
+    if (res.data.success) {
+      this.setState({
+        [pendingStatus]: false,
+        lastSaved: new Date(Date.now()).toLocaleString(),
       });
+      AppToaster.show({
+        message: isPublished ? '게시되었습니다!' : '임시 저장되었습니다',
+        intent: Intent.PRIMARY,
+      });
+    }
+  }
+
+  failFunc = (res) => {
+    console.error(res);
+    AppToaster.show({
+      message: '서버와 통신에 오류가 생겼습니다.',
+      intent: Intent.DANGER,
+    });
   }
 
   saveWorker = _.debounce(this.save, 1000 * 60 * 5);
@@ -176,6 +209,7 @@ class TextEditor extends React.Component {
     } = this.props;
     return (
       <div className={cx('editor')}>
+        <Prompt when={this.state.isBlocking} message="변경사항이 저장되지 않았습니다. 페이지를 떠나시겠습니까?" />
         <Card className={cx('today-novel')}>
           <div className={cx('quotation')}>
             &quot; {novelData.quotation} &quot;
@@ -240,5 +274,9 @@ class TextEditor extends React.Component {
     );
   }
 }
+
+TextEditor.defaultProps = {
+  docNumber: 0,
+};
 
 export default TextEditor;
