@@ -19,7 +19,7 @@ class TextEditor extends React.Component {
     this.editor = null;
     this.checkNovel.bind(this);
     if (this.props.doc_number !== 0) {
-      this.setState(() => { isNew: false });
+      this.setState(() => ({ isNew: false }));
     }
   }
 
