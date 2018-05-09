@@ -16,12 +16,28 @@ const NovellaList = ({ novelData, userData }) => {
     infinite: true,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 1,
-    useCss: true,
+    slidesToScroll: 3,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+        },
+      },
+    ],
   };
   return (
     <Fragment>
-      <Slider {...settings}>
+      <Slider {...settings} style={{ width: '100%' }}>
         {
           novelData.map(novel => (
             <div className={cx('novellalist-wrapper')}>

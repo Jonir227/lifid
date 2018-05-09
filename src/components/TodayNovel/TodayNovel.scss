@@ -5,6 +5,7 @@
   position: relative;
   justify-content: center;
   color: white;
+  word-wrap:break-word;
   background: {
     color: rgba(0, 0, 0, 0.5);
     blend-mode: darken;
@@ -23,58 +24,73 @@
   &:hover img{
     transform: scale(1.6);
   }
-}
-
-.novel-contents{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  z-index: 1;
-  text-align: center;
-  .time-counter {
+  .novel-contents{
     display: flex;
-    flex-direction: row;
-    align-content: center;
+    flex-direction: column;
     justify-content: center;
-    .time-counter-item {
+    align-content: center;
+    z-index: 1;
+    text-align: center;
+    padding-right: 2px;
+    padding-left: 2px;
+    @include respond-to(handhelds) {
+      width: 100%;
+    }
+    .novel-quotation{
+      flex: 1;
+      font-size: 2.1rem;
+      padding-top: 2rem;
       text-align: center;
-      margin-left: 25px;
-      margin-right: 25px;
+      .novel-info{
+        color: white;
+        padding: 1rem;
+      }
       @include respond-to(handhelds) {
-        padding-left: 15px;
-        padding-right: 15px;
-      }
-      .time {
-        font-size: 2.1rem;
-        font-weight: 200;
-      }
-      .desc {
-        font-size: 1rem;
+        font-size: 1.5rem;
       }
     }
-  }
-  .button{
-    display: flex;
-    justify-content: center;
-    margin-top: 3rem;
-    margin-bottom: 2rem;
-  }
-  .novel-info{
-    color: white;
-    padding: 1rem;
-  }
-  .novel-quotation{
-    flex: 1;
-    font-size: 2.1rem;
-    padding-top: 2rem;
-    text-align: center;
-  }
-  .scale {
-    transform: scale(1);
-    transition: all 0.3s ease-in-out;
-    &:hover {
-      transform: scale(1.2);
+    .time-counter {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      justify-content: center;
+      .time-counter-item {
+        text-align: center;
+        padding-left: 25px;
+        padding-right: 25px;
+        .time {
+          font-size: 2.1rem;
+          font-weight: 200;
+        }
+        .desc {
+          font-size: 1rem;
+        }
+        @include respond-to(handhelds) {
+          padding-left: 12px;
+          padding-right: 12px;
+          .time {
+            font-size: 1.8rem;
+            font-weight: 200;
+          }
+          .desc {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+    .button{
+      display: flex;
+      justify-content: center;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .scale {
+      transform: scale(1);
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        transform: scale(1.2);
+      }
     }
   }
 }
