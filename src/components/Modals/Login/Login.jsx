@@ -36,8 +36,8 @@ class Login extends Component {
           message: '환영합니다',
           intent: Intent.SUCCESS,
         });
-        console.log(userData);
         this.props.login(userData);
+        axios.defaults.headers['x-access-token'] = localStorage.getItem('token');
         this.props.modalModify('Exit');
       })
       .catch((response) => {

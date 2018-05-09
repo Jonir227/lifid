@@ -80,7 +80,8 @@ class TextEditor extends React.Component {
   checkNovel = _.debounce(async () => {
     const tmp = document.getElementById('editor');
     const xpath = "//p[starts-with(text(), '##')]";
-    const matchingElements = await document.evaluate(xpath, tmp, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    const matchingElements = await document
+      .evaluate(xpath, tmp, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
     let section = matchingElements.snapshotItem(0);
     let secNo = 0;
     const sections = [];
