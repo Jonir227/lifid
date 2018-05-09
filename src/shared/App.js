@@ -1,7 +1,6 @@
 import React, { Fragment, Component } from 'react';
-import { Route } from 'react-router-dom';
-import classNames from 'classnames/bind';
-import PropTypes from 'prop-types';
+import { Route, Redirect } from 'react-router-dom';
+import classNames from 'classnames/bind'; import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
 import axios from 'axios';
 import { PropsRoute } from 'util/RouterUtil';
@@ -54,6 +53,9 @@ class App extends Component {
           pending={pending}
         />
         <div className={cx('content-body')}>
+          {
+            !isLoggedIn && <Redirect to="/" />
+          }
           <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} />
           <PropsRoute exact path="/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
           <PropsRoute exact path="/reader" component={ReaderView} />

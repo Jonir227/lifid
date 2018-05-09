@@ -80,15 +80,15 @@ class TextEditor extends React.Component {
   checkNovel = _.debounce(async () => {
     const tmp = document.getElementById('editor');
     const xpath = "//p[starts-with(text(), '##')]";
-    const matchingElements = await document.evaluate(xpath, tmp, null, XPathResult.ANY_TYPE, null);
-    let section = matchingElements.iterateNext();
+    const matchingElements = await document.evaluate(xpath, tmp, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    let section = matchingElements.snapshotItem(0);
     let secNo = 0;
     const sections = [];
     while (section) {
       section.id = `sec${secNo}`;
       secNo += 1;
       sections.push(section.innerText);
-      section = matchingElements.iterateNext();
+      section = matchingElements.snapshotItem(secNo);
     }
     if (this.state.sections !== sections) {
       this.setState(() => ({
@@ -192,7 +192,7 @@ class TextEditor extends React.Component {
     });
   }
 
-  saveWorker = _.debounce(this.save, 1000 * 60 * 5);
+  saveWorker = _.debounce(this.save(false), 1000 * 60 * 1);
 
   modules = {
     toolbar: [
@@ -209,7 +209,9 @@ class TextEditor extends React.Component {
     } = this.props;
     return (
       <div className={cx('editor')}>
-        <Prompt when={this.state.isBlocking} message="변경사항이 저장되지 않았습니다. 페이지를 떠나시겠습니까?" />
+        <Prompt message={location =>
+          ((this.state.isBlocking && location.pathname.startsWith('/editor')) ? true : '변경사항이 저장되지 않았습니다. 페이지를 떠나시겠습니까?')
+        } />
         <Card className={cx('today-novel')}>
           <div className={cx('quotation')}>
             &quot; {novelData.quotation} &quot;
