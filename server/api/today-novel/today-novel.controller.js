@@ -2,22 +2,39 @@ const TodayNovel = require('../../models/todayNovel');
 
 // GET /api/today-novel/now
 exports.now = (req, res) => {
-  if (!req.decoded.admin) {
-    res.status(403).json({
-      success: false,
-      message: 'you are not admin',
-    });
-  } else {
-    TodayNovel.find().sort({ dueDate: -1 })
-      .then((data) => {
-        res.json(data);
-      })
-      .catch((err) => {
-        res.status(403).json({
-          error: err,
-        });
+  TodayNovel.find().sort({ dueDate: -1 }).limit(1)
+    .then((data) => {
+      const {
+        name,
+        author,
+        quotation,
+        dueDate,
+      } = data[0];
+      res.json({
+        name,
+        author,
+        quotation,
+        dueDate,
       });
-  }
+    })
+    .catch((err) => {
+      res.status(403).json({
+        error: err,
+      });
+    });
+};
+
+// GET /api/today-novel/list?page=num&&quantity=num
+exports.list = (req, res) => {
+  TodayNovel.find().sort({ dueDate: -1 })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.status(403).json({
+        error: err,
+      });
+    });
 };
 
 // POST /api/today-novel/new
