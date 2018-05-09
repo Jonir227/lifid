@@ -89,3 +89,23 @@ exports.editorPut = (req, res) => {
       });
     });
 };
+
+// GET /api/novella?doc_no=id
+exports.editorGet = (req, res) => {
+  const { username } = req.decoded;
+  const { doc_no } = req.query;
+  Novella.findOne({ author: username, doc_number: doc_no })
+    .then((novella) => {
+      console.log(novella);
+      res.json({
+        success: true,
+        novella,
+      });
+    })
+    .catch((error) => {
+      res.status(403).json({
+        success: false,
+        error,
+      });
+    });
+};
