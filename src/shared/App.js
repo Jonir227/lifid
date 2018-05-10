@@ -1,10 +1,10 @@
 import React, { Fragment, Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import classNames from 'classnames/bind'; import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
 import axios from 'axios';
 import { PropsRoute } from 'util/RouterUtil';
-import { ContentBody, Editor, ReaderView } from 'pages';
+import { ContentBody, Editor, ReaderView, MyNovelList } from 'pages';
 import { BtmFooter, TopNavbar } from 'components';
 import styles from 'styles/base.scss';
 
@@ -54,10 +54,11 @@ class App extends Component {
         />
         <div className={cx('content-body')}>
           {
-            !isLoggedIn && <Redirect to="/" />
+            !pending && !isLoggedIn && <Redirect to="/" />
           }
           <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} />
-          <PropsRoute exact path="/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
+          <PropsRoute exact path="/my-novellas" component={MyNovelList} />
+          <PropsRoute exact path="/my-novellas/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
           <PropsRoute exact path="/reader" component={ReaderView} />
         </div>
         <BtmFooter />

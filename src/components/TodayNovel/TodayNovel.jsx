@@ -92,7 +92,7 @@ class TodayNovel extends Component {
             </div>
             <div className={cx('scale')}>
               <div className={cx('button')}>
-                <Link to="/editor">
+                <Link to="/my-novellas/editor">
                   <Button className="pt-minimal" icon={<Icon icon="edit" color="white" />} text={<div style={{ color: 'white' }}>start writing</div>} />
                 </Link>
               </div>

@@ -61,7 +61,7 @@ class TextEditor extends React.Component {
 
   onChange = (content) => {
     this.setState({ text: content, isBlocking: true }, this.checkNovel);
-    this.saveWorker(false);
+    this.saveWorker();
     this.updateInsight();
   }
 
@@ -77,10 +77,10 @@ class TextEditor extends React.Component {
     });
   }
 
-  checkNovel = _.debounce(async () => {
+  checkNovel = _.debounce(() => {
     const tmp = document.getElementById('editor');
     const xpath = "//p[starts-with(text(), '##')]";
-    const matchingElements = await document
+    const matchingElements = document
       .evaluate(xpath, tmp, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
     let section = matchingElements.snapshotItem(0);
     let secNo = 0;

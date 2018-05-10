@@ -62,11 +62,11 @@ class TopNavbar extends Component {
               rightElement={<Button className="pt-minimal" icon="arrow-right" />}
             />
             <NavbarDivider />
-            <Link to="/editor">
+            <Link to="/my-novellas">
               <Button
                 className="pt-minimal"
                 icon="edit"
-                text={<BtnTxt txt="Start writing" />}
+                text={<BtnTxt txt="작성중인 글 보기" />}
               />
             </Link>
             {

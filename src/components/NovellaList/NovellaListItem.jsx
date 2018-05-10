@@ -21,9 +21,9 @@ class NovellaListItem extends Component {
     return (
       <div className={className}>
         <Card interactive>
-          <h1>{ novellaName }</h1>
+          <div>{ novellaName }</div>
           <br />
-          <h3>{ novellaContent }</h3>
+          <div>{ novellaContent }</div>
           <br />
           <div style={{
             display: 'flex',
@@ -34,7 +34,7 @@ class NovellaListItem extends Component {
           >
             <img style={{ width: 35, height: 35, borderRadius: 30 }} src={`/api/user/profile-pic/${author}`} alt="profile" />
             <div stlye={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
-              <h4>{ author }</h4>
+              <div>{ author }</div>
               <div style={{ color: '#C1C1C1' }}>{ authorInfo }</div>
             </div>
           </div>

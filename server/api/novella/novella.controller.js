@@ -94,18 +94,34 @@ exports.editorPut = (req, res) => {
 exports.editorGet = (req, res) => {
   const { username } = req.decoded;
   const { doc_no } = req.query;
-  Novella.findOne({ author: username, doc_number: doc_no })
-    .then((novella) => {
-      console.log(novella);
-      res.json({
-        success: true,
-        novella,
+  console.log(doc_no);
+  if (doc_no !== undefined) {
+    Novella.findOne({ author: username, doc_number: doc_no })
+      .then((novella) => {
+        res.json({
+          success: true,
+          novella,
+        });
+      })
+      .catch((error) => {
+        res.status(403).json({
+          success: false,
+          error,
+        });
       });
-    })
-    .catch((error) => {
-      res.status(403).json({
-        success: false,
-        error,
+  } else {
+    Novella.find({ author: username })
+      .then((novellas) => {
+        res.json({
+          success: true,
+          novellas,
+        });
+      })
+      .catch((err) => {
+        res.status(403).json({
+          success: false,
+          error: err,
+        });
       });
-    });
+  }
 };

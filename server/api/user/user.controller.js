@@ -1,7 +1,7 @@
 const User = require('../../models/user');
 const path = require('path');
 
-// apit for admin
+// api for admin
 
 // GET /api/user/list
 exports.list = (req, res) => {
