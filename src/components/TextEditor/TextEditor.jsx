@@ -19,7 +19,7 @@ class TextEditor extends React.Component {
     this.editor = null;
     this.checkNovel.bind(this);
     if (this.props.doc_number !== 0) {
-      this.setState(() => ({ isNew: false }));
+      this.setState(() => ({ isNew: false, docNo: this.props.doc_number }));
     }
   }
 
@@ -44,6 +44,7 @@ class TextEditor extends React.Component {
     tagData: [],
     isBlocking: true,
     isNew: true,
+    docNo: 0,
   }
 
   componentDidMount() {
@@ -79,24 +80,25 @@ class TextEditor extends React.Component {
 
   checkNovel = _.debounce(() => {
     const tmp = document.getElementById('editor');
-    const xpath = "//p[starts-with(text(), '##')]";
-    const matchingElements = document
-      .evaluate(xpath, tmp, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-    let section = matchingElements.snapshotItem(0);
+    const ptags = tmp.getElementsByTagName('p');
+    console.log(ptags);
     let secNo = 0;
     const sections = [];
-    while (section) {
-      section.id = `sec${secNo}`;
-      secNo += 1;
-      sections.push(section.innerText);
-      section = matchingElements.snapshotItem(secNo);
+    for (let i = 0; i < ptags.length; i += 1) {
+      if (ptags[i].textContent.startsWith('##')) {
+        ptags[i].setAttribute('id', `sec${secNo}`);
+        secNo += 1;
+        sections.push(ptags[i].textContent);
+      } else {
+        ptags[i].removeAttribute('id');
+      }
     }
     if (this.state.sections !== sections) {
       this.setState(() => ({
         sections,
       }));
     }
-  }, 250);
+  }, 300);
 
   updateInsight = () => {
     this.setState({
@@ -118,7 +120,7 @@ class TextEditor extends React.Component {
       DB에 보낼 데이터. isPublished에 따라서 아래 작동이 달라진다.
     */
     const publishData = {
-      doc_number: this.props.docNumber,
+      doc_number: this.state.docNo,
       content: contentHTML,
       quillDelta: tmp.getContents(),
       title: this.state.title,
@@ -155,7 +157,7 @@ class TextEditor extends React.Component {
     if (this.state.isNew) {
       axios.post('/api/novella/editor', publishData)
         .then((res) => {
-          this.setState({ isNew: false });
+          this.setState({ isNew: false, docNo: res.data.docNo });
           this.successFunc(res, isPublished, pendingStatus);
         })
         .catch((res) => {
@@ -211,7 +213,7 @@ class TextEditor extends React.Component {
     return (
       <div className={cx('editor')}>
         <Prompt message={location =>
-          ((this.state.isBlocking && location.pathname.startsWith('/editor')) ? true : '변경사항이 저장되지 않았습니다. 페이지를 떠나시겠습니까?')
+          ((this.state.isBlocking && location.pathname.startsWith('/my-novellas/editor')) ? true : '변경사항이 저장되지 않았습니다. 페이지를 떠나시겠습니까?')
         } />
         <Card className={cx('today-novel')}>
           <div className={cx('quotation')}>

@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Card } from '@blueprintjs/core';
+import ClassNames from 'classnames/bind';
+import styles from './NovellaListItem.scss';
+
+const cx = ClassNames.bind(styles);
 
 class NovellaListItem extends Component {
-
   componentDidMount() {
-
   }
 
   render() {
@@ -20,20 +22,12 @@ class NovellaListItem extends Component {
 
     return (
       <div className={className}>
-        <Card interactive>
-          <div>{ novellaName }</div>
-          <br />
-          <div>{ novellaContent }</div>
-          <br />
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignContent: 'center',
-            flex: 5,
-            }}
-          >
-            <img style={{ width: 35, height: 35, borderRadius: 30 }} src={`/api/user/profile-pic/${author}`} alt="profile" />
-            <div stlye={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
+        <Card className={cx('card')} interactive>
+          <div className={cx('name')}>{ novellaName }</div>
+          <div className={cx('content')}>{ novellaContent }</div>
+          <div className={cx('bottom-bar')}>
+            <img className={cx('profile')} src={`api/user/profile-pic/${author}`} alt="profile" />
+            <div className={cx('user-info')}>
               <div>{ author }</div>
               <div style={{ color: '#C1C1C1' }}>{ authorInfo }</div>
             </div>
