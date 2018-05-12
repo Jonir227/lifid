@@ -80,7 +80,7 @@ class TextEditor extends React.Component {
   init = () => {
     if (this.props.match.params.docNo !== undefined) {
       this.editor.getEditor().enable(false);
-      axios.get(`/api/novella/editor?doc_no=${this.props.match.params.docNo}`)
+      axios.get(`/api/novella/editor/${this.props.match.params.docNo}`)
         .then((res) => {
           const { novella } = res.data;
           this.setState(() => ({
