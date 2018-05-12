@@ -92,10 +92,30 @@ exports.editorPut = (req, res) => {
     });
 };
 
-// GET /api/novella?doc_no=id
+// GET /api/novella/editor?offset=0&limit=0
 exports.editorGet = (req, res) => {
   const { username } = req.decoded;
-  const { doc_no } = req.query;
+  const offset = parseInt(req.query.offset, 10);
+  const limit = parseInt(req.query.limit, 10);
+  Novella.find({ author: username }).skip(offset).limit(limit)
+    .then((novellas) => {
+      res.json({
+        success: true,
+        novellas,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(403).json({
+        success: false,
+        error: err,
+      });
+    });
+};
+// GET /api/novella/editor/:doc_no
+exports.editorGetWithParams = (req, res) => {
+  const { username } = req.decoded;
+  const { doc_no } = req.params;
   if (doc_no !== undefined) {
     Novella.findOne({ author: username, doc_number: doc_no })
       .then((novella) => {

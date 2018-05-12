@@ -4,9 +4,13 @@ import axios from 'axios';
 import _ from 'lodash';
 
 class MyNovelList extends Component {
-  constructor(props) {
-    super(props);
-    axios.get('/api/novella/editor')
+  state = {
+    myNovelList: {},
+    loading: true,
+  }
+
+  componentDidMount() {
+    axios.get('/api/novella/editor?offset=0&limit=30')
       .then((res) => {
         this.setState({
           loading: false,
@@ -20,12 +24,10 @@ class MyNovelList extends Component {
             };
           }),
         });
+      })
+      .catch((err) => {
+        console.error(err);
       });
-  }
-
-  state = {
-    myNovelList: {},
-    loading: true,
   }
 
   deleteFunc = (docNo) => {
