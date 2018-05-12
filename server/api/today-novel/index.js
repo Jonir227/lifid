@@ -7,9 +7,7 @@ router.post('/new', controller.post);
 router.get('/now', controller.now);
 router.get('/list', controller.list);
 router.get('/list/:id', controller.listWithParams);
-router.use('/element', authMiddleWare);
-router.put('/element', controller.modify);
-router.use('/element', authMiddleWare);
-router.delete('/element', controller.remove);
+router.put('/list/:id', authMiddleWare, controller.modify);
+router.delete('/list/:id', authMiddleWare, controller.remove);
 
 module.exports = router;

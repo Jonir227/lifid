@@ -88,7 +88,7 @@ exports.post = (req, res) => {
   }
 };
 
-// PUT api.today-novel/element
+// PUT api.today-novel/list/:id
 exports.modify = (req, res) => {
   if (!req.decoded.admin) {
     res.status(403).json({
@@ -96,6 +96,7 @@ exports.modify = (req, res) => {
       message: 'you are not admin',
     });
   } else {
+    const { id } = req.params;
     const {
       author,
       name,
@@ -103,14 +104,13 @@ exports.modify = (req, res) => {
       dueDate,
     } = req.body;
 
-    TodayNovel.findOneAndUpdate({ dueDate }, {
-      author, name, quotation,
+    TodayNovel.findOneAndUpdate({ _id: id }, {
+      author, name, quotation, dueDate,
     })
       .then((result) => {
-        console.log(result);
-
         res.json({
           success: true,
+          result,
         });
       })
       .catch((err) => {
@@ -122,7 +122,7 @@ exports.modify = (req, res) => {
   }
 };
 
-// DELETE /api/today-novel/element
+// DELETE /api/today-novel/list/:id
 exports.remove = (req, res) => {
   if (!req.decoded.admin) {
     res.status(403).json({
@@ -130,10 +130,8 @@ exports.remove = (req, res) => {
       message: 'you are not admin',
     });
   } else {
-    const {
-      dueDate,
-    } = req.body;
-    TodayNovel.deleteOne({ dueDate })
+    const { id } = req.params;
+    TodayNovel.deleteOne({ _id: id })
       .then(() => {
         res.json({
           success: true,
