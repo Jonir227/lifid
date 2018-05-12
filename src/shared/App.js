@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Switch, withRouter } from 'react-router-dom';
 import classNames from 'classnames/bind'; import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
 import axios from 'axios';
@@ -14,18 +14,6 @@ class App extends Component {
   componentDidMount() {
     this.props.checkUser();
     axios.defaults.headers['x-access-token'] = localStorage.getItem('token');
-    // axios.post('/api/today-novel', {
-    //   name: 'neuromancer',
-    //   author: ' William Gibson',
-    //   quotation: '항구의 하늘은 방송이 끝난 텔레비전 색이였다.',
-    //   dueDate: '2018-4-30',
-    // })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
     this.props.getTodayNovel();
   }
 
@@ -58,7 +46,10 @@ class App extends Component {
           }
           <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} />
           <PropsRoute exact path="/my-novellas" component={MyNovelList} />
-          <PropsRoute exact path="/my-novellas/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
+          <Switch>
+            <PropsRoute path="/my-novellas/editor/:docNo" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
+            <PropsRoute path="/my-novellas/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
+          </Switch>
           <PropsRoute exact path="/reader" component={ReaderView} />
         </div>
         <BtmFooter />

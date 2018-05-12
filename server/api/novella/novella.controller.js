@@ -36,12 +36,14 @@ exports.editorPost = (req, res) => {
   });
 };
 
+// DELETE /api/novella/editor/:docNo
 exports.editorDelete = (req, res) => {
   const {
-    doc_number,
-  } = req.body;
-  Novella.deleteOne({ doc_number })
-    .then((doc) => {
+    docNo,
+  } = req.params;
+  console.log(req.params);
+  Novella.deleteOne({ doc_number: docNo, username: req.decoded.username })
+    .then(() => {
       res.json({
         success: true,
       });
@@ -94,7 +96,6 @@ exports.editorPut = (req, res) => {
 exports.editorGet = (req, res) => {
   const { username } = req.decoded;
   const { doc_no } = req.query;
-  console.log(doc_no);
   if (doc_no !== undefined) {
     Novella.findOne({ author: username, doc_number: doc_no })
       .then((novella) => {

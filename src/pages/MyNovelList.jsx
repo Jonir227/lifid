@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import { MyNovelItem } from 'components';
 import axios from 'axios';
+import _ from 'lodash';
 
 class MyNovelList extends Component {
   constructor(props) {
@@ -9,7 +10,15 @@ class MyNovelList extends Component {
       .then((res) => {
         this.setState({
           loading: false,
-          myNovelList: res.data.novellas,
+          myNovelList: res.data.novellas.map((item) => {
+            const tmp = document.createElement('div');
+            tmp.innerHTML = item.content;
+            return {
+              docNo: item.doc_number,
+              title: item.title,
+              content: tmp.textContent,
+            };
+          }),
         });
       });
   }
@@ -19,21 +28,23 @@ class MyNovelList extends Component {
     loading: true,
   }
 
+  deleteFunc = (docNo) => {
+    this.setState(prevState => ({
+      myNovelList: _.reject(prevState.myNovelList, ['docNo', docNo]),
+    }));
+  }
+
   render() {
     return (
       <Fragment>
         {
           !this.state.loading && this.state.myNovelList.map(item => (
-            <div>{item.content}</div>
+            <MyNovelItem novelData={item} deleteFunc={this.deleteFunc} />
           ))
         }
       </Fragment>
     );
   }
 }
-
-MyNovelList.propTypes = {
-
-};
 
 export default MyNovelList;

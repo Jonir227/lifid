@@ -8,6 +8,7 @@ import Reader from './Reader';
 import Modals from './Modals';
 import AppToaster from './AppToaster';
 import UserIcon from './UserIcon';
+import MyNovelItem from './MyNovelItem';
 
 export {
   TopNavbar,
@@ -20,4 +21,5 @@ export {
   Modals,
   AppToaster,
   UserIcon,
+  MyNovelItem,
 };

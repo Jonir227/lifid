@@ -6,6 +6,6 @@ router.use('/editor', authMiddleware);
 router.post('/editor', controller.editorPost);
 router.get('/editor', controller.editorGet);
 router.put('/editor', controller.editorPut);
-router.delete('/editor', controller.editorDelete);
+router.delete('/editor/:docNo', controller.editorDelete);
 
 module.exports = router;

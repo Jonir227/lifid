@@ -1,8 +1,9 @@
 import React from 'react';
-import { Prompt } from 'react-router-dom';
+import { Prompt, withRouter } from 'react-router-dom';
 import { Card, Button, Spinner, Intent } from '@blueprintjs/core';
 import ReactQuill from 'react-quill';
 import ClassNames from 'classnames/bind';
+import queryString from 'query-string';
 import Select from 'react-select-plus';
 import _ from 'lodash';
 import axios from 'axios';
@@ -18,9 +19,6 @@ class TextEditor extends React.Component {
     super(props);
     this.editor = null;
     this.checkNovel.bind(this);
-    if (this.props.doc_number !== 0) {
-      this.setState(() => ({ isNew: false, docNo: this.props.doc_number }));
-    }
   }
 
   state = {
@@ -49,6 +47,7 @@ class TextEditor extends React.Component {
 
   componentDidMount() {
     this.editor.focus();
+    this.init();
     axios.get('/api/tag/list')
       .then((response) => {
         const { tags } = response.data;
@@ -78,10 +77,29 @@ class TextEditor extends React.Component {
     });
   }
 
+  init = () => {
+    if (this.props.match.params.docNo !== undefined) {
+      this.editor.getEditor().enable(false);
+      axios.get(`/api/novella/editor?doc_no=${this.props.match.params.docNo}`)
+        .then((res) => {
+          const { novella } = res.data;
+          this.setState(() => ({
+            text: novella.quillDelta,
+            tags: novella.tags,
+            title: novella.title,
+            lastSaved: novella.published_date,
+            isNew: false,
+            docNo: this.props.match.params.docNo,
+          }));
+          this.editor.getEditor().enable(true);
+        })
+        .catch(res => console.error(res));
+    }
+  }
+
   checkNovel = _.debounce(() => {
     const tmp = document.getElementById('editor');
     const ptags = tmp.getElementsByTagName('p');
-    console.log(ptags);
     let secNo = 0;
     const sections = [];
     for (let i = 0; i < ptags.length; i += 1) {
@@ -127,6 +145,7 @@ class TextEditor extends React.Component {
       published_date: Date.now(),
       todayNovel: this.props.novelData,
       tags: this.state.tags,
+      novelData: this.props.novelData,
       isPublished,
     };
 
@@ -214,7 +233,8 @@ class TextEditor extends React.Component {
       <div className={cx('editor')}>
         <Prompt message={location =>
           ((this.state.isBlocking && location.pathname.startsWith('/my-novellas/editor')) ? true : '변경사항이 저장되지 않았습니다. 페이지를 떠나시겠습니까?')
-        } />
+          }
+        />
         <Card className={cx('today-novel')}>
           <div className={cx('quotation')}>
             &quot; {novelData.quotation} &quot;
@@ -284,4 +304,4 @@ TextEditor.defaultProps = {
   docNumber: 0,
 };
 
-export default TextEditor;
+export default withRouter(TextEditor);

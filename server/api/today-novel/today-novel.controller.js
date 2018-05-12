@@ -115,7 +115,6 @@ exports.remove = (req, res) => {
     } = req.body;
     TodayNovel.deleteOne({ dueDate })
       .then((result) => {
-        console.log(result);
         res.json({
           success: true,
         });
