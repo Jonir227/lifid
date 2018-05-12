@@ -6,9 +6,10 @@ router.use('/new', authMiddleWare);
 router.post('/new', controller.post);
 router.get('/now', controller.now);
 router.get('/list', controller.list);
-router.use('/modify', authMiddleWare);
-router.put('/modify', controller.modify);
-router.use('/remove', authMiddleWare);
-router.delete('/remove', controller.remove);
+router.get('/list/:id', controller.listWithParams);
+router.use('/element', authMiddleWare);
+router.put('/element', controller.modify);
+router.use('/element', authMiddleWare);
+router.delete('/element', controller.remove);
 
 module.exports = router;
