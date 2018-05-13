@@ -3,13 +3,13 @@ const TodayNovel = require('../../models/todayNovel');
 // GET /api/today-novel/now
 exports.now = (req, res) => {
   TodayNovel.find().sort({ dueDate: -1 }).limit(1)
-    .then((data) => {
+    .then((todayNovels) => {
       const {
         name,
         author,
         quotation,
         dueDate,
-      } = data[0];
+      } = todayNovels[0];
       res.json({
         name,
         author,
@@ -24,11 +24,31 @@ exports.now = (req, res) => {
     });
 };
 
-// GET /api/today-novel/list?page=num&&quantity=num
+// GET /api/today-novel/list?offset=x&limit=x
 exports.list = (req, res) => {
-  TodayNovel.find().sort({ dueDate: -1 })
-    .then((data) => {
-      res.json(data);
+  const offset = parseInt(req.query.offset, 10);
+  const limit = parseInt(req.query.limit, 10);
+  TodayNovel.find().skip(offset).limit(limit)
+    .then((todayNovels) => {
+      res.json({
+        success: true,
+        todayNovels,
+      });
+    })
+    .catch((err) => {
+      res.status(403).json({
+        success: false,
+        error: err,
+      });
+    });
+};
+
+// GET /api/today-novel/list/:id
+exports.listWithParams = (req, res) => {
+  const { id } = req.params;
+  TodayNovel.findOne({ _id: id })
+    .then((todayNovels) => {
+      res.json(todayNovels);
     })
     .catch((err) => {
       res.status(403).json({
@@ -68,7 +88,7 @@ exports.post = (req, res) => {
   }
 };
 
-// PUT api.today-novel/modify
+// PUT api.today-novel/list/:id
 exports.modify = (req, res) => {
   if (!req.decoded.admin) {
     res.status(403).json({
@@ -76,6 +96,7 @@ exports.modify = (req, res) => {
       message: 'you are not admin',
     });
   } else {
+    const { id } = req.params;
     const {
       author,
       name,
@@ -83,14 +104,13 @@ exports.modify = (req, res) => {
       dueDate,
     } = req.body;
 
-    TodayNovel.findOneAndUpdate({ dueDate }, {
-      author, name, quotation,
+    TodayNovel.findOneAndUpdate({ _id: id }, {
+      author, name, quotation, dueDate,
     })
       .then((result) => {
-        console.log(result);
-
         res.json({
           success: true,
+          result,
         });
       })
       .catch((err) => {
@@ -102,7 +122,7 @@ exports.modify = (req, res) => {
   }
 };
 
-// DELETE /api/today-novel/remove
+// DELETE /api/today-novel/list/:id
 exports.remove = (req, res) => {
   if (!req.decoded.admin) {
     res.status(403).json({
@@ -110,11 +130,9 @@ exports.remove = (req, res) => {
       message: 'you are not admin',
     });
   } else {
-    const {
-      dueDate,
-    } = req.body;
-    TodayNovel.deleteOne({ dueDate })
-      .then((result) => {
+    const { id } = req.params;
+    TodayNovel.deleteOne({ _id: id })
+      .then(() => {
         res.json({
           success: true,
         });
