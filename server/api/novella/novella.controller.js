@@ -41,7 +41,6 @@ exports.editorDelete = (req, res) => {
   const {
     docNo,
   } = req.params;
-  console.log(req.params);
   Novella.deleteOne({ doc_number: docNo, username: req.decoded.username })
     .then(() => {
       res.json({
