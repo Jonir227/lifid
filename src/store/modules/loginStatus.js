@@ -41,6 +41,7 @@ export const getCheck = () => (dispatch) => {
 
   return getCheckAPI()
     .then((res) => {
+      axios.defaults.headers['x-access-token'] = localStorage.getItem('token');
       dispatch({
         type: CHECK_SUCCESS,
         payload: res.data,
@@ -54,11 +55,17 @@ export const getCheck = () => (dispatch) => {
 };
 
 export default handleActions({
-  [LOGIN]: (prevState, action) => ({
-    isLoggedIn: true,
-    userData: action.payload,
-  }),
-  [LOGOUT]: () => ({ isLoggedIn: false, userData: emptyUserData }),
+  [LOGIN]: (prevState, action) => {
+    return {
+      isLoggedIn: true,
+      userData: action.payload,
+    };
+  },
+  [LOGOUT]: () => {
+    localStorage.removeItem('token');
+    delete axios.defaults.headers['x-access-token'];
+    return { isLoggedIn: false, userData: emptyUserData };
+  },
   [CHECK_PENDING]: state => ({ ...state, pending: true }),
   [CHECK_SUCCESS]: (state, action) => {
     const { userData } = action.payload;

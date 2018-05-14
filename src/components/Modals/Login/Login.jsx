@@ -40,7 +40,7 @@ class Login extends Component {
         axios.defaults.headers['x-access-token'] = localStorage.getItem('token');
         this.props.modalModify('Exit');
       })
-      .catch((response) => {
+      .catch(() => {
         AppToaster.show({
           message: '아이디와 비밀번호를 확인해주세요',
           intent: Intent.DANGER,

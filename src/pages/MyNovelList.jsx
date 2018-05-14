@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { MyNovelItem } from 'components';
 import axios from 'axios';
 import _ from 'lodash';
+import { Spinner } from '@blueprintjs/core';
+import { MyNovelItem } from 'components';
 import lazyLoad from 'util/LazyLoad';
 
 class MyNovelList extends Component {
@@ -14,7 +15,7 @@ class MyNovelList extends Component {
   }
 
   componentDidMount() {
-    axios.get('/api/novella/editor?offset=0&limit=40')
+    axios.get('/api/novella/editor')
       .then((res) => {
         this.setState({
           loading: false,
@@ -25,15 +26,20 @@ class MyNovelList extends Component {
               docNo: item.doc_number,
               title: item.title,
               content: tmp.textContent,
+              isPublished: tmp.isPublished,
             };
           }),
           offset: 40,
         });
-        lazyLoad(this.itemLoader);
+        window.addEventListener('scroll', this.itemLoader);
       })
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.itemLoader);
   }
 
   deleteFunc = (docNo) => {
@@ -42,7 +48,7 @@ class MyNovelList extends Component {
     }));
   }
 
-  itemLoader = () => {
+  itemLoader = lazyLoad(() => {
     if (!this.state.lazyLoad) {
       const load = axios.get(`/api/novella/editor?offset=${this.state.offset}&limit=${this.state.limit}`)
         .then((res) => {
@@ -72,7 +78,7 @@ class MyNovelList extends Component {
         lazyLoad: true,
       }), load.resolve);
     }
-  }
+  });
 
   render() {
     return (
@@ -83,10 +89,20 @@ class MyNovelList extends Component {
           ))
         }
         {
-          this.state.lazyLoad && <div> 로딩 중입니다. </div>
+          this.state.lazyLoad && <div style={{ padding: 15, display: 'flex', justifyContent: 'center' }}> <Spinner /> </div>
         }
         {
-          !this.state.lazyLoad && this.state.isEnd && <div> 문서의 끝입니다</div>
+          !this.state.lazyLoad && this.state.isEnd &&
+            <div style={{
+              padding: 15,
+              display: 'flex',
+              justifyContent: 'center',
+              fontSize: '1.2rem',
+              color: '#CCCCCC',
+              }}
+            >
+              문서의 끝입니다
+            </div>
         }
       </Fragment>
     );

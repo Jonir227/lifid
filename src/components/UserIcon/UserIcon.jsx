@@ -45,7 +45,6 @@ class UserIcon extends React.Component {
   }
 
   onClickLogout = () => {
-    localStorage.removeItem('token');
     this.props.logout();
   }
 

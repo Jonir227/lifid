@@ -1,8 +1,7 @@
 import React, { Fragment, Component } from 'react';
-import { Redirect, Switch, withRouter } from 'react-router-dom';
+import { Redirect, Switch } from 'react-router-dom';
 import classNames from 'classnames/bind'; import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
-import axios from 'axios';
 import { PropsRoute } from 'util/RouterUtil';
 import { ContentBody, Editor, ReaderView, MyNovelList } from 'pages';
 import { BtmFooter, TopNavbar } from 'components';
@@ -13,7 +12,6 @@ const cx = classNames.bind(styles);
 class App extends Component {
   componentDidMount() {
     this.props.checkUser();
-    axios.defaults.headers['x-access-token'] = localStorage.getItem('token');
     this.props.getTodayNovel();
   }
 

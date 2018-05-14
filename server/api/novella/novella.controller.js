@@ -1,4 +1,5 @@
 const Novella = require('../../models/novella');
+const htmlparser = require('htmlparser2');
 
 // api for novella
 
@@ -41,13 +42,14 @@ exports.editorDelete = (req, res) => {
   const {
     docNo,
   } = req.params;
-  Novella.deleteOne({ doc_number: docNo, username: req.decoded.username })
+  Novella.deleteOne({ doc_number: docNo, author: req.decoded.username })
     .then(() => {
       res.json({
         success: true,
       });
     })
     .catch((err) => {
+      console.log(err);
       res.status(403).json({
         success: false,
         error: err,
@@ -94,8 +96,8 @@ exports.editorPut = (req, res) => {
 // GET /api/novella/editor?offset=0&limit=0
 exports.editorGet = (req, res) => {
   const { username } = req.decoded;
-  const offset = parseInt(req.query.offset, 10);
-  const limit = parseInt(req.query.limit, 10);
+  const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
+  const limit = typeof req.query.limit === 'undefined' ? 40 : parseInt(req.query.limit, 10);
   Novella.find({ author: username }).skip(offset).limit(limit)
     .then((novellas) => {
       res.json({
@@ -126,6 +128,43 @@ exports.editorGetWithParams = (req, res) => {
       res.status(403).json({
         success: false,
         error,
+      });
+    });
+};
+
+// GET /api/novella/reader?offest=0&limit=0
+exports.readerGet = (req, res) => {
+  const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
+  const limit = typeof req.query.limit === 'undefined' ? 0 : parseInt(req.query.limit, 10);
+
+  Novella.find({ isPublished: true }).skip(offset).limit(limit)
+    .then((novellas) => {
+      let tmp = '';
+      const parser = new htmlparser.Parser({
+        ontext: (text) => {
+          tmp = tmp.concat(text, ' ');
+        },
+      });
+      const resData = novellas.map((item) => {
+        tmp = '';
+        parser.write(item.content);
+        parser.end();
+        return {
+          title: item.title,
+          author: item.author,
+          content: tmp.substr(0, 100),
+          tags: item.tags,
+        };
+      });
+      res.json({
+        success: true,
+        novellas: resData,
+      });
+    })
+    .catch((err) => {
+      res.status(403).json({
+        success: false,
+        error: err,
       });
     });
 };
