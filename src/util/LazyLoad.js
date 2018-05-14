@@ -5,7 +5,7 @@ const lazyLoad = (loadFunc) => {
     if ((window.innerHeight + window.scrollY) / (document.body.offsetHeight - 500) >= 1) {
       loadFunc();
     }
-  }, 1000);
+  }, 1500);
   return newFunc;
 };
 

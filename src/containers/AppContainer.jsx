@@ -55,8 +55,6 @@ class AppContainer extends Component {
 }
 
 AppContainer.propTypes = {
-  login: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   userData: PropTypes.shape({
     username: PropTypes.string.isRequired,

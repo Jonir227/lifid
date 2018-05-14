@@ -57,7 +57,7 @@ const NovellaList = ({ novelData, userData }) => {
 };
 
 NovellaList.propTypes = {
-  novelData: PropTypes.objectOf(PropTypes.string).isRequired,
+  novelData: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default NovellaList;

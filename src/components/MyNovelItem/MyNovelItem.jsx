@@ -18,15 +18,19 @@ const MyNovelItem = ({ novelData, deleteFunc }) => {
         });
         deleteFunc(novelData.docNo);
       })
-      .catch((err) => { console.error(err) });
+      .catch((err) => { console.error(err); });
   };
   return (
-    <Card>
-      <div className={cx('title')}> 제목: {novelData.title}</div>
-      <div className={cx('content')}> 본문: {novelData.content}</div>
-      <Link to={`/my-novellas/editor/${novelData.docNo}`}><Button className="pt-minimal" icon="draw" /></Link>
-      <Button icon="cross" className="pt-minimal" onClick={del} />
-    </Card>
+    <div className={cx('card')}>
+      <div className={cx('top')}>
+        <div className={cx('title')}>{novelData.title === '' ? '제목이 없습니다' : novelData.title}</div>
+        <div>
+          <Link to={`/my-novellas/editor/${novelData.docNo}`}><Button className="pt-minimal" icon="draw" /></Link>
+          <Button icon="cross" className="pt-minimal" onClick={del} />
+        </div>
+      </div>
+      <div className={cx('content')}>{novelData.content === '' ? '본문이 없습니다' : novelData.content}</div>
+    </div>
   );
 };
 

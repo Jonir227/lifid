@@ -25,7 +25,7 @@ class MyNovelList extends Component {
             return {
               docNo: item.doc_number,
               title: item.title,
-              content: tmp.textContent,
+              content: tmp.textContent.substr(0, 150),
               isPublished: tmp.isPublished,
             };
           }),
@@ -83,10 +83,24 @@ class MyNovelList extends Component {
   render() {
     return (
       <Fragment>
+        <div style={{ fontSize: '3rem', padding: '1.5rem' }}>내 글 보기</div>
         {
-          !this.state.loading && this.state.myNovelList.map(item => (
+          !this.state.loading ? this.state.myNovelList.map(item => (
             <MyNovelItem novelData={item} deleteFunc={this.deleteFunc} />
           ))
+          :
+          <div style={{
+            display: 'flex',
+            fontSize: '1.5rem',
+            paddingTop: '10rem',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            }}
+          >
+            <Spinner />
+            <div style={{ textAlign: 'center' }}>내 글을 불러오는 중입니다.</div>
+          </div>
         }
         {
           this.state.lazyLoad && <div style={{ padding: 15, display: 'flex', justifyContent: 'center' }}> <Spinner /> </div>
