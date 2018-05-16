@@ -30,6 +30,7 @@ const MyNovelItem = ({ novelData, deleteFunc }) => {
         </div>
       </div>
       <div className={cx('content')}>{novelData.content === '' ? '본문이 없습니다' : novelData.content}</div>
+      <div className={cx('last-saved')}>{novelData.savedDate}</div>
     </div>
   );
 };

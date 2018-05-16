@@ -3,8 +3,8 @@ import PropType from 'prop-types';
 import axios from 'axios';
 import { TextEditor } from 'components';
 
-const Editor = ({ userData, novelData, docNo = 0}) => (
-  <TextEditor novelData={novelData} userData={userData} docNumber={docNo} />
+const Editor = ({ userData, novelData, docNo = 0, match}) => (
+  <TextEditor novelData={novelData} userData={userData} docNumber={docNo} match={match} />
 );
 
 export default Editor;

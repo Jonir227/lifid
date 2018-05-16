@@ -62,28 +62,34 @@ class TopNavbar extends Component {
               rightElement={<Button className="pt-minimal" icon="arrow-right" />}
             />
             <NavbarDivider />
-            <Link to="/my-novellas">
-              <Button
-                className="pt-minimal"
-                icon="edit"
-                text={<BtnTxt txt="작성중인 글 보기" />}
-              />
-            </Link>
             {
-              !isLoggedIn && !pending &&
-              <Button
-                className="pt-minimal"
-                icon="log-in"
-                text={<BtnTxt txt="Log in" />}
-                onClick={() => { modalModify('Login'); }}
-              />
-            }
-            {
-              isLoggedIn && !pending &&
-              <Fragment>
-                <NavbarDivider />
-                <UserIcon userData={userData} logout={logout} />
-              </Fragment>
+              !pending && !isLoggedIn ?
+                <Fragment>
+                  <Button
+                    className="pt-minimal"
+                    icon="log-in"
+                    text={<BtnTxt txt="Log in" />}
+                    onClick={() => { modalModify('Login'); }}
+                  />
+                  <Button
+                    className="pt-minimal"
+                    icon="follower"
+                    text={<BtnTxt txt="Register" />}
+                    onClick={() => { modalModify('Register'); }}
+                  />
+                </Fragment>
+              :
+                <Fragment>
+                  <Link to="/my-novellas">
+                    <Button
+                      className="pt-minimal"
+                      icon="edit"
+                      text={<BtnTxt txt="작성중인 글 보기" />}
+                    />
+                  </Link>
+                  <NavbarDivider />
+                  <UserIcon userData={userData} logout={logout} />
+                </Fragment>
             }
           </NavbarGroup>
         </Navbar>

@@ -98,7 +98,7 @@ exports.editorGet = (req, res) => {
   const { username } = req.decoded;
   const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
   const limit = typeof req.query.limit === 'undefined' ? 40 : parseInt(req.query.limit, 10);
-  Novella.find({ author: username }).skip(offset).limit(limit)
+  Novella.find({ author: username }).skip(offset).limit(limit).sort({ doc_number: -1 })
     .then((novellas) => {
       res.json({
         success: true,

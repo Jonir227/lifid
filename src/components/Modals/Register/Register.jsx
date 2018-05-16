@@ -246,8 +246,7 @@ class Register extends Component {
                     options={tagData}
                   />
                   <span className={cx('support-text')}>
-                  설정한 tag에 따라서 메인 페이지에 선호한 컨텐츠가 표시됩니다.<br />
-                  이는 나중에 변경할 수 있습니다.
+                  설정한 tag에 따라서 메인 페이지에 선호한 컨텐츠가 표시됩니다.
                   </span>
                 </label>
               </div>

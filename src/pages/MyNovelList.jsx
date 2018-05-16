@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
-import { Spinner } from '@blueprintjs/core';
+import { Spinner, Button } from '@blueprintjs/core';
 import { MyNovelItem } from 'components';
 import lazyLoad from 'util/LazyLoad';
 
 class MyNovelList extends Component {
   state = {
+    currentMode: 'drafts',
     myNovelList: {},
     loading: true,
     offset: 0,
@@ -15,6 +16,20 @@ class MyNovelList extends Component {
   }
 
   componentDidMount() {
+    this.load();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.itemLoader);
+  }
+
+  onModeChange = mode => () => {
+    this.setState({ currentMode: mode, offset: 0 });
+    this.load();
+  }
+
+  load = () => {
+    this.setState({ loading: true });
     axios.get('/api/novella/editor')
       .then((res) => {
         this.setState({
@@ -26,10 +41,11 @@ class MyNovelList extends Component {
               docNo: item.doc_number,
               title: item.title,
               content: tmp.textContent.substr(0, 150),
+              savedDate: item.published_date,
               isPublished: tmp.isPublished,
             };
           }),
-          offset: 40,
+          offset: res.data.novellas.length,
         });
         window.addEventListener('scroll', this.itemLoader);
       })
@@ -38,18 +54,8 @@ class MyNovelList extends Component {
       });
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.itemLoader);
-  }
-
-  deleteFunc = (docNo) => {
-    this.setState(prevState => ({
-      myNovelList: _.reject(prevState.myNovelList, ['docNo', docNo]),
-    }));
-  }
-
   itemLoader = lazyLoad(() => {
-    if (!this.state.lazyLoad) {
+    if (!this.state.lazyLoad && !this.state.loading) {
       const load = axios.get(`/api/novella/editor?offset=${this.state.offset}&limit=${this.state.limit}`)
         .then((res) => {
           const fetchedVal = res.data.novellas.length;
@@ -73,17 +79,53 @@ class MyNovelList extends Component {
             offset: (prevState.offset + fetchedVal),
             lazyLoad: false,
           }));
-        });
+        })
       this.setState(() => ({
         lazyLoad: true,
       }), load.resolve);
     }
   });
 
+  deleteFunc = (docNo) => {
+    this.setState(prevState => ({
+      myNovelList: _.reject(prevState.myNovelList, ['docNo', docNo]),
+    }));
+  }
+
   render() {
     return (
       <Fragment>
-        <div style={{ fontSize: '3rem', padding: '1.5rem' }}>내 글 보기</div>
+        <div style={{ backgroundImage: 'url("./mynovella_banner.jpg")', backgroundSize: '100%', marginBottom: 3 }}>
+          <div style={{
+            fontSize: '2.5rem',
+            paddingTop: '2rem',
+            paddingBottom: '0.5rem',
+            paddingLeft: '1rem',
+            color: 'white',
+            }}
+          >
+            내 글 보기
+          </div>
+          <div style={{
+            fontSize: '2rem',
+            paddingBottom: '1rem',
+            paddingLeft: '2rem',
+            color: '#CCCCCC',
+            }}
+          >
+            {this.state.currentMode === 'drafts' ? 'Draft' : 'Published'}
+          </div>
+        </div>
+        <div style={{ height: 3, backgroundColor: '#CFCFCF' }} />
+        <div style={{ height: 40, display: 'flex', alignItems: 'center' }}>
+          <div>
+            <Button className="pt-minimal" text="Draft" onClick={this.onModeChange('drafts')} />
+          </div>
+          <div>
+            <Button className="pt-minimal" text="Published" onClick={this.onModeChange('published')} />
+          </div>
+        </div>
+        <div style={{ height: 3, backgroundColor: '#CFCFCF' }} />
         {
           !this.state.loading ? this.state.myNovelList.map(item => (
             <MyNovelItem novelData={item} deleteFunc={this.deleteFunc} />
@@ -106,7 +148,7 @@ class MyNovelList extends Component {
           this.state.lazyLoad && <div style={{ padding: 15, display: 'flex', justifyContent: 'center' }}> <Spinner /> </div>
         }
         {
-          !this.state.lazyLoad && this.state.isEnd &&
+          !this.state.loading && !this.state.lazyLoad && this.state.isEnd &&
             <div style={{
               padding: 15,
               display: 'flex',
