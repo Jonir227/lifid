@@ -2,12 +2,11 @@ const router = require('express').Router();
 const controller = require('./today-novel.controller');
 const authMiddleWare = require('../../middleware/auth');
 
-router.use('/new', authMiddleWare);
-router.post('/new', controller.post);
+router.post('/', authMiddleWare, controller.post);
 router.get('/now', controller.now);
-router.get('/list', controller.list);
-router.get('/list/:id', controller.listWithParams);
-router.put('/list/:id', authMiddleWare, controller.modify);
-router.delete('/list/:id', authMiddleWare, controller.remove);
+router.get('/', controller.list);
+router.get('/:id', controller.listWithParams);
+router.put('/:id', authMiddleWare, controller.modify);
+router.delete('/:id', authMiddleWare, controller.remove);
 
 module.exports = router;

@@ -2,7 +2,7 @@ const TodayNovel = require('../../models/todayNovel');
 
 // GET /api/today-novel/now
 exports.now = (req, res) => {
-  TodayNovel.find().sort({ dueDate: -1 }).limit(1)
+  TodayNovel.find().sort({ dueDate: -1 })
     .then((todayNovels) => {
       const {
         name,
@@ -24,11 +24,11 @@ exports.now = (req, res) => {
     });
 };
 
-// GET /api/today-novel/list?offset=x&limit=x
+// GET /api/today-novel/?offset=x&limit=x
 exports.list = (req, res) => {
   const offset = parseInt(req.query.offset, 10);
   const limit = parseInt(req.query.limit, 10);
-  TodayNovel.find().skip(offset).limit(limit)
+  TodayNovel.find().skip(offset).limit(limit).sort({ dueDate: -1 })
     .then((todayNovels) => {
       res.json({
         success: true,
@@ -43,7 +43,7 @@ exports.list = (req, res) => {
     });
 };
 
-// GET /api/today-novel/list/:id
+// GET /api/today-novel/:id
 exports.listWithParams = (req, res) => {
   const { id } = req.params;
   TodayNovel.findOne({ _id: id })
@@ -57,7 +57,7 @@ exports.listWithParams = (req, res) => {
     });
 };
 
-// POST /api/today-novel/new
+// POST /api/today-novel/
 exports.post = (req, res) => {
   if (!req.decoded.admin) {
     res.status(403).json({
@@ -88,7 +88,7 @@ exports.post = (req, res) => {
   }
 };
 
-// PUT api.today-novel/list/:id
+// PUT api.today-novel/:id
 exports.modify = (req, res) => {
   if (!req.decoded.admin) {
     res.status(403).json({
@@ -122,7 +122,7 @@ exports.modify = (req, res) => {
   }
 };
 
-// DELETE /api/today-novel/list/:id
+// DELETE /api/today-novel/:id
 exports.remove = (req, res) => {
   if (!req.decoded.admin) {
     res.status(403).json({
