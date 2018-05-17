@@ -7,8 +7,8 @@ import Select from 'react-select-plus';
 import _ from 'lodash';
 import axios from 'axios';
 import { LeftBar, AppToaster } from 'components';
+import 'styles/quillTheme.css';
 import styles from './TextEditor.scss';
-import './quillTheme.css';
 
 const cx = ClassNames.bind(styles);
 

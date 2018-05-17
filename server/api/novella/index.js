@@ -13,5 +13,6 @@ router.delete('/editor/:docNo', controller.editorDelete);
 
 // /api/novella/reader/
 router.get('/reader', controller.readerGet);
+router.get('/reader/:docNo', controller.readerGetWithParams);
 
 module.exports = router;

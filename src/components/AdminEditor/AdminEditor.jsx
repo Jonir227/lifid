@@ -76,7 +76,7 @@ class AdminEditor extends React.Component {
             <h1 style={{ margin: 'auto' }}>Add Today's Novel</h1>
             <br />
             {
-              //times === '00 00 00 00' &&
+              // times === '00 00 00 00' &&
               <div className={cx('update-button')}>
                 <Button className="pt-minimal" onClick={() => { this.modalModify('Add'); }} text={<div style={{ fontSize: '1.6rem' }}>추 가</div>} />
               </div>

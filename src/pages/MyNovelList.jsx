@@ -42,7 +42,7 @@ class MyNovelList extends Component {
             return {
               docNo: item.doc_number,
               title: item.title,
-              content: tmp.textContent.substr(0, 150).concat('...'),
+              content: tmp.textContent.substr(0, 300).concat('...'),
               savedDate: item.published_date,
               isPublished: tmp.isPublished,
             };
