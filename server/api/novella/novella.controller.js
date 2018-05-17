@@ -13,6 +13,7 @@ exports.editorPost = (req, res) => {
     doc_number,
     title,
     tags,
+    todayNovel,
   } = req.body;
   Novella.create({
     author: req.decoded.username,
@@ -21,6 +22,7 @@ exports.editorPost = (req, res) => {
     content,
     savedDate,
     isPublished,
+    todayNovel,
     doc_number,
     title,
     tags,
@@ -93,12 +95,14 @@ exports.editorPut = (req, res) => {
     });
 };
 
-// GET /api/novella/editor?offset=0&limit=0
+// GET /api/novella/editor?offset=0&limit=0&isPublished=boolean
 exports.editorGet = (req, res) => {
   const { username } = req.decoded;
   const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
   const limit = typeof req.query.limit === 'undefined' ? 40 : parseInt(req.query.limit, 10);
-  Novella.find({ author: username }).skip(offset).limit(limit).sort({ doc_number: -1 })
+  const published = typeof req.query.published === 'undefined' ? false : (req.query.published === 'true');
+  Novella.find({ author: username, isPublished: published })
+    .skip(offset).limit(limit).sort({ doc_number: -1 })
     .then((novellas) => {
       res.json({
         success: true,

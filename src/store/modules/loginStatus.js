@@ -55,12 +55,12 @@ export const getCheck = () => (dispatch) => {
 };
 
 export default handleActions({
-  [LOGIN]: (prevState, action) => {
-    return {
+  [LOGIN]: (prevState, action) => (
+    {
       isLoggedIn: true,
       userData: action.payload,
-    };
-  },
+    }
+  ),
   [LOGOUT]: () => {
     localStorage.removeItem('token');
     delete axios.defaults.headers['x-access-token'];

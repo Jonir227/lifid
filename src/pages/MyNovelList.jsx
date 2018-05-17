@@ -23,14 +23,16 @@ class MyNovelList extends Component {
     window.removeEventListener('scroll', this.itemLoader);
   }
 
-  onModeChange = mode => () => {
-    this.setState({ currentMode: mode, offset: 0 });
+  onModeChange = mode => async () => {
+    await this.setState({ currentMode: mode, offset: 0 });
     this.load();
   }
 
   load = () => {
     this.setState({ loading: true });
-    axios.get('/api/novella/editor')
+    console.log(this.state.currentMode);
+    const pubStatus = this.state.currentMode === 'drafts' ? 'false' : 'true';
+    axios.get(`/api/novella/editor?published=${pubStatus}`)
       .then((res) => {
         this.setState({
           loading: false,
@@ -40,7 +42,7 @@ class MyNovelList extends Component {
             return {
               docNo: item.doc_number,
               title: item.title,
-              content: tmp.textContent.substr(0, 150),
+              content: tmp.textContent.substr(0, 150).concat('...'),
               savedDate: item.published_date,
               isPublished: tmp.isPublished,
             };
@@ -56,7 +58,8 @@ class MyNovelList extends Component {
 
   itemLoader = lazyLoad(() => {
     if (!this.state.lazyLoad && !this.state.loading) {
-      const load = axios.get(`/api/novella/editor?offset=${this.state.offset}&limit=${this.state.limit}`)
+      const pubStatus = this.state.currentMode === 'drafts' ? 'false' : 'true';
+      const load = axios.get(`/api/novella/editor?offset=${this.state.offset}&limit=${this.state.limit}&published=${pubStatus}`)
         .then((res) => {
           const fetchedVal = res.data.novellas.length;
           if (fetchedVal === 0) {
@@ -79,7 +82,7 @@ class MyNovelList extends Component {
             offset: (prevState.offset + fetchedVal),
             lazyLoad: false,
           }));
-        })
+        });
       this.setState(() => ({
         lazyLoad: true,
       }), load.resolve);
@@ -95,7 +98,16 @@ class MyNovelList extends Component {
   render() {
     return (
       <Fragment>
-        <div style={{ backgroundImage: 'url("./mynovella_banner.jpg")', backgroundSize: '100%', marginBottom: 3 }}>
+        <div style={{
+          backgroundImage: 'url("./mynovella_banner.jpg")',
+          backgroundSize: '100%',
+          marginBottom: 3,
+          background: {
+            color: 'rgba(0, 0, 0, 0.5)',
+            blendMode: 'darken',
+          },
+          }}
+        >
           <div style={{
             fontSize: '2.5rem',
             paddingTop: '2rem',
@@ -128,7 +140,7 @@ class MyNovelList extends Component {
         <div style={{ height: 3, backgroundColor: '#CFCFCF' }} />
         {
           !this.state.loading ? this.state.myNovelList.map(item => (
-            <MyNovelItem novelData={item} deleteFunc={this.deleteFunc} />
+            <MyNovelItem key={item.docNo} novelData={item} deleteFunc={this.deleteFunc} />
           ))
           :
           <div style={{

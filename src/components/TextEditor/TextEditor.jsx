@@ -43,6 +43,7 @@ class TextEditor extends React.Component {
     isNew: true,
     docNo: 0,
     out: false,
+    novelData: this.props.novelData,
   }
 
   componentDidMount() {
@@ -60,7 +61,7 @@ class TextEditor extends React.Component {
   }
 
   componentWillUnmount() {
-    this.editor.blur();
+    this.saveWorker.cancel();
   }
 
   onChange = (content) => {
@@ -96,6 +97,7 @@ class TextEditor extends React.Component {
               isNew: false,
               docNo: this.props.match.params.docNo,
               isBlocking: false,
+              novelData: novella.todayNovel,
             }),
             () => { this.editor.getEditor().enable(true); },
           );
@@ -152,7 +154,6 @@ class TextEditor extends React.Component {
       published_date: Date.now(),
       todayNovel: this.props.novelData,
       tags: this.state.tags,
-      novelData: this.props.novelData,
       isPublished,
     };
 
@@ -227,7 +228,7 @@ class TextEditor extends React.Component {
     });
   }
 
-  saveWorker = _.debounce(this.save(false), 1000 * 60 * 1);
+  saveWorker = _.throttle(this.save(false), 1000 * 60 * 1);
 
   modules = {
     toolbar: [
@@ -241,7 +242,7 @@ class TextEditor extends React.Component {
   render() {
     const {
       novelData,
-    } = this.props;
+    } = this.state;
     return (
       <Fragment>
         { this.state.out ? <Redirect to="/my-novellas" />

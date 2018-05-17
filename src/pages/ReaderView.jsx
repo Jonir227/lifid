@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Reader } from 'components';
 
-const ReaderView = () => {
+const ReaderView = ({ match }) => {
   return (
     <Fragment>
       <Reader />

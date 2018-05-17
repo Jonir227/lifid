@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import checkAuth from './checkAuth';
 
 const renderMergedProps = (component, ...rest) => {
   const finalProps = Object.assign({}, ...rest);
@@ -26,21 +25,21 @@ const PrivateRoute = ({
   redirectTo,
   isLoggedIn,
   ...rest
-}) => (
-  <Route
-    {...rest}
-    render={
-      routeProps =>
-        (isLoggedIn ?
-        renderMergedProps(component, routeProps, ...rest)
-        :
-        (<Redirect to={{
-          pathname: redirectTo,
-          state: { from: routeProps.location },
-          }}
-        />))
-      }
-  />);
+}) => (<Route
+  {...rest}
+  render={
+    routeProps =>
+      (isLoggedIn ?
+      renderMergedProps(component, routeProps, rest)
+      :
+      (<Redirect to={{
+        pathname: redirectTo,
+        state: { from: routeProps.location },
+        }}
+      />))
+    }
+/>
+);
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,

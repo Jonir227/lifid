@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Card, Button, Intent } from '@blueprintjs/core';
+import { Button, Intent } from '@blueprintjs/core';
 import ClassNames from 'classnames/bind';
 import { AppToaster } from 'components';
 import styles from './MyNovelItem.scss';

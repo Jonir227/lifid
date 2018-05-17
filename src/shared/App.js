@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 import classNames from 'classnames/bind'; import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
-import { PropsRoute } from 'util/RouterUtil';
+import { PropsRoute, PrivateRoute } from 'util/RouterUtil';
 import { ContentBody, Editor, ReaderView, MyNovelList } from 'pages';
 import { BtmFooter, TopNavbar } from 'components';
 import styles from 'styles/base.scss';
@@ -39,14 +39,11 @@ class App extends Component {
           pending={pending}
         />
         <div className={cx('content-body')}>
-          {
-            !pending && !isLoggedIn && <Redirect to="/" />
-          }
           <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} />
-          <PropsRoute exact path="/my-novellas" component={MyNovelList} />
+          <PrivateRoute exact path="/my-novellas" isLoggedIn={isLoggedIn} component={MyNovelList} redirectTo="/" />
           <Switch>
-            <PropsRoute path="/my-novellas/editor/:docNo" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
-            <PropsRoute path="/my-novellas/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
+            <PrivateRoute path="/my-novellas/editor/:docNo" isLoggedIn={isLoggedIn} component={Editor} novelData={novelData} userData={userData} redirectTo="/" />
+            <PrivateRoute path="/my-novellas/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} redirectTo="/" />
           </Switch>
           <PropsRoute exact path="/reader" component={ReaderView} />
         </div>
@@ -60,6 +57,7 @@ App.propTypes = {
   login: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
+  pending: PropTypes.func.isRequired,
   userData: PropTypes.shape({
     username: PropTypes.string.isRequired,
     tags: PropTypes.array.isRequired,

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropType from 'prop-types';
-import axios from 'axios';
 import { TextEditor } from 'components';
 
 const Editor = ({ userData, novelData, docNo = 0, match}) => (
