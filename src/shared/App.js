@@ -1,14 +1,9 @@
 import React, { Fragment, Component } from 'react';
-import { Redirect, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import classNames from 'classnames/bind'; import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
-<<<<<<< HEAD
 import { PropsRoute, PrivateRoute } from 'util/RouterUtil';
-import { ContentBody, Editor, ReaderView, MyNovelList } from 'pages';
-=======
-import { PropsRoute } from 'util/RouterUtil';
 import { ContentBody, Editor, ReaderView, MyNovelList, AdminView } from 'pages';
->>>>>>> d9de7fb88b25d583e3195ea947939a962cd4c215
 import { BtmFooter, TopNavbar } from 'components';
 import styles from 'styles/base.scss';
 
