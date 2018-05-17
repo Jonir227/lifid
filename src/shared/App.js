@@ -44,16 +44,8 @@ class App extends Component {
           pending={pending}
         />
         <div className={cx('content-body')}>
-<<<<<<< HEAD
           <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} />
           <PrivateRoute exact path="/my-novellas" isLoggedIn={isLoggedIn} component={MyNovelList} redirectTo="/" />
-=======
-          {
-            !pending && !isLoggedIn && <Redirect to="/" />
-          }
-          <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
-          <PropsRoute exact path="/my-novellas" component={MyNovelList} />
->>>>>>> d9de7fb88b25d583e3195ea947939a962cd4c215
           <Switch>
             <PrivateRoute path="/my-novellas/editor/:docNo" isLoggedIn={isLoggedIn} component={Editor} novelData={novelData} userData={userData} redirectTo="/" />
             <PrivateRoute path="/my-novellas/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} redirectTo="/" />
