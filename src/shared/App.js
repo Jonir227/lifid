@@ -3,7 +3,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import classNames from 'classnames/bind'; import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
 import { PropsRoute } from 'util/RouterUtil';
-import { ContentBody, Editor, ReaderView, MyNovelList } from 'pages';
+import { ContentBody, Editor, ReaderView, MyNovelList, AdminView } from 'pages';
 import { BtmFooter, TopNavbar } from 'components';
 import styles from 'styles/base.scss';
 
@@ -42,13 +42,14 @@ class App extends Component {
           {
             !pending && !isLoggedIn && <Redirect to="/" />
           }
-          <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} />
+          <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
           <PropsRoute exact path="/my-novellas" component={MyNovelList} />
           <Switch>
             <PropsRoute path="/my-novellas/editor/:docNo" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
             <PropsRoute path="/my-novellas/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
           </Switch>
           <PropsRoute exact path="/reader" component={ReaderView} />
+          <PropsRoute exact path="/admin" component={AdminView} novelData={novelData} />
         </div>
         <BtmFooter />
       </Fragment>
@@ -65,6 +66,7 @@ App.propTypes = {
     tags: PropTypes.array.isRequired,
     description: PropTypes.string.isRequired,
     profilePicture: PropTypes.string.isRequired,
+    admin: PropTypes.bool.isRequired,
   }).isRequired,
   checkUser: PropTypes.func.isRequired,
 

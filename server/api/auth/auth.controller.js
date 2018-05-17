@@ -30,6 +30,7 @@ exports.register = (req, res) => {
     tags,
     profilePicture,
     description,
+    admin,
   } = req.body;
   let newUser = null;
 

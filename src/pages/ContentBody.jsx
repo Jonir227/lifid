@@ -46,11 +46,12 @@ class ContentBody extends React.Component {
     const {
       novelData,
       userData,
+      isLoggedIn,
     } = this.props;
     return (
       <Fragment>
         <TodayNovel style={{ padding: 5 }} novelData={novelData} />
-        <NovellaList novelData={this.state.novelDatas} userData={userData} />
+        <NovellaList novelData={this.state.novelDatas} userData={userData} isLoggedIn={isLoggedIn} />
       </Fragment>
     );
   }

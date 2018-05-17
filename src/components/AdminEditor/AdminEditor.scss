@@ -1,0 +1,35 @@
+@import 'utils';
+
+.admin-card{
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  .text-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    .side-text{
+      display: inline-block;
+      margin: 1rem;
+      font-size: 1.6rem;
+    }
+    .text-input {
+      display: inline-block;
+      margin: 1rem;
+      font-size: 1.6rem;
+      text-align: left;
+      border: none;
+      width: 50%;
+      &::placeholder {
+        font-style: italic;
+      }
+    }
+    .update-button{
+      margin: auto;
+    }
+  }
+}
+.card-list{
+  margin-top: 10px;
+}

@@ -10,7 +10,7 @@ import './slick.css';
 
 const cx = ClassNames.bind(styles);
 
-const NovellaList = ({ novelData, userData }) => {
+const NovellaList = ({ novelData, userData, isLoggedIn }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -35,23 +35,50 @@ const NovellaList = ({ novelData, userData }) => {
       },
     ],
   };
+  console.log('tags : ', userData.tags);
   return (
     <Fragment>
-      <Slider {...settings} style={{ width: '100%' }}>
-        {
-          novelData.map(novel => (
-            <div className={cx('novellalist-wrapper')}>
-              <NovellaListItem
-                className={cx('novella-item')}
-                novellaName={novel.name}
-                novellaContent={novel.content}
-                author={novel.author}
-                authorInfo={novel.authorInfo}
-              />
-            </div>
-          ))
-        }
-      </Slider>
+      {
+        isLoggedIn && userData.tags.map(usertag => (
+          <div>
+            <br />
+            <div style={{ fontStyle: 'oblique' }}> tag : {usertag}</div>
+            <Slider {...settings} style={{ width: '100%' }}>
+              {
+                novelData.map(novel => (
+                  <div className={cx('novellalist-wrapper')}>
+                    <NovellaListItem
+                      className={cx('novella-item')}
+                      novellaName={novel.name}
+                      novellaContent={novel.content}
+                      author={novel.author}
+                      authorInfo={novel.authorInfo}
+                    />
+                  </div>
+                ))
+              }
+            </Slider>
+          </div>
+        ))
+      }
+      {
+        !isLoggedIn &&
+          <Slider {...settings} style={{ width: '100%' }}>
+            {
+              novelData.map(novel => (
+                <div className={cx('novellalist-wrapper')}>
+                  <NovellaListItem
+                    className={cx('novella-item')}
+                    novellaName={novel.name}
+                    novellaContent={novel.content}
+                    author={novel.author}
+                    authorInfo={novel.authorInfo}
+                  />
+                </div>
+              ))
+            }
+          </Slider>
+      }
     </Fragment>
   );
 };

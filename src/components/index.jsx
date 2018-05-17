@@ -9,6 +9,7 @@ import Modals from './Modals';
 import AppToaster from './AppToaster';
 import UserIcon from './UserIcon';
 import MyNovelItem from './MyNovelItem';
+import AdminEditor from './AdminEditor';
 
 export {
   TopNavbar,
@@ -22,4 +23,5 @@ export {
   AppToaster,
   UserIcon,
   MyNovelItem,
+  AdminEditor,
 };
