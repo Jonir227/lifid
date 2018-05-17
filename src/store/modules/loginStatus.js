@@ -20,6 +20,7 @@ const emptyUserData = {
   tags: [],
   description: '',
   profilePicture: '',
+  admin: false,
 };
 
 const initialState = {

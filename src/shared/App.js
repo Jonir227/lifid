@@ -2,8 +2,13 @@ import React, { Fragment, Component } from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 import classNames from 'classnames/bind'; import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
+<<<<<<< HEAD
 import { PropsRoute, PrivateRoute } from 'util/RouterUtil';
 import { ContentBody, Editor, ReaderView, MyNovelList } from 'pages';
+=======
+import { PropsRoute } from 'util/RouterUtil';
+import { ContentBody, Editor, ReaderView, MyNovelList, AdminView } from 'pages';
+>>>>>>> d9de7fb88b25d583e3195ea947939a962cd4c215
 import { BtmFooter, TopNavbar } from 'components';
 import styles from 'styles/base.scss';
 
@@ -39,13 +44,22 @@ class App extends Component {
           pending={pending}
         />
         <div className={cx('content-body')}>
+<<<<<<< HEAD
           <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} />
           <PrivateRoute exact path="/my-novellas" isLoggedIn={isLoggedIn} component={MyNovelList} redirectTo="/" />
+=======
+          {
+            !pending && !isLoggedIn && <Redirect to="/" />
+          }
+          <PropsRoute exact path="/" component={ContentBody} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} />
+          <PropsRoute exact path="/my-novellas" component={MyNovelList} />
+>>>>>>> d9de7fb88b25d583e3195ea947939a962cd4c215
           <Switch>
             <PrivateRoute path="/my-novellas/editor/:docNo" isLoggedIn={isLoggedIn} component={Editor} novelData={novelData} userData={userData} redirectTo="/" />
             <PrivateRoute path="/my-novellas/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} redirectTo="/" />
           </Switch>
           <PropsRoute exact path="/reader" component={ReaderView} />
+          <PropsRoute exact path="/admin" component={AdminView} novelData={novelData} />
         </div>
         <BtmFooter />
       </Fragment>
@@ -63,6 +77,7 @@ App.propTypes = {
     tags: PropTypes.array.isRequired,
     description: PropTypes.string.isRequired,
     profilePicture: PropTypes.string.isRequired,
+    admin: PropTypes.bool.isRequired,
   }).isRequired,
   checkUser: PropTypes.func.isRequired,
 

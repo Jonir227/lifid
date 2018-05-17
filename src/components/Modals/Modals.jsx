@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Login from './Login';
 import Register from './Register';
+import TodayNovelAdd from './TodayNovelAdd';
 
 const Modals = ({ modalState, modalModify, login }) => {
   let CurrentModal = null;
@@ -16,6 +17,9 @@ const Modals = ({ modalState, modalModify, login }) => {
       break;
     case 'Exit':
       modalModify(modalState);
+      break;
+    case 'Add':
+      CurrentModal = TodayNovelAdd;
       break;
     default:
       CurrentModal = Login;

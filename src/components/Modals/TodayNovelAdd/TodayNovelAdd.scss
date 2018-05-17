@@ -1,0 +1,31 @@
+@import '../Modal';
+
+.text-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  .title-text{
+    display: inline-block;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+  }
+  .side-text{
+    display: flex;
+    margin-top: 10px;
+    font-size: 1rem;
+    margin-top: 2rem;
+  }
+  .text-input {
+    display: flex;
+    margin: 1rem;
+    font-size: 1.6rem;
+    text-align: left;
+    border: none;
+    margin-top: 2rem;
+  }
+  .update-button{
+    margin-top: 2rem;
+  }
+}

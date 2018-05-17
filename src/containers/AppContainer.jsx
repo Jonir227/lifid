@@ -61,6 +61,7 @@ AppContainer.propTypes = {
     tags: PropTypes.array.isRequired,
     description: PropTypes.string.isRequired,
     profilePicture: PropTypes.string.isRequired,
+    admin: PropTypes.bool.isRequired,
   }).isRequired,
   pending: PropTypes.bool.isRequired,
   novelData: PropTypes.shape({

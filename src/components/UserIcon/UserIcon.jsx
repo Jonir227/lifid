@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import ClassNames from 'classnames/bind';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Button } from '@blueprintjs/core';
 import styles from './UserIcon.scss';
 
@@ -50,6 +51,7 @@ class UserIcon extends React.Component {
 
   render() {
     const {
+      admin,
       username,
     } = this.props.userData;
 
@@ -102,6 +104,12 @@ class UserIcon extends React.Component {
                 <Button className="pt-minimal" icon="caret-right" />
               </div>
               <div>
+                {
+                  (admin !== false) &&
+                  <Link to="./admin">
+                    <Button className="pt-minimal" icon="build" title="어드민" onClick={this.handleClick} />
+                  </Link>
+                }
                 <Button className="pt-minimal" icon="timeline-line-chart" title="통계" />
                 <Button className="pt-minimal" icon="cog" title="설정" />
                 <Button className="pt-minimal" icon="log-out" title="로그 아웃" onClick={this.onClickLogout} />
