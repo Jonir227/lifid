@@ -25,6 +25,11 @@
     display: flex;
     flex-direction: row;
     margin: 5px;
+    .left-bar {
+      @include respond-to(handhelds) {
+        display: none !important;
+      }
+    }
     .text-wrapper {
       width: 100%;
       display: flex;
@@ -72,4 +77,5 @@
       align-content: center;
     }
   }
+
 }

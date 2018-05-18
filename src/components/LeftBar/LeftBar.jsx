@@ -7,25 +7,27 @@ import styles from './LeftBar.scss';
 
 const cx = ClassNames.bind(styles);
 
-const LeftBar = ({ sections }) => (
-  <Card className={cx('left-bar')}>
-    <div className={cx('head')}>Table Of Content</div>
-    <div className={cx('sections')}>
-      {
-        _.map(sections, (section, index) => (
-          <div>
-            <a href={`#sec${index}`}>
-              {section.substring(2)}
-            </a>
-          </div>
-        ))
-      }
-    </div>
-  </Card>
+const LeftBar = ({ sections, className }) => (
+  <div className={className}>
+    <Card className={cx('left-bar')}>
+      <div className={cx('head')}>Table Of Content</div>
+      <div className={cx('sections')}>
+        {
+          _.map(sections, (section, index) => (
+            <div key={index}>
+              <a href={`#sec${index}`}>
+                {section.substring(2)}
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </Card>
+  </div>
 );
 
 LeftBar.propTypes = {
-  sections: PropTypes.objectOf(PropTypes.string).isRequired,
+  sections: PropTypes.arrayOf(String).isRequired,
 };
 
 export default LeftBar;

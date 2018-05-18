@@ -1,0 +1,45 @@
+@import 'utils';
+
+.title {
+  font-size: 4rem;
+  text-align: center;
+  @include respond-to(handhelds) {
+    font-size: 2.5rem;
+  }
+}
+
+.author {
+  text-align: right;
+  font-size: 1.5rem;
+}
+.content {
+  margin-right: 40px;
+  margin-left: 40px;
+  font-size: 1.3rem;
+  @include respond-to(handhelds) {
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+}
+.quotation {
+  @extend .content;
+  margin-bottom: 10px;
+  color: #FF0000;
+}
+
+.left-bar {
+  top: 4rem;
+  position: fixed;
+  left: 20px;
+  opacity: 0.95;
+  height: auto;
+  @include respond-to(handhelds) {
+    height: 80%;
+  }
+}
+
+.left-btn {
+  background: #14CCC1;
+  position: fixed;
+  bottom: 2rem;
+}

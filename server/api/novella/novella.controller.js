@@ -138,7 +138,7 @@ exports.editorGetWithParams = (req, res) => {
 
 // GET /api/novella/reader?offest=0&limit=0
 exports.readerGet = (req, res) => {
-  const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
+  const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 15);
   const limit = typeof req.query.limit === 'undefined' ? 0 : parseInt(req.query.limit, 10);
 
   Novella.find({ isPublished: true }).skip(offset).limit(limit)
@@ -167,6 +167,24 @@ exports.readerGet = (req, res) => {
     })
     .catch((err) => {
       res.status(403).json({
+        success: false,
+        error: err,
+      });
+    });
+};
+
+exports.readerGetWithParams = (req, res) => {
+  const { docNo } = req.params;
+  console.log(req.params);
+  Novella.findOne({ doc_number: docNo })
+    .then((novella) => {
+      res.json({
+        success: true,
+        novella,
+      });
+    })
+    .catch((err) => {
+      res.json({
         success: false,
         error: err,
       });

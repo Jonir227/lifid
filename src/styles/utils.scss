@@ -3,8 +3,8 @@
 $pt-navbar-height : 50px;
 
 $width-small : 560px;
-$width-medium: 900px;
-$width-large: 1280px;
+$width-medium: 1100px;
+$width-large: 1300px;;
 
 @mixin respond-to($device-screen) {
     @if $device-screen == handhelds {
