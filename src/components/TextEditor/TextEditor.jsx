@@ -262,6 +262,7 @@ class TextEditor extends React.Component {
           </Card>
           <Card className={cx('card-wrapper')}>
             <LeftBar
+              className={cx('left-bar')}
               sections={this.state.sections}
             />
             <div className={cx('text-wrapper')}>

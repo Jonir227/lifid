@@ -14,7 +14,7 @@ const LeftBar = ({ sections, className }) => (
       <div className={cx('sections')}>
         {
           _.map(sections, (section, index) => (
-            <div>
+            <div key={index}>
               <a href={`#sec${index}`}>
                 {section.substring(2)}
               </a>
@@ -27,7 +27,7 @@ const LeftBar = ({ sections, className }) => (
 );
 
 LeftBar.propTypes = {
-  sections: PropTypes.objectOf(PropTypes.string).isRequired,
+  sections: PropTypes.arrayOf(String).isRequired,
 };
 
 export default LeftBar;

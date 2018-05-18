@@ -15,13 +15,6 @@ class ReaderView extends React.Component {
       });
   }
 
-  shouldComponentUpdate(prevState) {
-    if (prevState.novella !== this.state.novella || prevState !== this.state.load) {
-      return true;
-    }
-    return false;
-  }
-
   render() {
     return (
       <Fragment>
