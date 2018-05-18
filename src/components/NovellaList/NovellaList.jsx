@@ -42,7 +42,7 @@ const NovellaList = ({ novelData, userData, isLoggedIn }) => {
         isLoggedIn && userData.tags.map(usertag => (
           <div>
             <br />
-            <div style={{ fontStyle: 'oblique' }}> tag : {usertag}</div>
+            <div> tag : {usertag}</div>
             <Slider {...settings} style={{ width: '100%' }}>
               {
                 novelData.map(novel => (

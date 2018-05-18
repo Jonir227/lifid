@@ -61,8 +61,6 @@ class AdminEditor extends React.Component {
       }), load.resolve);
     }
   });
-
-
   modalModify = (modalAction) => {
     this.setState({
       modalState: modalAction,
@@ -115,7 +113,7 @@ class AdminEditor extends React.Component {
           this.state.lazyLoad && <div style={{ padding: 15, display: 'flex', justifyContent: 'center' }}> <Spinner /> </div>
         }
         {
-          !this.state.loading && !this.state.lazyLoad && this.state.isEnd && 
+          !this.state.loading && !this.state.lazyLoad && this.state.isEnd &&
           <div style={{
             padding: 15,
             display: 'flex',

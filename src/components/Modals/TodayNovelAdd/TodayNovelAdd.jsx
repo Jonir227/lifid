@@ -38,7 +38,7 @@ class TodayNovelAdd extends Component {
       day = '28';
     }
     this.setState({
-      dueDate: (year + month + day),
+      dueDate: `${year}-${month}-${day}`.toString(),
     });
   }
   onChangeName = (input) => {
