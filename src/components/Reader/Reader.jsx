@@ -11,12 +11,15 @@ class Reader extends React.Component {
   state = {
     sections: [],
     leftbarDisplay: true,
+    isWidthSmall: false,
     percent: 0,
   }
 
   componentDidMount() {
     this.calSections();
+    this.calLeftBar();
     window.addEventListener('scroll', this.calPosition);
+    window.addEventListener('resize', this.calLeftBar);
   }
 
   shouldComponentUpdate(prevState) {
@@ -29,6 +32,13 @@ class Reader extends React.Component {
   componentWillUnmount() {
     this.calPosition.cancel();
     window.removeEventListener('scroll', this.calPosition);
+    window.removeEventListener('resize', this.calLeftBar);
+  }
+
+  onButtonClick = () => {
+    this.setState(prevState => ({
+      leftbarDisplay: !prevState.leftbarDisplay,
+    }));
   }
 
   calSections = () => {
@@ -64,8 +74,18 @@ class Reader extends React.Component {
     }
   }, 50);
 
-  callLeftBar = () => {
-    console.log('logged!');
+  calLeftBar = () => {
+    if (window.innerWidth <= 1100) {
+      this.setState({
+        isWidthSmall: true,
+        leftbarDisplay: false,
+      });
+    } else {
+      this.setState({
+        isWidthSmall: false,
+        leftbarDisplay: true,
+      });
+    }
   }
 
   render() {
@@ -96,10 +116,26 @@ class Reader extends React.Component {
           <div className={cx('quotation')}>{novella.todayNovel.quotation}</div>
           <div id="content" className={cx('content')} dangerouslySetInnerHTML={{__html: novella.content}} />
           {/* fixed Postion Element */}
-          <LeftBar className={cx('left-bar')} sections={this.state.sections} />
-          <div className={cx('left-btn')}>
-            <Button className="pt-minimal pt-large" icon="arrow-right" onClick={this.callLeftBar} />
-          </div>
+          {
+            !this.state.isWidthSmall ?
+              <LeftBar className={cx('left-bar')} sections={this.state.sections} />
+            :
+              <Fragment>
+                {
+                  this.state.leftbarDisplay ?
+                    <Fragment>
+                      <LeftBar className={cx('left-bar')} sections={this.state.sections} />
+                      <div className={cx('left-btn')}>
+                        <Button className="pt-minimal pt-large" icon="arrow-left" onClick={this.onButtonClick} />
+                      </div>
+                    </Fragment>
+                  :
+                    <div className={cx('left-btn')}>
+                      <Button className="pt-minimal pt-large" icon="arrow-right" onClick={this.onButtonClick} />
+                    </div>
+                }
+              </Fragment>
+          }
         </div>
       </Fragment>
     );

@@ -10,6 +10,7 @@ import AppToaster from './AppToaster';
 import UserIcon from './UserIcon';
 import MyNovelItem from './MyNovelItem';
 import AdminEditor from './AdminEditor';
+import Comment from './Comment';
 
 export {
   TopNavbar,
@@ -24,4 +25,5 @@ export {
   UserIcon,
   MyNovelItem,
   AdminEditor,
+  Comment,
 };
