@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import axios from 'axios';
-import { Reader, LeftBar } from 'components';
+import { Reader, Comment } from 'components';
 
 class ReaderView extends React.Component {
   state = {
@@ -20,7 +20,10 @@ class ReaderView extends React.Component {
       <Fragment>
         {
           !this.state.load &&
-          <Reader novella={this.state.novella} />
+          <Fragment>
+            <Reader novella={this.state.novella} />
+            <Comment />
+          </Fragment>
         }
       </Fragment>
     );
