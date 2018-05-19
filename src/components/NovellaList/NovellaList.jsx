@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, {  Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ClassNames from 'classnames/bind';
 import Slider from 'react-slick';
@@ -35,11 +35,12 @@ const NovellaList = ({ novelData, userData, isLoggedIn }) => {
       },
     ],
   };
-  console.log('tags : ', userData.tags);
+
   return (
     <Fragment>
       {
-        isLoggedIn && userData.tags.map(usertag => (
+        isLoggedIn ?
+        userData.tags.map(usertag => (
           <div>
             <br />
             <div style={{ fontStyle: 'oblique' }}> tag : {usertag}</div>
@@ -60,24 +61,22 @@ const NovellaList = ({ novelData, userData, isLoggedIn }) => {
             </Slider>
           </div>
         ))
-      }
-      {
-        !isLoggedIn &&
-          <Slider {...settings} style={{ width: '100%' }}>
-            {
-              novelData.map(novel => (
-                <div className={cx('novellalist-wrapper')}>
-                  <NovellaListItem
-                    className={cx('novella-item')}
-                    novellaName={novel.name}
-                    novellaContent={novel.content}
-                    author={novel.author}
-                    authorInfo={novel.authorInfo}
-                  />
-                </div>
-              ))
-            }
-          </Slider>
+        :
+        <Slider {...settings} style={{ width: '100%' }}>
+          {
+            novelData.map(novel => (
+              <div className={cx('novellalist-wrapper')}>
+                <NovellaListItem
+                  className={cx('novella-item')}
+                  novellaName={novel.name}
+                  novellaContent={novel.content}
+                  author={novel.author}
+                  authorInfo={novel.authorInfo}
+                />
+              </div>
+            ))
+          }
+        </Slider>
       }
     </Fragment>
   );
