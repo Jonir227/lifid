@@ -25,7 +25,7 @@ class AdminEditor extends React.Component {
     window.removeEventListener('scroll', this.itemLoader);
   }
   load = () => {
-    axios.get('api/today-novel/list?offset=0&limit=20')
+    axios.get('api/today-novel/?offset=0&limit=20')
       .then((res) => {
         this.setState({
           loading: false,
@@ -40,7 +40,7 @@ class AdminEditor extends React.Component {
   }
   itemLoader = lazyLoad(() => {
     if (!this.state.lazyLoad && !this.state.loading) {
-      const load = axios.get(`/api/today-novel/list?offset=${this.state.offset}&limit=${this.state.limit}`)
+      const load = axios.get(`/api/today-novel/?offset=${this.state.offset}&limit=${this.state.limit}`)
         .then((res) => {
           const fetchedVal = res.data.todayNovels.length;
           if (fetchedVal === 0) {
@@ -83,15 +83,14 @@ class AdminEditor extends React.Component {
         </Card>
         {
           !this.state.loading ? this.state.todayNovelData.map(data => (
-            <div>
-              <Card className={cx('card-list')}>
-                <div className={cx('old-todaynovel')}>
-                  <div style={{ fontSize: '1.6rem' }}>{data.name}</div>
-                  <div>문구: {data.quotation}</div>
-                  <div>작가: {data.author}</div>
-                  <div>날짜: {data.dueDate}</div>
-                </div>
-              </Card>
+            <div className={cx('card-list')}>
+              <div className={cx('old-todaynovel')}>
+                <div style={{ fontSize: '1.6rem' }}>{data.name}</div>
+                <br />
+                <div>문구: {data.quotation}</div>
+                <div>작가: {data.author}</div>
+                <div>날짜: {data.dueDate}</div>
+              </div>
             </div>
           ))
           :

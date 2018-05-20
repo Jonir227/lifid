@@ -27,14 +27,11 @@ class TodayNovelAdd extends Component {
     if (month === '01' || month === '03' || month === '05' || month === '07' || month === '08'
       || month === '10' || month === '12') {
       day = '31';
-    }
-    else if (month === '04' || month === '06' || month === '09' || month === '11') { 
+    } else if (month === '04' || month === '06' || month === '09' || month === '11') {
       day = '30';
-    }
-    else if ((month === '02' && year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+    } else if ((month === '02' && year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
       day = '29';
-    }
-    else {
+    } else {
       day = '28';
     }
     this.setState({
@@ -64,7 +61,7 @@ class TodayNovelAdd extends Component {
       quotation: this.state.quotation,
     };
     console.log(addData);
-    axios.post('/api/today-novel/new', addData)
+    axios.post('/api/today-novel/', addData)
       .then((res) => {
         console.log(res.data);
         AppToaster.show({
