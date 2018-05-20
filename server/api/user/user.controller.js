@@ -1,4 +1,5 @@
 const User = require('../../models/user');
+const Novella = require('../../models/novella');
 const path = require('path');
 
 // api for admin
@@ -14,6 +15,26 @@ exports.list = (req, res) => {
   User.find({})
     .then((result) => {
       res.json({ result });
+    });
+};
+
+// GET /api/user/:username
+exports.info = (req, res) => {
+  Novella.find({ author: req.params.username })
+    .then((novella) => {
+      User.findOneByUsername(req.params.username)
+        .then((user) => {
+          res.json({
+            user,
+            novella,
+          });
+        });
+    })
+    .catch((error) => {
+      res.json({
+        success: false,
+        error,
+      });
     });
 };
 

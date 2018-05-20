@@ -6,7 +6,7 @@ router.post('/', authMiddleWare, controller.post);
 router.get('/now', controller.now);
 router.get('/', controller.list);
 router.get('/:id', controller.listWithParams);
-router.put('/:id', authMiddleWare, controller.modify);
-router.delete('/:id', authMiddleWare, controller.remove);
+router.put('/:id', authMiddleWare, controller.put);
+router.delete('/:id', authMiddleWare, controller.delete);
 
 module.exports = router;

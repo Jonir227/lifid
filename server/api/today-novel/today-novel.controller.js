@@ -26,9 +26,10 @@ exports.now = (req, res) => {
 
 // GET /api/today-novel/?offset=x&limit=x
 exports.list = (req, res) => {
-  const offset = parseInt(req.query.offset, 10);
-  const limit = parseInt(req.query.limit, 10);
-  TodayNovel.find().skip(offset).limit(limit).sort({ dueDate: -1 })
+  const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
+  const limit = typeof req.query.limit === 'undefined' ? 0 : parseInt(req.query.limit, 10);
+  TodayNovel.find()
+    .skip(offset).limit(limit).sort({ dueDate: -1 })
     .then((todayNovels) => {
       res.json({
         success: true,
@@ -89,7 +90,7 @@ exports.post = (req, res) => {
 };
 
 // PUT api.today-novel/:id
-exports.modify = (req, res) => {
+exports.put = (req, res) => {
   if (!req.decoded.admin) {
     res.status(403).json({
       success: false,
@@ -105,7 +106,12 @@ exports.modify = (req, res) => {
     } = req.body;
 
     TodayNovel.findOneAndUpdate({ _id: id }, {
-      author, name, quotation, dueDate,
+      $set: {
+        author,
+        name,
+        quotation,
+        dueDate,
+      },
     })
       .then((result) => {
         res.json({
@@ -123,7 +129,7 @@ exports.modify = (req, res) => {
 };
 
 // DELETE /api/today-novel/:id
-exports.remove = (req, res) => {
+exports.delete = (req, res) => {
   if (!req.decoded.admin) {
     res.status(403).json({
       success: false,
