@@ -38,10 +38,6 @@ exports.startServer = (port) => {
   //   res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
   // });
 
-  /* app.get('/api/today-novel/list', (req, res) => {
-    res.send({ 'page:': req.query.page, 'quantity:': req.query.quantity });
-  }); */
-
   app.listen(port, () => {
     console.log('Express listening on port', port);
   });

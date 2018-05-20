@@ -10,7 +10,7 @@ const novellaCounterSchema = new Schema({
 
 const novellaCounter = mongoose.model('novellaCounter', novellaCounterSchema);
 
-const novellaShema = new Schema({
+const novellaSchema = new Schema({
   doc_number: String,
   title: {
     type: String,
@@ -37,11 +37,15 @@ const novellaShema = new Schema({
     type: Array,
     default: [],
   },
+  views: {
+    type: Number,
+    default: 0,
+  },
   todayNovel: Object,
 });
 
 // novellaShema의 ID를 저장한다. 나중에 불러올 때는 이걸로 접근해서 불러오도록 한다.
-novellaShema.pre('save', function (next) {
+novellaSchema.pre('save', function (next) {
   novellaCounter.findByIdAndUpdate({ _id: 'entityId' }, { $inc: { seq: 1 } }, { new: true, upsert: true })
     .then((count) => {
       console.log(`...count: ${JSON.stringify(count)}`);
@@ -54,4 +58,4 @@ novellaShema.pre('save', function (next) {
     });
 });
 
-module.exports = mongoose.model('novella', novellaShema);
+module.exports = mongoose.model('novella', novellaSchema);

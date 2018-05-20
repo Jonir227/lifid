@@ -7,6 +7,7 @@ router.get('/list', controller.list);
 router.use('/assing-admin', authMiddleWare);
 router.post('/assign-admin', controller.assignAdmin);
 router.get('/profile-pic/:username', controller.profilepic);
+router.use('/:username', authMiddleWare);
 router.get('/:username', controller.info);
 
 module.exports = router;

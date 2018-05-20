@@ -3,6 +3,7 @@ const htmlparser = require('htmlparser2');
 
 // api for novella
 
+// POST /api/novella/editor
 exports.editorPost = (req, res) => {
   const {
     published_date,
@@ -13,6 +14,7 @@ exports.editorPost = (req, res) => {
     doc_number,
     title,
     tags,
+    views,
     todayNovel,
   } = req.body;
   Novella.create({
@@ -26,6 +28,7 @@ exports.editorPost = (req, res) => {
     doc_number,
     title,
     tags,
+    views,
   }).then((novella) => {
     res.json({
       success: true,
@@ -59,6 +62,7 @@ exports.editorDelete = (req, res) => {
     });
 };
 
+// PUT /api/novella/editor
 exports.editorPut = (req, res) => {
   const {
     quillDelta,
@@ -173,10 +177,12 @@ exports.readerGet = (req, res) => {
     });
 };
 
+// GET /api/novella/reader/:docNo
 exports.readerGetWithParams = (req, res) => {
   const { docNo } = req.params;
-  console.log(req.params);
-  Novella.findOne({ doc_number: docNo })
+  Novella.findOneAndUpdate({ doc_number: docNo }, {
+    $inc: { views: 1 },
+  })
     .then((novella) => {
       res.json({
         success: true,
