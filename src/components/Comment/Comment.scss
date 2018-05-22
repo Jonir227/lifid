@@ -1,6 +1,74 @@
+@import 'utils';
+
 .comment-wrapper {
-  .comment-input {
-    resize: none;
-    width: 100%;
+  margin-left: 40px;
+  margin-right: 40px;
+  @include respond-to(handhelds) {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .comment-header {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    .count {
+      color: gray;
+    }
+  }
+  .comment-area {
+    display: flex;
+    flex: 10;
+    height: 100px;
+    justify-content: center;
+    margin-bottom: 10px;
+    @include respond-to(handhelds) {
+      height: 80px;
+    }
+    .comment-input {
+      flex: 9;
+      resize: none;
+      margin-right: 3px;
+    }
+    .comment-btn {
+      flex: 1;
+    }
+  }
+}
+
+.comment-item {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: gray;
+  min-height: 100px;
+  display: flex;
+  flex: 5;
+  flex-direction: row;
+  padding-bottom: 3px;
+  margin-bottom: 3px;
+  .username {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eaf7ff;
+    margin-right: 10px;
+  }
+  .comment {
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .time {
+      text-align: right;
+      color: gray;
+    }
+  }
+  @include respond-to(handhelds) {
+    flex-direction: column;
+    .username {
+      margin-right: 0px;
+      font-weight: 400;
+      display: block;
+      margin-bottom: 5px;
+    }
   }
 }

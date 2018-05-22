@@ -1,17 +1,21 @@
 @import 'utils';
 
+.views {
+  margin-top: 50px;
+  font-size: 1rem;
+  text-align: right;
+  color: gray;
+}
+
 .title {
   font-size: 4rem;
   text-align: center;
+  margin-bottom: 100px;
   @include respond-to(handhelds) {
     font-size: 2.5rem;
   }
 }
 
-.author {
-  text-align: right;
-  font-size: 1.5rem;
-}
 .content {
   margin-right: 40px;
   margin-left: 40px;
@@ -22,20 +26,49 @@
     margin-left: 8px;
   }
 }
+
 .quotation {
   @extend .content;
-  margin-bottom: 10px;
-  color: #FF0000;
+  margin-bottom: 3px;
+  color: #159ec6;
+}
+
+.author-wrapper {
+  text-align: right;
+  padding-bottom: 50px;
+  .author {
+    font-size: 1.5rem;
+    @include respond-to(handhelds) {
+      font-size: 1.3rem;
+    }
+  }
+  .author-description {
+    color: gray;
+    font-size: 1.3rem;
+    @include respond-to(handhelds) {
+      font-size: 1rem;
+    }
+  }
+}
+
+.divider {
+  background-color: gray;
+  height: 3px;
+  width: 100%;
+  margin-bottom: 30px;
 }
 
 .left-bar {
   top: 4rem;
   position: fixed;
-  left: 20px;
+  left: 10px;
   opacity: 0.95;
   height: auto;
   @include respond-to(handhelds) {
     height: 80%;
+  }
+  @include respond-to(medium-screen) {
+    height: 70%;
   }
 }
 

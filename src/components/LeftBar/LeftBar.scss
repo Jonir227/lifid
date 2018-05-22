@@ -2,24 +2,22 @@
 
 .left-bar {
   margin-right: 1rem;
-  width: 15rem;
-  height: calc(7.5rem + 660px);
+  width: 14rem;
   text-align: center;
+  height: calc(7.5rem + 660px);
   @include respond-to(handhelds) {
     height: 90%;
   }
   .head {
     font-size: 1.15rem;
     font-weight: 400;
+    padding-bottom: 20px;
   }
   .sections {
+    display: block;
     font-size: 1.1rem;
     text-align: left;
-    margin-top: 15px;
+    margin-top: 8px;
     height: 100%;
-    overflow: auto;
-    .section-item {
-      margin-top: 0.2rem;
-    }
   }
 }

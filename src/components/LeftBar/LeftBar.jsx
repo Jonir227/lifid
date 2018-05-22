@@ -11,14 +11,12 @@ const LeftBar = ({ sections, className }) => (
   <div className={className}>
     <Card className={cx('left-bar')}>
       <div className={cx('head')}>Table Of Content</div>
-      <div className={cx('sections')}>
+      <div>
         {
           _.map(sections, (section, index) => (
-            <div key={index}>
-              <a href={`#sec${index}`}>
-                {section.substring(2)}
-              </a>
-            </div>
+            <a key={index} className={cx('sections')} href={`#sec${index}`}>
+              {section.substring(2)}
+            </a>
           ))
         }
       </div>

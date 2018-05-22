@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import ClassNames from 'classnames/bind';
+import _ from 'lodash';
 import { Button } from '@blueprintjs/core';
 import { LeftBar } from 'components';
 import 'styles/quillTheme.css';
@@ -91,6 +92,7 @@ class Reader extends React.Component {
   render() {
     const {
       novella,
+      author,
     } = this.props;
 
     return (
@@ -111,10 +113,15 @@ class Reader extends React.Component {
           />
         </div>
         <div>
+          <div className={cx('views')}>{novella.views} views</div>
           <div className={cx('title')}>{novella.title}</div>
-          <div className={cx('author')}>{novella.author}</div>
           <div className={cx('quotation')}>{novella.todayNovel.quotation}</div>
           <div id="content" className={cx('content')} dangerouslySetInnerHTML={{__html: novella.content}} />
+          <div className={cx('author-wrapper')}>
+            <div className={cx('author')}>{novella.author}</div>
+            <div className={cx('author-description')}>{author.description}</div>
+          </div>
+          <div className={cx('divider')} />
           {/* fixed Postion Element */}
           {
             !this.state.isWidthSmall ?

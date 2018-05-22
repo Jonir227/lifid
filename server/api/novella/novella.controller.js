@@ -14,7 +14,6 @@ exports.editorPost = (req, res) => {
     doc_number,
     title,
     tags,
-    views,
     todayNovel,
   } = req.body;
   Novella.create({
@@ -28,7 +27,6 @@ exports.editorPost = (req, res) => {
     doc_number,
     title,
     tags,
-    views,
   }).then((novella) => {
     res.json({
       success: true,
@@ -193,6 +191,35 @@ exports.readerGetWithParams = (req, res) => {
       res.json({
         success: false,
         error: err,
+      });
+    });
+};
+
+// POST /api/novella/reader/:docNo/:comment
+exports.readerCommentPost = (req, res) => {
+  const { docNo } = req.params;
+  const { comment } = req.body;
+  const { username } = req.decoded;
+  console.log(comment);
+  Novella.update(
+    { doc_number: docNo },
+    {
+      $push: {
+        comments: {
+          name: username,
+          comment,
+          time: Date.now(),
+        },
+      },
+    }
+  ).then(() => {
+    res.json({
+      success: true,
+    });
+  })
+    .catch(() => {
+      res.status(403).json({
+        success: false,
       });
     });
 };
