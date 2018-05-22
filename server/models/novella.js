@@ -42,6 +42,10 @@ const novellaSchema = new Schema({
     default: 0,
   },
   todayNovel: Object,
+  comments: {
+    type: Array,
+    default: [],
+  },
 });
 
 // novellaShema의 ID를 저장한다. 나중에 불러올 때는 이걸로 접근해서 불러오도록 한다.
