@@ -15,29 +15,9 @@ class TodayNovelAdd extends Component {
     name: '',
     quotation: '',
     author: '',
-    dueDate: '',
     time: {},
   }
-  componentDidMount = () => {
-    const date = moment(this.state.time).format('YYYY-MM-DD').toString();
-    const year = date.split('-')[0];
-    const month = date.split('-')[1];
-    let day;
-    console.log('month : ', month);
-    if (month === '01' || month === '03' || month === '05' || month === '07' || month === '08'
-      || month === '10' || month === '12') {
-      day = '31';
-    } else if (month === '04' || month === '06' || month === '09' || month === '11') {
-      day = '30';
-    } else if ((month === '02' && year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
-      day = '29';
-    } else {
-      day = '28';
-    }
-    this.setState({
-      dueDate: `${year}-${month}-${day}`.toString(),
-    });
-  }
+
   onChangeName = (input) => {
     this.setState({
       name: input.target.value,
@@ -53,9 +33,10 @@ class TodayNovelAdd extends Component {
       author: input.target.value,
     });
   }
-  novelNameChange = () => {
+
+  addTodayNovel = () => {
     const addData = {
-      dueDate: this.state.dueDate,
+      dueDate: this.props.calLastDayOfMonth(),
       author: this.state.author,
       name: this.state.name,
       quotation: this.state.quotation,
@@ -72,6 +53,7 @@ class TodayNovelAdd extends Component {
       .catch((res) => {
         console.error(res);
       });
+    this.props.modalModify('Exit');
   }
   render() {
     const {
@@ -101,7 +83,7 @@ class TodayNovelAdd extends Component {
                 <input className={cx('text-input')} value={this.state.author} onChange={this.onChangeAuthor} />
               </div>
               <div className={cx('update-button')}>
-                <Button className="button" onClick={this.novelNameChange} text={<div style={{ fontSize: '1.6rem' }}>Add</div>} />
+                <Button className="button" onClick={this.addTodayNovel} text={<div style={{ fontSize: '1.6rem' }}>Add</div>} />
               </div>
             </div>
           </div>

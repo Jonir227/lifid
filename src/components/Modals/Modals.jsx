@@ -4,7 +4,12 @@ import Login from './Login';
 import Register from './Register';
 import TodayNovelAdd from './TodayNovelAdd';
 
-const Modals = ({ modalState, modalModify, login }) => {
+const Modals = ({
+  modalState,
+  modalModify,
+  login,
+  calLastDayOfMonth,
+}) => {
   let CurrentModal = null;
   let defaultProps = Object.assign({}, { modalState, modalModify });
   switch (modalState) {
@@ -20,6 +25,7 @@ const Modals = ({ modalState, modalModify, login }) => {
       break;
     case 'Add':
       CurrentModal = TodayNovelAdd;
+      defaultProps = Object.assign({}, defaultProps, { calLastDayOfMonth });
       break;
     default:
       CurrentModal = Login;
@@ -33,6 +39,7 @@ Modals.propTypes = {
   modalState: PropTypes.string.isRequired,
   modalModify: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  calLastDayOfMonth: PropTypes.func.isRequired,
 };
 
 export default Modals;
