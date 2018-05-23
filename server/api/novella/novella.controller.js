@@ -201,7 +201,6 @@ exports.readerCommentPost = (req, res) => {
   const { docNo } = req.params;
   const { comment } = req.body;
   const { username } = req.decoded;
-  console.log(comment);
   Novella.update(
     { doc_number: docNo },
     {
@@ -216,6 +215,36 @@ exports.readerCommentPost = (req, res) => {
   ).then(() => {
     res.json({
       success: true,
+    });
+  })
+    .catch(() => {
+      res.status(403).json({
+        success: false,
+      });
+    });
+};
+
+exports.readerCommentDelete = (req, res) => {
+  const { docNo } = req.params;
+  const { comment, time } = req.query;
+  const { username } = req.decoded;
+  Novella.update(
+    {
+      doc_number: docNo,
+    },
+    {
+      $pull: {
+        comments: {
+          name: username,
+          comment,
+          time,
+        },
+      },
+    },
+  ).then((result) => {
+    res.json({
+      success: true,
+      result,
     });
   })
     .catch(() => {

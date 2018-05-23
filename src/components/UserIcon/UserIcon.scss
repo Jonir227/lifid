@@ -1,3 +1,5 @@
+@import 'utils';
+
 .profile-btn-wrapper {
   border: 0;
   background-color: transparent;
@@ -31,6 +33,9 @@
   width: 330px;
   background-color: rgb(250, 250, 250);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  @include respond-to(handhelds) {
+    width: 90%;
+  }
   .noti-item {
     padding: 10px;
     display: flex;

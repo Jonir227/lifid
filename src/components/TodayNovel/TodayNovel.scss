@@ -6,6 +6,9 @@
   justify-content: center;
   color: white;
   word-wrap:break-word;
+  @include respond-to(handhelds) {
+    height: 300px;
+  }
   background: {
     color: rgba(0, 0, 0, 0.5);
     blend-mode: darken;
@@ -41,12 +44,15 @@
       font-size: 2.1rem;
       padding-top: 2rem;
       text-align: center;
-      .novel-info{
+      .novel-info {
         color: white;
         padding: 1rem;
       }
       @include respond-to(handhelds) {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
+        .novel-info {
+          padding-bottom: 10px;
+        }
       }
     }
     .time-counter {
@@ -66,8 +72,8 @@
           font-size: 1rem;
         }
         @include respond-to(handhelds) {
-          padding-left: 12px;
-          padding-right: 12px;
+          padding-left: 10px;
+          padding-right: 10px;
           .time {
             font-size: 1.8rem;
             font-weight: 200;
@@ -84,7 +90,6 @@
       margin-top: 3rem;
       margin-bottom: 2rem;
     }
-
     .scale {
       transform: scale(1);
       transition: all 0.3s ease-in-out;

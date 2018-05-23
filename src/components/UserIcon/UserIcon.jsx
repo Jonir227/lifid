@@ -67,7 +67,7 @@ class UserIcon extends React.Component {
           this.state.menuOut &&
           <div className={cx('profile-menu')}>
             {
-              _.map(this.state.notifiCations, (notifiCation) => {
+              _.map(this.state.notifiCations, (notifiCation, index) => {
                 let notiLine = null;
                 switch (notifiCation.type) {
                   case 'comment':
@@ -85,7 +85,7 @@ class UserIcon extends React.Component {
                   itemStyle = 'read-noti-item';
                 }
                 return (
-                  <div className={cx(itemStyle)}>
+                  <div key={index} className={cx(itemStyle)}>
                     <img className={cx('round-icon')} src={`/api/user/profile-pic/${notifiCation.who}`} alt="profile" />
                     <div className={cx('noti-text')}>
                       <div style={{ color: '#8F8F8F' }}>

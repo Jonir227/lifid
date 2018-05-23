@@ -136,8 +136,8 @@ class AdminEditor extends React.Component {
         </Card>
         {
           !this.state.loading ? this.state.todayNovelData.map(data => (
-            <div className={cx('card-list')}>
-              <div className={cx('title')}>
+            <div key={data.name} className={cx('card-list')}>
+              <div className={cx('old-todaynovel')}>
                 <div style={{ fontSize: '1.6rem' }}>{data.name}</div>
                 <div>
                   <Button icon="cross" className="pt-minimal" onClick={() => this.del(data._id)} />
@@ -162,7 +162,6 @@ class AdminEditor extends React.Component {
             <Spinner />
             <div style={{ textAlign: 'center' }}>로딩중입니다.</div>
           </div>
-
         }
         {
           this.state.lazyLoad && <div style={{ padding: 15, display: 'flex', justifyContent: 'center' }}> <Spinner /> </div>
@@ -188,19 +187,10 @@ class AdminEditor extends React.Component {
               calLastDayOfMonth={this.todayDate}
             />
         }
-
       </Fragment>
     );
   }
 }
-AdminEditor.propTypes = {
-  novelData: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    quotation: PropTypes.string.isRequired,
-    dueDate: PropTypes.string.isRequired,
-  }).isRequired,
-};
 
 export default AdminEditor;
 

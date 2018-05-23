@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import axios from 'axios';
+import _ from 'lodash';
 import { Reader, Comment } from 'components';
 
 class ReaderView extends React.Component {
@@ -41,6 +42,7 @@ class ReaderView extends React.Component {
   regComment = () => {
     const { docNo } = this.props.match.params;
     return commentData => () => {
+      if (commentData === '') return;
       axios.post(`/api/novella/reader/${docNo}/comment`, { comment: commentData })
         .then(() => {
           this.setState({
@@ -57,15 +59,27 @@ class ReaderView extends React.Component {
     };
   }
 
+  delComment = () => {
+    const { docNo } = this.props.match.params;
+    return item => () => {
+      axios.delete(`/api/novella/reader/${docNo}/comment?comment=${item.comment}&time=${item.time}`)
+        .then((result) => {
+          console.log(result);
+          this.setState(prevState => ({
+            comments: _.reject(prevState.comments, item),
+          }));
+        });
+    };
+  }
+
   render() {
-    console.log(this.state.novella.comments);
     return (
       <Fragment>
         {
           !this.state.load &&
           <Fragment>
             <Reader novella={this.state.novella} author={this.state.author} />
-            <Comment comments={this.state.comments} regComment={this.regComment()} />
+            <Comment comments={this.state.comments} regComment={this.regComment()} delComment={this.delComment()} />
           </Fragment>
         }
       </Fragment>
