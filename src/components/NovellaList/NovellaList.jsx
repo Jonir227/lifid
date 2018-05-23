@@ -43,7 +43,7 @@ const NovellaList = ({ novelData, userData, isLoggedIn }) => {
         userData.tags.map(usertag => (
           <div>
             <br />
-            <div> tag : {usertag}</div>
+            <div className={cx('list-header')}> #{usertag}</div>
             <Slider {...settings} style={{ width: '100%' }}>
               {
                 novelData.map(novel => (

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TextArea, Button } from '@blueprintjs/core';
 import _ from 'lodash';
 import moment from 'moment';
@@ -21,8 +22,9 @@ class Comment extends React.Component {
   render() {
     const {
       regComment,
+      delComment,
+      comments,
     } = this.props;
-    const comments = this.props.comments.reverse();
     return (
       <div className={cx('comment-wrapper')}>
         <div className={cx('comment-header')}>
@@ -30,7 +32,7 @@ class Comment extends React.Component {
           <span className={cx('count')}> ({comments.length}개)</span>
         </div>
         <div className={cx('comment-area')}>
-          <TextArea className={cx('comment-input')} value={this.state.comment} onChange={this.onChange} />
+          <TextArea className={cx('comment-input')} value={this.state.comment} onChange={this.onChange} placeholder="댓글을 입력해 주세요." />
           <Button className={cx('comment-btn')} text="등록" onClick={regComment(this.state.comment)} />
         </div>
         <div>
@@ -43,6 +45,7 @@ class Comment extends React.Component {
                 <div className={cx('comment')}>
                   <div>{item.comment}</div>
                   <div className={cx('time')}>
+                    <Button className="pt-minimal" icon="cross" onClick={delComment(item)} />
                     {moment(item.time).fromNow()}
                   </div>
                 </div>
@@ -53,6 +56,16 @@ class Comment extends React.Component {
       </div>
     );
   }
+}
+
+Comment.propType = {
+  regComment: PropTypes.func.isRequired,
+  delComment: PropTypes.func.isRequired,
+  comment: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    comment: PropTypes.string.isRequired,
+    itime: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 export default Comment;

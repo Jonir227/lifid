@@ -17,25 +17,25 @@ class Reader extends React.Component {
   }
 
   componentDidMount() {
+    // 섹션 계산
     this.calSections();
+    // LeftBar가 랜더되어야 하는지 판단
     this.calLeftBar();
+    // 포지션 계산으로 Reader 프로그래스 바 계산하는 이벤트리스너
     window.addEventListener('scroll', this.calPosition);
+    // 리사이즈 되었을 때 LeftBar를 나오게 할 건지 여부
     window.addEventListener('resize', this.calLeftBar);
   }
 
-  shouldComponentUpdate(prevState) {
-    if (prevState.sections !== this.state.sections) {
-      return true;
-    }
-    return false;
-  }
-
   componentWillUnmount() {
+    // throttle 중인 작업이 있다면 취소시킴
     this.calPosition.cancel();
+    // 이벤트 리스너 제거
     window.removeEventListener('scroll', this.calPosition);
     window.removeEventListener('resize', this.calLeftBar);
   }
 
+  // LeftBar를 토글하는 함수
   onButtonClick = () => {
     this.setState(prevState => ({
       leftbarDisplay: !prevState.leftbarDisplay,
@@ -45,15 +45,10 @@ class Reader extends React.Component {
   calSections = () => {
     const tmp = document.getElementById('content');
     const ptags = tmp.getElementsByTagName('p');
-    let secNo = 0;
     const sections = [];
     for (let i = 0; i < ptags.length; i += 1) {
       if (ptags[i].textContent.startsWith('##')) {
-        ptags[i].setAttribute('id', `sec${secNo}`);
-        secNo += 1;
         sections.push(ptags[i].textContent);
-      } else {
-        ptags[i].removeAttribute('id');
       }
     }
     this.setState(() => ({
@@ -116,7 +111,7 @@ class Reader extends React.Component {
           <div className={cx('views')}>{novella.views} views</div>
           <div className={cx('title')}>{novella.title}</div>
           <div className={cx('quotation')}>{novella.todayNovel.quotation}</div>
-          <div id="content" className={cx('content')} dangerouslySetInnerHTML={{__html: novella.content}} />
+          <div id="content" className={cx('content')} dangerouslySetInnerHTML={{ __html: novella.content }} />
           <div className={cx('author-wrapper')}>
             <div className={cx('author')}>{novella.author}</div>
             <div className={cx('author-description')}>{author.description}</div>

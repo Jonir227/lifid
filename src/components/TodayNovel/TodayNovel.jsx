@@ -48,58 +48,56 @@ class TodayNovel extends Component {
       time,
     } = this.state;
     return (
-      <Fragment>
-        <Card className={cx('pt-card')} interactive >
-          <img src="http://lastbookstorela.com/wp-content/uploads/2014/11/bookholelarge.jpg" alt="None" />
-          <div className={cx('novel-contents')}>
-            <div className={cx('novel-quotation')}>
-              <div className={cx('novel-info')}>today&apos;s novel is {this.props.novelData.name}</div>
-              <div className={cx('novel-info')}>&quot; {this.props.novelData.quotation} &quot;</div>
-            </div>
-            <div className={cx('time-counter')}>
-              <div className={cx('time-counter-item')}>
-                <div className={cx('time')}>
-                  {time.days}
-                </div>
-                <div className={cx('desc')}>
-                  days
-                </div>
+      <Card className={cx('pt-card')} interactive >
+        <img src="http://lastbookstorela.com/wp-content/uploads/2014/11/bookholelarge.jpg" alt="None" />
+        <div className={cx('novel-contents')}>
+          <div className={cx('novel-quotation')}>
+            <div className={cx('novel-info')}>today&apos;s novel is {this.props.novelData.name}</div>
+            <div className={cx('novel-info')}>&quot; {this.props.novelData.quotation} &quot;</div>
+          </div>
+          <div className={cx('time-counter')}>
+            <div className={cx('time-counter-item')}>
+              <div className={cx('time')}>
+                {time.days}
               </div>
-              <div className={cx('time-counter-item')}>
-                <div className={cx('time')}>
-                  {time.hours}
-                </div>
-                <div className={cx('desc')}>
-                  hours
-                </div>
-              </div>
-              <div className={cx('time-counter-item')}>
-                <div className={cx('time')}>
-                  {time.min}
-                </div>
-                <div className={cx('desc')}>
-                  min
-                </div>
-              </div>
-              <div className={cx('time-counter-item')}>
-                <div className={cx('time')}>
-                  {time.sec}
-                </div>
-                <div className={cx('desc')}>
-                  sec
-                </div>
+              <div className={cx('desc')}>
+                days
               </div>
             </div>
-            <div className={cx('scale')}>
-              <div className={cx('button')}>
-                <Link to="/my-novellas/editor">
-                  <Button className="pt-minimal" icon={<Icon icon="edit" color="white" />} text={<div style={{ color: 'white' }}>start writing</div>} />
-                </Link>
+            <div className={cx('time-counter-item')}>
+              <div className={cx('time')}>
+                {time.hours}
+              </div>
+              <div className={cx('desc')}>
+                hours
+              </div>
+            </div>
+            <div className={cx('time-counter-item')}>
+              <div className={cx('time')}>
+                {time.min}
+              </div>
+              <div className={cx('desc')}>
+                min
+              </div>
+            </div>
+            <div className={cx('time-counter-item')}>
+              <div className={cx('time')}>
+                {time.sec}
+              </div>
+              <div className={cx('desc')}>
+                sec
               </div>
             </div>
           </div>
-        </Card>
-      </Fragment>
+          <div className={cx('scale')}>
+            <div className={cx('button')}>
+              <Link to="/my-novellas/editor">
+                <Button className="pt-minimal" icon={<Icon icon="edit" color="white" />} text={<div style={{ color: 'white' }}>start writing</div>} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Card>
     );
   }
 }
