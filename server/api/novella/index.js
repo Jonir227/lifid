@@ -16,5 +16,6 @@ router.get('/reader', controller.readerGet);
 router.get('/reader/:docNo', controller.readerGetWithParams);
 router.post('/reader/:docNo/comment', authMiddleware, controller.readerCommentPost);
 router.delete('/reader/:docNo/comment', authMiddleware, controller.readerCommentDelete);
+router.get('/search', controller.search);
 
 module.exports = router;

@@ -119,6 +119,7 @@ exports.editorGet = (req, res) => {
       });
     });
 };
+
 // GET /api/novella/editor/:doc_no
 exports.editorGetWithParams = (req, res) => {
   const { username } = req.decoded;
@@ -223,7 +224,6 @@ exports.readerCommentPost = (req, res) => {
     });
 };
 
-// DELETE /api/novella/reader/:nocNo/comment?comment=?&time=?
 exports.readerCommentDelete = (req, res) => {
   const { docNo } = req.params;
   const { comment, time } = req.query;
@@ -250,6 +250,28 @@ exports.readerCommentDelete = (req, res) => {
     .catch(() => {
       res.status(403).json({
         success: false,
+      });
+    });
+};
+
+// GET /api/novella/search?value=x
+exports.search = (req, res) => {
+  const { value } = req.query;
+  const searchCondition = { $regex: value };
+  Novella.find({
+    $or: [{ title: searchCondition }, { content: searchCondition },
+      { author: searchCondition }],
+  }).limit(5)
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        error: err,
       });
     });
 };
