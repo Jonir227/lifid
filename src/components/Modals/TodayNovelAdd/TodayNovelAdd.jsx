@@ -4,7 +4,6 @@ import ClassNames from 'classnames/bind';
 import { Button, Intent } from '@blueprintjs/core';
 import { AppToaster } from 'components';
 import axios from 'axios';
-import moment from 'moment';
 import styles from './TodayNovelAdd.scss';
 
 const cx = ClassNames.bind(styles);
@@ -15,7 +14,6 @@ class TodayNovelAdd extends Component {
     name: '',
     quotation: '',
     author: '',
-    time: {},
   }
 
   onChangeName = (input) => {
