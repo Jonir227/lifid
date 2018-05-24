@@ -1,15 +1,13 @@
+@import 'utils';
+
 .list-header {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    padding: 20px;
+    padding-bottom: 10px;
 }
 
-.novellalist-wrapper {
+.list-wrapper {
     display: flex;
-    flex: 3;
     flex-wrap: wrap;
     justify-content: space-around;
-    .novella-item {
-        padding: 3px;
-        flex: 1;
-    }
 }
-

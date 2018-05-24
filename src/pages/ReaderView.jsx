@@ -3,6 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import { Reader, Comment } from 'components';
 
+
 class ReaderView extends React.Component {
   state = {
     novella: {},
@@ -79,12 +80,19 @@ class ReaderView extends React.Component {
           !this.state.load &&
           <Fragment>
             <Reader novella={this.state.novella} author={this.state.author} />
-            <Comment comments={this.state.comments} regComment={this.regComment()} delComment={this.delComment()} />
+            <Comment
+              isLoggedIn={this.props.isLoggedIn}
+              userData={this.props.userData}
+              comments={this.state.comments}
+              regComment={this.regComment()}
+              delComment={this.delComment()}
+            />
           </Fragment>
         }
       </Fragment>
     );
   }
 }
+
 
 export default ReaderView;

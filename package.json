@@ -48,7 +48,6 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-select-plus": "^1.2.0",
-    "react-slick": "^0.23.1",
     "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "redux-actions": "^2.3.0",

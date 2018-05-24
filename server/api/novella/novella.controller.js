@@ -157,9 +157,10 @@ exports.readerGet = (req, res) => {
         parser.write(item.content);
         parser.end();
         return {
+          doc_number: item.doc_number,
           title: item.title,
           author: item.author,
-          content: tmp.substr(0, 100),
+          content: tmp.substr(0, 300),
           tags: item.tags,
         };
       });

@@ -1,29 +1,57 @@
+@import 'utils';
+
 .card {
-  .name {
-    font-size: 2rem;
-    margin-bottom: 10px;
+  flex: 0 1 48%;
+  @include respond-to(handhelds) {
+    flex: 0 1 95%;
   }
-  .content {
-    font-size: 1.2rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    word-break: break-all;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+  &:hover {
+    text-decoration: none;
+    color: black;
   }
-  .bottom-bar {
+}
+
+.name {
+  display: flex;
+  font-size: 2rem;
+  line-height: 2.1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.content {
+  font-size: 1.2rem;
+  line-height: 1.3rem;
+  height: calc(1.3rem * 7);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  word-break: break-all;
+  overflow: hidden;
+  @include respond-to(handhelds) {
+    font-size: 1rem;
+    line-height: 1.1rem;
+    height: calc(1.1rem * 7);
+  }
+}
+.bottom-bar {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  flex: 5;
+  .profile {
+    width: 35px;
+    height: 35px;
+    border-radius: 30px;
+  }
+  .user-info {
+    padding-left: 8px;
+    flex: 4;
     display: flex;
-    flex-direction: row;
-    align-content: center;
-    flex: 5;
-    .profile {
-      width: 35px;
-      height: 35px;
-      border-radius: 30px;
-    }
-    .user-info {
-      padding-left: 8px;
-      flex: 4;
-      display: flex;
-      flex-direction: column;
-    }
+    flex-direction: column;
   }
 }

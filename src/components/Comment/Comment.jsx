@@ -24,6 +24,8 @@ class Comment extends React.Component {
       regComment,
       delComment,
       comments,
+      isLoggedIn,
+      userData,
     } = this.props;
     return (
       <div className={cx('comment-wrapper')}>
@@ -45,8 +47,14 @@ class Comment extends React.Component {
                 <div className={cx('comment')}>
                   <div>{item.comment}</div>
                   <div className={cx('time')}>
-                    <Button className="pt-minimal" icon="cross" onClick={delComment(item)} />
-                    {moment(item.time).fromNow()}
+                    <div>
+                      {moment(item.time).fromNow()}
+                    </div>
+                    {
+                      isLoggedIn
+                        && (userData.username === item.name)
+                        && <Button style={{ height: 10 }} className="pt-minimal" icon="cross" onClick={delComment(item)} />
+                    }
                   </div>
                 </div>
               </div>

@@ -45,8 +45,14 @@ class App extends Component {
             <PrivateRoute path="/my-novellas/editor/:docNo" isLoggedIn={isLoggedIn} component={Editor} novelData={novelData} userData={userData} redirectTo="/" />
             <PrivateRoute path="/my-novellas/editor" component={Editor} novelData={novelData} userData={userData} isLoggedIn={isLoggedIn} redirectTo="/" />
           </Switch>
-          <PropsRoute path="/reader/:docNo" component={ReaderView} />
+          <PropsRoute path="/reader/:docNo" isLoggedIn={isLoggedIn} userData={userData} component={ReaderView} />
           <PropsRoute exact path="/admin" component={AdminView} novelData={novelData} />
+          {/*
+              TODO:
+              1. Search Page
+              2. User Info Page
+              3. My Page
+          */}
         </div>
         <BtmFooter />
       </Fragment>

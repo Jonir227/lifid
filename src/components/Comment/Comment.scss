@@ -58,8 +58,10 @@
     flex-direction: column;
     justify-content: space-between;
     .time {
-      text-align: right;
-      color: gray;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
     }
   }
   @include respond-to(handhelds) {
