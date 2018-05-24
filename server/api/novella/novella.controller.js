@@ -1,4 +1,6 @@
 const Novella = require('../../models/novella');
+const TodayNovel = require('../../models/todayNovel');
+const User = require('../../models/user');
 const htmlparser = require('htmlparser2');
 
 // api for novella
@@ -211,7 +213,7 @@ exports.readerCommentPost = (req, res) => {
           time: Date.now(),
         },
       },
-    }
+    },
   ).then(() => {
     res.json({
       success: true,
@@ -254,24 +256,52 @@ exports.readerCommentDelete = (req, res) => {
     });
 };
 
-// GET /api/novella/search?value=x
+// GET /api/novella/search?type=x&value=x&offset=x&limit=x
 exports.search = (req, res) => {
-  const { value } = req.query;
-  const searchCondition = { $regex: value };
-  Novella.find({
-    $or: [{ title: searchCondition }, { content: searchCondition },
-      { author: searchCondition }],
-  }).limit(5)
-    .then((result) => {
-      res.json({
-        success: true,
-        result,
+  const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
+  const limit = typeof req.query.limit === 'undefined' ? 0 : parseInt(req.query.limit, 10);
+  const searchCondition = { $regex: req.query.value };
+  if (req.query.type === 'username') {
+    User.find({ username: searchCondition }, { username: 1 }).skip(offset).limit(limit)
+      .then((result) => {
+        res.json({
+          success: true,
+          result,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          success: false,
+          error: err,
+        });
       });
-    })
-    .catch((err) => {
-      res.json({
-        success: false,
-        error: err,
+  } else if (req.query.type === 'title') {
+    Novella.find({ title: searchCondition }, { title: 1 }).skip(offset).limit(limit)
+      .then((result) => {
+        res.json({
+          success: true,
+          result,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          success: false,
+          error: err,
+        });
       });
-    });
+  } else if (req.query.type === 'todayNovel') {
+    TodayNovel.find({ quotation: searchCondition }, { quotation: 1 }).skip(offset).limit(limit)
+      .then((result) => {
+        res.json({
+          success: true,
+          result,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          success: false,
+          error: err,
+        });
+      });
+  }
 };
