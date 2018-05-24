@@ -3,6 +3,7 @@
 .admin-card{
   display: flex;
   flex-direction: column;
+  height: 12rem;
   margin-top: 10px;
   .text-wrapper {
     width: 100%;
@@ -27,7 +28,16 @@
       }
     }
     .update-button{
-      margin: auto;
+      margin-top: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 15px;
+    }
+    .progress-bar{
+      font-size: 1rem;
+      text-align: center;
+      margin-left: 1rem;
+      margin-right: 1rem;
     }
   }
 }
@@ -38,4 +48,8 @@
   border-width: 1px;
   height: 170px;
   border-color: #CCCCCC;
+  .title{
+    display: flex;
+    justify-content: space-between;
+  }
 }
