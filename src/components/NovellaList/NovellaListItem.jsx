@@ -19,13 +19,13 @@ const NovellaListItem = ({
     <Link to={`/reader/${docNo}`} className={cx('link')}>
       <div className={cx('name')}>{ novellaName }</div>
     </Link>
-    <div className={cx('content')}>{ novellaContent }</div>
-    <div className={cx('bottom-bar')}>
+    <div className={cx('info-bar')}>
       <img className={cx('profile')} src={`api/user/profile-pic/${author}`} alt="profile" />
       <div className={cx('user-info')}>
         <div>{ author }</div>
       </div>
     </div>
+    <div className={cx('content')}>{ novellaContent }</div>
   </Card>
 );
 

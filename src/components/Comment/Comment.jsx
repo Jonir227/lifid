@@ -74,6 +74,6 @@ Comment.propType = {
     comment: PropTypes.string.isRequired,
     itime: PropTypes.string.isRequired,
   }).isRequired,
-}
+};
 
 export default Comment;

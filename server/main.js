@@ -18,8 +18,9 @@ exports.startServer = (port) => {
   app.set('jwt-secret', config.secret);
 
   // set app to use body parser
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
+  // 리퀘스트 길이가 길때를 위해서 제한을 50메가 늘림
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
   // 로그를 출력하기 위함
   app.use(morgan('dev'));

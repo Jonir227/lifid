@@ -35,7 +35,7 @@ const NovellaList = ({ novelData, userData, isLoggedIn }) => {
         ))
         :
         <Fragment>
-          <div>
+          <div className={cx('list-wrapper')}>
             {
               _.map(novelData, novel => (
                 <NovellaListItem

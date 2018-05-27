@@ -143,8 +143,8 @@ exports.editorGetWithParams = (req, res) => {
 
 // GET /api/novella/reader?offest=0&limit=0
 exports.readerGet = (req, res) => {
-  const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 15);
-  const limit = typeof req.query.limit === 'undefined' ? 0 : parseInt(req.query.limit, 10);
+  const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
+  const limit = typeof req.query.limit === 'undefined' ? 10 : parseInt(req.query.limit, 10);
 
   Novella.find({ isPublished: true }).skip(offset).limit(limit)
     .then((novellas) => {
@@ -257,52 +257,30 @@ exports.readerCommentDelete = (req, res) => {
     });
 };
 
-// GET /api/novella/search?type=x&value=x&offset=x&limit=x
+/*  GET /api/novella/search?type=x&value=x&offset=x&limit=x
+  TYPE
+  - author
+  - title
+  - tag
+  - today_novel
+*/
+
 exports.search = (req, res) => {
   const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
-  const limit = typeof req.query.limit === 'undefined' ? 0 : parseInt(req.query.limit, 10);
+  const limit = typeof req.query.limit === 'undefined' ? 10 : parseInt(req.query.limit, 10);
   const searchCondition = { $regex: req.query.value };
-  if (req.query.type === 'username') {
-    User.find({ username: searchCondition }, { username: 1 }).skip(offset).limit(limit)
-      .then((result) => {
-        res.json({
-          success: true,
-          result,
-        });
-      })
-      .catch((err) => {
-        res.json({
-          success: false,
-          error: err,
-        });
+  const { type } = req.query;
+  User.find({ [type]: searchCondition }, { [type]: 1 }).skip(offset).limit(limit)
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
       });
-  } else if (req.query.type === 'title') {
-    Novella.find({ title: searchCondition }, { title: 1 }).skip(offset).limit(limit)
-      .then((result) => {
-        res.json({
-          success: true,
-          result,
-        });
-      })
-      .catch((err) => {
-        res.json({
-          success: false,
-          error: err,
-        });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        error: err,
       });
-  } else if (req.query.type === 'todayNovel') {
-    TodayNovel.find({ quotation: searchCondition }, { quotation: 1 }).skip(offset).limit(limit)
-      .then((result) => {
-        res.json({
-          success: true,
-          result,
-        });
-      })
-      .catch((err) => {
-        res.json({
-          success: false,
-          error: err,
-        });
-      });
-  }
+    });
 };

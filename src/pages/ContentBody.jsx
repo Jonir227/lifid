@@ -56,7 +56,7 @@ class ContentBody extends React.Component {
           :
             React.createElement(
               NovellaList,
-              Object.assign({}, { userData, isLoggedIn, novelData: novelDatas })
+              Object.assign({}, { userData, isLoggedIn, novelData: novelDatas }),
             )
         }
       </Fragment>
