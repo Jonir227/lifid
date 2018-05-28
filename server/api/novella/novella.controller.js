@@ -1,6 +1,4 @@
 const Novella = require('../../models/novella');
-const TodayNovel = require('../../models/todayNovel');
-const User = require('../../models/user');
 const htmlparser = require('htmlparser2');
 
 // api for novella
@@ -257,12 +255,11 @@ exports.readerCommentDelete = (req, res) => {
     });
 };
 
-/*  GET /api/novella/search?type=x&value=x&offset=x&limit=x
+/*  GET /api/novella/search?type=x&value=x&today_novel=x&offset=x&limit=x
   TYPE
   - author
   - title
   - tag
-  - today_novel
 */
 
 exports.search = (req, res) => {
@@ -270,17 +267,51 @@ exports.search = (req, res) => {
   const limit = typeof req.query.limit === 'undefined' ? 10 : parseInt(req.query.limit, 10);
   const searchCondition = { $regex: req.query.value };
   const { type } = req.query;
-  User.find({ [type]: searchCondition }, { [type]: 1 }).skip(offset).limit(limit)
-    .then((result) => {
-      res.json({
+  // today_novel 퀴리가 들어왔을때
+  if (typeof req.query.today_novel === 'undefined') {
+    if (type === 'author' && type === 'title ') {
+      Novella.find({ [type]: searchCondition }, { [type]: 1 }).skip(offset).limit(limit)
+        .then(result => res.json({
+          success: true,
+          result,
+        }))
+        .catch(err => res.json({
+          success: false,
+          error: err,
+        }));
+    } else if (type === 'tag') {
+      Novella.find({ tags: [[req.query.value]] }).skip(offset).limit(limit)
+        .then(result => res.json({
+          success: true,
+          result,
+        }))
+        .catch(err => res.json({
+          success: false,
+          error: err,
+        }));
+    }
+  }
+  const todayNovel = req.query.today_novel;
+  // today_novel query가 들어왔을때
+  if (type === 'author' && type === 'title') {
+    Novella.find({ 'todayNovel.name': todayNovel, [type]: searchCondition }).skip(offset).limit(limit)
+      .then(result => res.json({
         success: true,
         result,
-      });
-    })
-    .catch((err) => {
-      res.json({
+      }))
+      .catch(err => res.json({
         success: false,
         error: err,
-      });
-    });
+      }));
+  } else if (type === 'tag') {
+    Novella.find({ 'todayNovel.name': todayNovel, tags: [[req.query.value]] }).skip(offset).limit(limit)
+      .then(result => res.json({
+        success: true,
+        result,
+      }))
+      .catch(err => res.json({
+        success: false,
+        error: err,
+      }));
+  }
 };

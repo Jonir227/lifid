@@ -48,7 +48,7 @@ class ReaderView extends React.Component {
         .then(() => {
           this.setState({
             comments: _.concat(this.state.comments, {
-              name: this.state.author.username,
+              name: this.props.userData.username,
               comment: commentData,
               time: Date.now(),
             }),

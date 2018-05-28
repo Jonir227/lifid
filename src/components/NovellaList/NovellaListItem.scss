@@ -1,11 +1,8 @@
 @import 'utils';
 
 .card {
-  @include respond-to(handhelds) {
-    flex: 0 1 95%;
-  }
   @include respond-to(medium-screen) {
-    flex: 0 1 48%;
+    flex: 0 1 95%;
   }
   @include respond-to(large-screen) {
     flex: 0 1 31%;

@@ -72,8 +72,8 @@ App.propTypes = {
     profilePicture: PropTypes.string.isRequired,
     admin: PropTypes.bool.isRequired,
   }).isRequired,
-  checkUser: PropTypes.func.isRequired,
 
+  checkUser: PropTypes.func.isRequired,
   novelData: PropTypes.shape({
     name: PropTypes.string.isRequired,
     quotation: PropTypes.string.isRequired,
