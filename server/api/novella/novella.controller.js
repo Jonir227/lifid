@@ -16,6 +16,7 @@ exports.editorPost = (req, res) => {
     tags,
     todayNovel,
   } = req.body;
+
   Novella.create({
     author: req.decoded.username,
     published_date,
@@ -268,50 +269,42 @@ exports.search = (req, res) => {
   const searchCondition = { $regex: req.query.value };
   const { type } = req.query;
   // today_novel 퀴리가 들어왔을때
+  let searchQuery = {};
   if (typeof req.query.today_novel === 'undefined') {
-    if (type === 'author' && type === 'title ') {
-      Novella.find({ [type]: searchCondition }, { [type]: 1 }).skip(offset).limit(limit)
-        .then(result => res.json({
-          success: true,
-          result,
-        }))
-        .catch(err => res.json({
-          success: false,
-          error: err,
-        }));
+    if (type === 'author' || type === 'title') {
+      searchQuery = { [type]: searchCondition };
     } else if (type === 'tag') {
-      Novella.find({ tags: [[req.query.value]] }).skip(offset).limit(limit)
-        .then(result => res.json({
-          success: true,
-          result,
-        }))
-        .catch(err => res.json({
-          success: false,
-          error: err,
-        }));
+      searchQuery = { tags: [req.query.value] };
+    }
+  } else {
+    const todayNovel = req.query.today_novel;
+    // today_novel query가 들어왔을때
+    if (type === 'author' || type === 'title') {
+      searchQuery = { 'todayNovel.name': todayNovel, [type]: searchCondition };
+    } else if (type === 'tag') {
+      searchQuery = { 'todayNovel.name': todayNovel, tags: [req.query.value] };
     }
   }
-  const todayNovel = req.query.today_novel;
-  // today_novel query가 들어왔을때
-  if (type === 'author' && type === 'title') {
-    Novella.find({ 'todayNovel.name': todayNovel, [type]: searchCondition }).skip(offset).limit(limit)
-      .then(result => res.json({
-        success: true,
-        result,
-      }))
-      .catch(err => res.json({
-        success: false,
-        error: err,
-      }));
-  } else if (type === 'tag') {
-    Novella.find({ 'todayNovel.name': todayNovel, tags: [[req.query.value]] }).skip(offset).limit(limit)
-      .then(result => res.json({
-        success: true,
-        result,
-      }))
-      .catch(err => res.json({
-        success: false,
-        error: err,
-      }));
+  if (searchQuery === {}) {
+    return res.json({
+      success: false,
+      message: 'bad params',
+    });
   }
+
+  searchQuery = Object.assign({}, searchQuery, { isPublished: true });
+
+  Novella.find(searchQuery, { quillDelta: false }).skip(offset).limit(limit)
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        error: err,
+      });
+    })
 };

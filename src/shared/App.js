@@ -3,7 +3,7 @@ import { Switch } from 'react-router-dom';
 import classNames from 'classnames/bind'; import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
 import { PropsRoute, PrivateRoute } from 'util/RouterUtil';
-import { ContentBody, Editor, ReaderView, MyNovelList, AdminView } from 'pages';
+import { ContentBody, Editor, ReaderView, MyNovelList, AdminView, SerchView } from 'pages';
 import { BtmFooter, TopNavbar } from 'components';
 import styles from 'styles/base.scss';
 
@@ -47,6 +47,7 @@ class App extends Component {
           </Switch>
           <PropsRoute path="/reader/:docNo" isLoggedIn={isLoggedIn} userData={userData} component={ReaderView} />
           <PropsRoute exact path="/admin" component={AdminView} novelData={novelData} />
+          <PropsRoute path="/serch" component={SerchView} novelData={novelData} />
           {/*
               TODO:
               1. Search Page

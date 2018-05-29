@@ -23,7 +23,7 @@ class ContentBody extends React.Component {
       })
       .catch((error) => {
         console.error(error);
-      })
+      });
   }
 
 

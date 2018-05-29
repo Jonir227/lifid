@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ClassNames from 'classnames/bind';
 import _ from 'lodash';
@@ -16,7 +17,10 @@ const NovellaList = ({ novelData, userData, isLoggedIn }) => {
         isLoggedIn ?
         userData.tags.map(usertag => (
           <Fragment>
-            <div className={cx('list-header')}> #{usertag}</div>
+            <div className={cx('list-header')}>
+              <div className={cx('list-tag')}>#{usertag}</div>
+              <Link className={cx('list-link')}to={`/serch?type=tag&value=${usertag}`}>더 보기 ></Link>
+            </div>
             <div className={cx('list-wrapper')}>
               {
                 _.map(novelData, novel => (

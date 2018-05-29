@@ -38,7 +38,7 @@
   @include respond-to(handhelds) {
     font-size: 1rem;
     line-height: 1.1rem;
-    height: calc(1.1rem * 6);
+    height: calc(1.1rem * 4);
   }
 }
 .info-bar {
