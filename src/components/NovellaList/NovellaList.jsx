@@ -19,7 +19,7 @@ const NovellaList = ({ novelData, userData, isLoggedIn }) => {
           <Fragment>
             <div className={cx('list-header')}>
               <div className={cx('list-tag')}>#{usertag}</div>
-              <Link className={cx('list-link')}to={`/serch?type=tag&value=${usertag}`}>더 보기 ></Link>
+              <Link className={cx('list-link')}to={`/search?type=tag&value=${usertag}`}>더 보기 ></Link>
             </div>
             <div className={cx('list-wrapper')}>
               {

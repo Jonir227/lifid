@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import queryString from 'query-string';
 
-class SerchView extends Component {
+class SearchView extends Component {
   state = {
     searchData: [],
   }
@@ -52,8 +52,8 @@ class SerchView extends Component {
   }
 }
 
-SerchView.propTypes = {
+SearchView.propTypes = {
 
 };
 
-export default SerchView;
+export default SearchView;
