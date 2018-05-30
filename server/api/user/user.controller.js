@@ -1,6 +1,7 @@
 const User = require('../../models/user');
 const Novella = require('../../models/novella');
 const path = require('path');
+const crypto = require('crypto');
 
 // api for admin
 
@@ -79,4 +80,48 @@ exports.profilepic = (req, res) => {
         message: error.message,
       });
     });
+};
+
+// PUT /api/user/:id
+exports.put = (req, res) => {
+  if (!req.decoded.admin) {
+    res.status(403).json({
+      success: false,
+      message: 'you are not admin',
+    });
+  } else {
+    const { id } = req.params;
+    const {
+      username,
+      password,
+      tags,
+      profilePicture,
+      description,
+    } = req.body;
+    const hashKey = 'thiSIsHaSh!Key';
+    const encrypted = crypto.createHmac('sha1', hashKey)
+      .update(password)
+      .digest('base64');
+    User.findOneAndUpdate({ _id: id }, {
+      $set: {
+        username,
+        password: encrypted,
+        tags,
+        profilePicture,
+        description,
+      },
+    })
+      .then((result) => {
+        res.json({
+          success: true,
+          result,
+        });
+      })
+      .catch((err) => {
+        res.status(403).json({
+          success: false,
+          error: err,
+        });
+      });
+  }
 };
