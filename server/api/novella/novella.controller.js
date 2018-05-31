@@ -6,6 +6,7 @@ const htmlparser = require('htmlparser2');
 // POST /api/novella/editor
 exports.editorPost = (req, res) => {
   const {
+    author,
     published_date,
     quillDelta,
     content,
@@ -18,7 +19,7 @@ exports.editorPost = (req, res) => {
   } = req.body;
 
   Novella.create({
-    author: req.decoded.username,
+    author: author,
     published_date,
     quillDelta,
     content,
@@ -53,7 +54,6 @@ exports.editorDelete = (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       res.status(403).json({
         success: false,
         error: err,
@@ -113,7 +113,6 @@ exports.editorGet = (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       res.status(403).json({
         success: false,
         error: err,
@@ -268,41 +267,54 @@ exports.search = (req, res) => {
   const limit = typeof req.query.limit === 'undefined' ? 10 : parseInt(req.query.limit, 10);
   const searchCondition = { $regex: req.query.value };
   const { type } = req.query;
-  // today_novel 퀴리가 들어왔을때
   let searchQuery = {};
-  if (typeof req.query.today_novel === 'undefined') {
-    if (type === 'author' || type === 'title') {
-      searchQuery = { [type]: searchCondition };
-    } else if (type === 'tag') {
-      searchQuery = { tags: [req.query.value] };
-    }
-  } else {
+  // today_novel 퀴리가 들어오지 않았을때
+  if (type === 'title') {
+    searchQuery = { [type]: searchCondition };
+  } else if (type === 'tag') {
+    searchQuery = { tags: [req.query.value] };
+  } else if (type === 'author') {
+    searchQuery = { 'author.name': searchCondition };
+  }
+  // today_novel query가 들어왔을때
+
+  if (typeof req.query.today_novel !== 'undefined') {
     const todayNovel = req.query.today_novel;
-    // today_novel query가 들어왔을때
-    if (type === 'author' || type === 'title') {
-      searchQuery = { 'todayNovel.name': todayNovel, [type]: searchCondition };
-    } else if (type === 'tag') {
-      searchQuery = { 'todayNovel.name': todayNovel, tags: [req.query.value] };
-    }
+    searchQuery = Object.assign({}, searchQuery, { 'todayNovel.name': todayNovel });
   }
-  if (searchQuery === {}) {
-    return res.json({
-      success: false,
-      message: 'bad params',
-    });
-  }
-
+  // 파라미터가 안들어왔을 때는 구분하지 않고 쿼리
   searchQuery = Object.assign({}, searchQuery, { isPublished: true });
+  console.log(searchQuery);
 
-  Novella.find(searchQuery, { quillDelta: false }).skip(offset).limit(limit)
+  Novella.find(searchQuery, { quillDelta: false }).skip(offset).limit(limit).sort({ views: -1 })
     .then((result) => {
+      let tmp = '';
+      const parser = new htmlparser.Parser({
+        ontext: (text) => {
+          tmp = tmp.concat(text, ' ');
+        },
+      });
+      const resData = result.map((item) => {
+        tmp = '';
+        parser.write(item.content);
+        parser.end();
+        return {
+          doc_number: item.doc_number,
+          todayNovel: item.todayNovel,
+          title: item.title,
+          author: item.author,
+          content: tmp.substr(0, 300),
+          tags: item.tags,
+          views: item.views,
+        };
+      });
       res.json({
         success: true,
-        result,
+        novellas: resData,
       });
     })
     .catch((err) => {
-      res.json({
+      res.status(403).json({
         success: false,
         error: err,
       });

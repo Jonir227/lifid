@@ -30,7 +30,6 @@ class MyNovelList extends Component {
 
   load = () => {
     this.setState({ loading: true });
-    console.log(this.state.currentMode);
     const pubStatus = this.state.currentMode === 'drafts' ? 'false' : 'true';
     axios.get(`/api/novella/editor?published=${pubStatus}`)
       .then((res) => {
