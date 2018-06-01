@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 
 const SearchResultItem = ({ title, author, content, views, docNo })=> {
   return (
-    <div>
+    <div className={cx('container')}>
       <div className={cx('item-head')}>
         <div className={cx('views')}>
           {views} Views

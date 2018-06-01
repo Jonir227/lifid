@@ -56,7 +56,7 @@ class MyNovelList extends Component {
   }
 
   itemLoader = lazyLoad(() => {
-    if (!this.state.lazyLoad && !this.state.loading) {
+    if (!this.state.lazyLoad && !this.state.loading && !this.state.isEnd) {
       const pubStatus = this.state.currentMode === 'drafts' ? 'false' : 'true';
       const load = axios.get(`/api/novella/editor?offset=${this.state.offset}&limit=${this.state.limit}&published=${pubStatus}`)
         .then((res) => {

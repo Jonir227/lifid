@@ -1,37 +1,42 @@
 @import 'utils';
-
-.item-head {
-  display: flex;
-  flex-direction: column;
-  .title {
-    font-size: 1.5rem;
-    @include respond-to(handhelds) {
-      font-size: 1.3rem;
+.container {
+  .item-head {
+    display: flex;
+    flex-direction: column;
+    .title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      @include respond-to(handhelds) {
+        font-size: 1.3rem;
+      }
+    }
+    .views {
+      color: gray;
+      font-size: 1rem;
+      text-align: end;
+      margin-top: 1rem;
     }
   }
-  .views {
-    color: gray;
-    font-size: 1rem;
-    text-align: end;
+  .item-body {
+    .author {
+      text-align: end;
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+      @include respond-to(handhelds) {
+        margin-bottom: 2.5rem;
+      }
+    }
+    .content {
+      line-height: 1.1rem;
+      height: calc(1.1rem * 4);
+      font-size: 1rem;
+      overflow: hidden;
+      word-break: break-all;
+    }
   }
-}
-.item-body {
-  .author {
-    text-align: end;
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+  .divbar {
+    height: 1px;
+    background-color: black;
+    margin: 8px;
   }
-  .content {
-    line-height: 1.1rem;
-    color: #333333;
-    font-size: 1rem;
-    height: clac(1.1rem * 5);
-    overflow: hidden;
-    word-break: break-all;
-  }
-}
-.divbar {
-  height: 1px;
-  background-color: black;
-  margin: 8px;
 }

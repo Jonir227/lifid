@@ -17,7 +17,7 @@ const NovellaList = ({ novelData, isLoggedIn }) => {
           <Fragment>
             <div className={cx('list-header')}>
               <div className={cx('list-tag')}>#{key}</div>
-              <Link className={cx('list-link')}to={isLoggedIn ? `/search?type=tag&value=${key}` : '/search'}>
+              <Link className={cx('list-link')}to={key !== 'top' ? `/search?type=tag&value=${key}` : '/search'}>
                 더 보기 >
               </Link>
             </div>

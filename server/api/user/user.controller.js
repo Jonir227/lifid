@@ -21,15 +21,12 @@ exports.list = (req, res) => {
 
 // GET /api/user/:username
 exports.info = (req, res) => {
-  Novella.find({ author: req.params.username })
-    .then((novella) => {
-      User.findOneByUsername(req.params.username)
-        .then((user) => {
-          res.json({
-            user,
-            novella,
-          });
-        });
+  User.findOne({ username: req.params.username }, { password: false, admin: false, _id: false })
+    .then((user) => {
+      res.json({
+        success: true,
+        user,
+      });
     })
     .catch((error) => {
       res.json({

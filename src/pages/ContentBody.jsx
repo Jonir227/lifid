@@ -6,34 +6,53 @@ import { Spinner } from '@blueprintjs/core';
 class ContentBody extends React.Component {
   state = {
     load: true,
-    novelDatas: [],
+    novelDatas: {},
+  }
+
+  componentDidMount() {
+    if (!this.props.pending) {
+      if (this.props.isLoggedIn) {
+        this.setNotLoginData();
+        this.setLoginedData(this.props);
+      } else {
+        this.setNotLoginData();
+      }
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.pending === false) {
       if (nextProps.isLoggedIn === false) {
-        axios.get('/api/novella/search?limit=3')
-          .then((res) => {
-            this.setState({
-              load: false,
-              novelDatas: {
-                top: [...res.data.novellas],
-              },
-            });
-          })
-          .catch((res) => {
-            console.log(this.state);
-            console.log(res);
-          });
+        this.setNotLoginData();
         return;
       }
       if (JSON.stringify(this.props.userData) !== JSON.stringify(nextProps.userData)) {
-        const { tags } = nextProps.userData;
-        tags.forEach((tag) => {
-          this.fetchData('tag', tag);
-        });
+        this.setNotLoginData();
+        this.setLoginedData(nextProps);
       }
     }
+  }
+
+  setLoginedData = (props) => {
+    const { tags } = props.userData;
+    tags.map((tag) => {
+      this.fetchData('tag', tag);
+    });
+  }
+
+  setNotLoginData = () => {
+    axios.get('/api/novella/search?limit=3')
+      .then((res) => {
+        this.setState(prevState => ({
+          load: false,
+          novelDatas: Object.assign({}, {
+            top: [...res.data.novellas],
+          }, prevState.novelDatas),
+        }));
+      })
+      .catch((res) => {
+        console.log(res);
+      });
   }
 
   fetchData = (type, value) => {

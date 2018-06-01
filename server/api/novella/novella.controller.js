@@ -47,7 +47,7 @@ exports.editorDelete = (req, res) => {
   const {
     docNo,
   } = req.params;
-  Novella.deleteOne({ doc_number: docNo, author: req.decoded.username })
+  Novella.deleteOne({ doc_number: docNo, $or: [{ author: req.decoded.username }, { 'author.username': req.decoded.username }]})
     .then(() => {
       res.json({
         success: true,
@@ -74,7 +74,7 @@ exports.editorPut = (req, res) => {
     tags,
   } = req.body;
 
-  Novella.findOneAndUpdate({ doc_number, author: req.decoded.username }, {
+  Novella.findOneAndUpdate({ doc_number, $or: [{ author: req.decoded.username }, { 'author.username': req.decoded.username }] }, {
     $set: {
       quillDelta,
       content,
@@ -104,7 +104,7 @@ exports.editorGet = (req, res) => {
   const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
   const limit = typeof req.query.limit === 'undefined' ? 40 : parseInt(req.query.limit, 10);
   const published = typeof req.query.published === 'undefined' ? false : (req.query.published === 'true');
-  Novella.find({ author: username, isPublished: published })
+  Novella.find({ $or: [{ author: username }, { 'author.username': username }], isPublished: published })
     .skip(offset).limit(limit).sort({ doc_number: -1 })
     .then((novellas) => {
       res.json({
@@ -124,7 +124,7 @@ exports.editorGet = (req, res) => {
 exports.editorGetWithParams = (req, res) => {
   const { username } = req.decoded;
   const { doc_no } = req.params;
-  Novella.findOne({ author: username, doc_number: doc_no })
+  Novella.findOne({ $or: [{ author: username }, { 'author.username': username }], doc_number: doc_no })
     .then((novella) => {
       res.json({
         success: true,
@@ -286,7 +286,7 @@ exports.search = (req, res) => {
   searchQuery = Object.assign({}, searchQuery, { isPublished: true });
   console.log(searchQuery);
 
-  Novella.find(searchQuery, { quillDelta: false }).skip(offset).limit(limit).sort({ views: -1 })
+  Novella.find(searchQuery, { quillDelta: false }).sort({ views: -1 }).skip(offset).limit(limit)
     .then((result) => {
       let tmp = '';
       const parser = new htmlparser.Parser({
@@ -318,5 +318,5 @@ exports.search = (req, res) => {
         success: false,
         error: err,
       });
-    })
+    });
 };

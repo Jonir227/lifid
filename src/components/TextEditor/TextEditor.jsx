@@ -148,7 +148,7 @@ class TextEditor extends React.Component {
     */
     const publishData = {
       doc_number: this.state.docNo,
-      author: this.props.author,
+      author: this.props.userData,
       content: contentHTML,
       quillDelta: tmp.getContents(),
       title: this.state.title,
@@ -157,6 +157,8 @@ class TextEditor extends React.Component {
       tags: this.state.tags,
       isPublished,
     };
+
+    console.log(publishData);
 
     let pendingStatus = 'tmpSavePending';
 
