@@ -44,7 +44,7 @@ class AdminEditor extends React.Component {
   }
   nowDayofDate = () => {
     const date = moment(this.state.time).format('YYYY-MM-DD').toString();
-    const day = date.split('-')[2];
+    const day = date.split('-');
     return day;
   }
   load = () => {
@@ -108,7 +108,9 @@ class AdminEditor extends React.Component {
   };
   render() {
     const lastday = this.todayDate().split('-')[2];
-    const nowday = this.nowDayofDate();
+    const nowday = this.nowDayofDate()[2];
+    const nowmonth = this.nowDayofDate()[1];
+    const nowyear = this.nowDayofDate()[0];
     return (
       <Fragment>
         <Card className={cx('admin-card')}>
@@ -116,7 +118,10 @@ class AdminEditor extends React.Component {
             <div style={{ margin: 'auto', fontSize: '2rem' }}>Add Today&apos;s Novel</div>
             <br />
             {
-              !this.state.loading && this.state.todayNovelData[0].dueDate !== this.todayDate() ?
+              !this.state.loading
+              && ((nowmonth > this.state.todayNovelData[0].dueDate.split('-')[1])
+              || (nowyear > this.state.todayNovelData[0].dueDate.split('-')[0])
+              || (nowmonth === this.state.todayNovelData[0].dueDate.split('-')[1] && nowday >= (lastday - 7))) ?
                 <div className={cx('update-button')}>
                   <Button className="pt-minimal" onClick={() => { this.modalModify('Add'); }} text={<div style={{ fontSize: '1.2rem' }}>추가하기</div>} />
                 </div>
@@ -137,7 +142,7 @@ class AdminEditor extends React.Component {
         {
           !this.state.loading ? this.state.todayNovelData.map(data => (
             <div key={data.name} className={cx('card-list')}>
-              <div className={cx('old-todaynovel')}>
+              <div className={cx('title')}>
                 <div style={{ fontSize: '1.6rem' }}>{data.name}</div>
                 <div>
                   <Button icon="cross" className="pt-minimal" onClick={() => this.del(data._id)} />
