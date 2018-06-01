@@ -1,9 +1,19 @@
 @import 'utils';
 
 .list-header {
-    font-size: 2rem;
     padding: 20px;
     padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .list-tag {
+        font-size: 2rem;
+    }
+    .list-link {
+        font-size: 1rem;
+        color: #ABABAB;
+        text-decoration: none;
+    }
 }
 
 .list-wrapper {

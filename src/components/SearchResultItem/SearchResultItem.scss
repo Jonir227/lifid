@@ -1,0 +1,37 @@
+@import 'utils';
+
+.item-head {
+  display: flex;
+  flex-direction: column;
+  .title {
+    font-size: 1.5rem;
+    @include respond-to(handhelds) {
+      font-size: 1.3rem;
+    }
+  }
+  .views {
+    color: gray;
+    font-size: 1rem;
+    text-align: end;
+  }
+}
+.item-body {
+  .author {
+    text-align: end;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .content {
+    line-height: 1.1rem;
+    color: #333333;
+    font-size: 1rem;
+    height: clac(1.1rem * 5);
+    overflow: hidden;
+    word-break: break-all;
+  }
+}
+.divbar {
+  height: 1px;
+  background-color: black;
+  margin: 8px;
+}

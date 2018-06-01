@@ -3,7 +3,7 @@ import { Switch } from 'react-router-dom';
 import classNames from 'classnames/bind'; import PropTypes from 'prop-types';
 import { FocusStyleManager } from '@blueprintjs/core';
 import { PropsRoute, PrivateRoute } from 'util/RouterUtil';
-import { ContentBody, Editor, ReaderView, MyNovelList, AdminView } from 'pages';
+import { ContentBody, Editor, ReaderView, MyNovelList, AdminView, SearchView } from 'pages';
 import { BtmFooter, TopNavbar } from 'components';
 import styles from 'styles/base.scss';
 
@@ -39,7 +39,7 @@ class App extends Component {
           pending={pending}
         />
         <div className={cx('content-body')}>
-          <PropsRoute exact path="/" isLoggedIn={isLoggedIn} component={ContentBody} novelData={novelData} userData={userData} />
+          <PropsRoute exact path="/" pending={pending} isLoggedIn={isLoggedIn} component={ContentBody} novelData={novelData} userData={userData} />
           <PrivateRoute exact path="/my-novellas" isLoggedIn={isLoggedIn} component={MyNovelList} redirectTo="/" />
           <Switch>
             <PrivateRoute path="/my-novellas/editor/:docNo" isLoggedIn={isLoggedIn} component={Editor} novelData={novelData} userData={userData} redirectTo="/" />
@@ -47,6 +47,7 @@ class App extends Component {
           </Switch>
           <PropsRoute path="/reader/:docNo" isLoggedIn={isLoggedIn} userData={userData} component={ReaderView} />
           <PropsRoute exact path="/admin" component={AdminView} novelData={novelData} />
+          <PropsRoute path="/search" component={SearchView} novelData={novelData} />
           {/*
               TODO:
               1. Search Page

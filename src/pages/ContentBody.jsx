@@ -9,21 +9,44 @@ class ContentBody extends React.Component {
     novelDatas: [],
   }
 
-  componentDidMount() {
-    this.fetchData();
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.pending === false) {
+      if (nextProps.isLoggedIn === false) {
+        axios.get('/api/novella/search?limit=3')
+          .then((res) => {
+            this.setState({
+              load: false,
+              novelDatas: {
+                top: [...res.data.novellas],
+              },
+            });
+          })
+          .catch((res) => {
+            console.log(this.state);
+            console.log(res);
+          });
+        return;
+      }
+      if (JSON.stringify(this.props.userData) !== JSON.stringify(nextProps.userData)) {
+        const { tags } = nextProps.userData;
+        tags.forEach((tag) => {
+          this.fetchData('tag', tag);
+        });
+      }
+    }
   }
 
-  fetchData = () => {
-    axios.get('/api/novella/reader?limit=5')
+  fetchData = (type, value) => {
+    axios.get(`/api/novella/search?type=${type}&value=${value}&limit=3`)
       .then((res) => {
-        this.setState(() => ({
+        this.setState(prevState => ({
           load: false,
-          novelDatas: res.data.novellas,
+          novelDatas: Object.assign({}, prevState.novelDatas, { [value]: [...res.data.novellas] }),
         }));
       })
       .catch((error) => {
         console.error(error);
-      })
+      });
   }
 
 
@@ -33,9 +56,11 @@ class ContentBody extends React.Component {
       userData,
       isLoggedIn,
     } = this.props;
+
     const {
       novelDatas,
     } = this.state;
+
     return (
       <Fragment>
         <TodayNovel style={{ padding: 5 }} novelData={novelData} />
@@ -56,7 +81,7 @@ class ContentBody extends React.Component {
           :
             React.createElement(
               NovellaList,
-              Object.assign({}, { userData, isLoggedIn, novelData: novelDatas }),
+              Object.assign({}, { novelData: novelDatas, isLoggedIn }),
             )
         }
       </Fragment>

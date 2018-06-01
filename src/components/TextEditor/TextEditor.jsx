@@ -148,6 +148,7 @@ class TextEditor extends React.Component {
     */
     const publishData = {
       doc_number: this.state.docNo,
+      author: this.props.author,
       content: contentHTML,
       quillDelta: tmp.getContents(),
       title: this.state.title,
@@ -213,7 +214,6 @@ class TextEditor extends React.Component {
         intent: Intent.PRIMARY,
       });
       if (pendingStatus === 'publishPending') {
-        console.log('out!');
         this.editor.blur();
         this.setState({ out: true });
       }

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import { Reader, Comment } from 'components';
+import { Spinner } from '@blueprintjs/core';
 
 
 class ReaderView extends React.Component {
@@ -25,10 +26,13 @@ class ReaderView extends React.Component {
       })
       .catch((error) => {
         console.error(error);
-      })
+      });
   }
 
   getUserData = (novelData) => {
+    if (typeof novelData.data.author === 'object') {
+      return Promise.resolve({ userData: novelData.data.author, novella: novelData.data.novella });
+    }
     return new Promise((resolve, reject) => {
       axios.get(`/api/user/${novelData.data.novella.author}`)
         .then((userRes) => {
@@ -77,17 +81,19 @@ class ReaderView extends React.Component {
     return (
       <Fragment>
         {
-          !this.state.load &&
-          <Fragment>
-            <Reader novella={this.state.novella} author={this.state.author} />
-            <Comment
-              isLoggedIn={this.props.isLoggedIn}
-              userData={this.props.userData}
-              comments={this.state.comments}
-              regComment={this.regComment()}
-              delComment={this.delComment()}
-            />
-          </Fragment>
+          this.state.load ?
+            <Spinner />
+          :
+            <Fragment>
+              <Reader novella={this.state.novella} author={this.state.author} />
+              <Comment
+                isLoggedIn={this.props.isLoggedIn}
+                userData={this.props.userData}
+                comments={this.state.comments}
+                regComment={this.regComment()}
+                delComment={this.delComment()}
+              />
+            </Fragment>
         }
       </Fragment>
     );

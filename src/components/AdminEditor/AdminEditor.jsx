@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import ClassNames from 'classnames/bind';
 import axios from 'axios';
 import { Card, Button, Spinner, Intent, ProgressBar } from '@blueprintjs/core';

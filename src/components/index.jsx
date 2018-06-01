@@ -11,6 +11,8 @@ import UserIcon from './UserIcon';
 import MyNovelItem from './MyNovelItem';
 import AdminEditor from './AdminEditor';
 import Comment from './Comment';
+import SearchResultItem from './SearchResultItem';
+import QuoteCard from './QuoteCard';
 
 export {
   TopNavbar,
@@ -26,4 +28,6 @@ export {
   MyNovelItem,
   AdminEditor,
   Comment,
+  SearchResultItem,
+  QuoteCard,
 };

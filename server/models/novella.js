@@ -16,7 +16,7 @@ const novellaSchema = new Schema({
     type: String,
     default: '',
   },
-  author: String,
+  author: Object,
   content: {
     type: String,
     default: '',
