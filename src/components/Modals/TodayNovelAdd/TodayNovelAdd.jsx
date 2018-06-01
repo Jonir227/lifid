@@ -14,6 +14,8 @@ class TodayNovelAdd extends Component {
     name: '',
     quotation: '',
     author: '',
+    imagePath: '',
+    imageDataUri: '',
   }
 
   onChangeName = (input) => {
@@ -31,7 +33,40 @@ class TodayNovelAdd extends Component {
       author: input.target.value,
     });
   }
-
+  onChangeImagePath = (input) => {
+    this.setState({
+      imagePath: input.target.value,
+    });
+  }
+  // onDrop = (acceptedFiles) => {
+  //   const file = acceptedFiles;
+  //   console.log(file);
+  //   const i = new Image();
+  //   i.onload = () => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => {
+  //       console.log({
+  //         src: file.preview,
+  //         width: i.width,
+  //         height: i.height,
+  //         data: reader.result,
+  //       });
+  //     };
+  //   };
+  //   i.src = file.preview;
+  // }
+  getDataUri = () => {
+    const filename = document.getElementById('file_id');
+    const fReader = new FileReader();
+    fReader.readAsDataURL(filename.files[0]);
+    fReader.onload = () => {
+      this.setState({
+        imageDataUri: fReader.result,
+      });
+      console.log(this.state.imageDataUri);
+    };
+  }
   addTodayNovel = () => {
     const addData = {
       dueDate: this.props.calLastDayOfMonth(),
@@ -79,6 +114,11 @@ class TodayNovelAdd extends Component {
               <div>
                 <div className={cx('side-text')}>소설 작가 </div>
                 <input className={cx('text-input')} value={this.state.author} onChange={this.onChangeAuthor} />
+              </div>
+              <div>
+                <div className={cx('side-text')}>Input your image path </div>
+                <input className={cx('text-input')} type="file" id="file_id" value={this.state.imagePath} onChange={this.onChangeImagePath} />
+                <Button className="button" onClick={() => this.getDataUri()}>console</Button>
               </div>
               <div className={cx('update-button')}>
                 <Button className="button" onClick={this.addTodayNovel} text={<div style={{ fontSize: '1.6rem' }}>Add</div>} />

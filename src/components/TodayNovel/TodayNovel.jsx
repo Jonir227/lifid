@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ClassNames from 'classnames/bind';
 import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
 import { Card, Button, Icon } from '@blueprintjs/core';
 import styles from './TodayNovel.scss';
 
@@ -31,8 +32,8 @@ class TodayNovel extends Component {
   }
 
   updateTime = () => {
-    const diffTime = moment(this.props.novelData.dueDate).diff(Date.now());
-    const times = moment(diffTime).format('DD hh mm ss').split(' ');
+    const diffTime = moment().endOf('month').diff();
+    const times = moment.duration(diffTime).format('DD hh mm ss').split(' ');
     this.setState({
       time: {
         days: times[0],
