@@ -119,7 +119,7 @@ class AdminEditor extends React.Component {
             {
               !this.state.loading
               && ((nowmonth > this.state.todayNovelData[0].dueDate.split('-')[1])
-              || (nowyear > this.state.todayNovelData[0].dueDate.split('-')[0])
+              || (nowyear >= this.state.todayNovelData[0].dueDate.split('-')[0])
               || (nowmonth === this.state.todayNovelData[0].dueDate.split('-')[1] && nowday >= (lastday - 7))) ?
                 <div className={cx('update-button')}>
                   <Button className="pt-minimal" onClick={() => { this.modalModify('Add'); }} text={<div style={{ fontSize: '1.2rem' }}>추가하기</div>} />
@@ -129,7 +129,7 @@ class AdminEditor extends React.Component {
                   <div>
                     <div>남은 기간 : {lastday - nowday} 일</div>
                     <hr style={{ color: 'black', height: 3 }} />
-                    <ProgressBar className="pt-no-stripes pt-no-animation" value={(nowday / lastday)} />
+                    <ProgressBar className="pt-no-stripes pt-no-animation" intent="SUCCESS" value={(nowday / lastday)} />
                   </div>
                   <div>
                     <div style={{ color: 'grey' }}>아직 추가기간이 아닙니다.</div>
@@ -141,6 +141,7 @@ class AdminEditor extends React.Component {
         {
           !this.state.loading ? this.state.todayNovelData.map(data => (
             <div key={data.name} className={cx('card-list')}>
+              <img src={data.image} alt="None" />
               <div className={cx('title')}>
                 <div style={{ fontSize: '1.6rem' }}>{data.name}</div>
                 <div>

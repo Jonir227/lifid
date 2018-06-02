@@ -16,6 +16,7 @@ class TodayNovelAdd extends Component {
     author: '',
     imagePath: '',
     imageDataUri: '',
+    imageLoad: false,
   }
 
   onChangeName = (input) => {
@@ -58,11 +59,22 @@ class TodayNovelAdd extends Component {
   // }
   getDataUri = () => {
     const filename = document.getElementById('file_id');
+    const img = document.createElement('img');
     const fReader = new FileReader();
     fReader.readAsDataURL(filename.files[0]);
+    console.log(filename.files[0]);
     fReader.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      canvas.width = 800;
+      canvas.height = 200;
+
+      ctx.drawImage(img, 0, 0, 800, 200);
+
       this.setState({
-        imageDataUri: fReader.result,
+        imageDataUri: canvas.toDataURL(),
+        imageLoad: true,
       });
       console.log(this.state.imageDataUri);
     };
@@ -73,6 +85,7 @@ class TodayNovelAdd extends Component {
       author: this.state.author,
       name: this.state.name,
       quotation: this.state.quotation,
+      image: this.state.imageDataUri,
     };
     console.log(addData);
     axios.post('/api/today-novel/', addData)
@@ -120,6 +133,10 @@ class TodayNovelAdd extends Component {
                 <input className={cx('text-input')} type="file" id="file_id" value={this.state.imagePath} onChange={this.onChangeImagePath} />
                 <Button className="button" onClick={() => this.getDataUri()}>console</Button>
               </div>
+              {
+                this.state.imageLoad &&
+                <img src={this.state.imageDataUri} id="img" width="800" height="200" alt="None" />
+              }
               <div className={cx('update-button')}>
                 <Button className="button" onClick={this.addTodayNovel} text={<div style={{ fontSize: '1.6rem' }}>Add</div>} />
               </div>

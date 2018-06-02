@@ -5,6 +5,15 @@
   flex-direction: column;
   height: 12rem;
   margin-top: 10px;
+  overflow: hidden;
+  &img{
+    display: block;
+    mix-blend-mode: darken;
+    position: absolute;
+    max-width: 100%;
+    max-width: 100%;
+    align-self: center;
+  }
   .text-wrapper {
     width: 100%;
     display: flex;

@@ -9,12 +9,14 @@ exports.now = (req, res) => {
         author,
         quotation,
         dueDate,
+        image,
       } = todayNovels[0];
       res.json({
         name,
         author,
         quotation,
         dueDate,
+        image,
       });
     })
     .catch((err) => {
@@ -71,9 +73,10 @@ exports.post = (req, res) => {
       author,
       quotation,
       dueDate,
+      image,
     } = req.body;
 
-    TodayNovel.create(name, author, quotation, dueDate)
+    TodayNovel.create(name, author, quotation, dueDate, image)
       .then((result) => {
         res.json({
           success: true,
@@ -103,6 +106,7 @@ exports.put = (req, res) => {
       name,
       quotation,
       dueDate,
+      image,
     } = req.body;
 
     TodayNovel.findOneAndUpdate({ _id: id }, {
@@ -111,6 +115,7 @@ exports.put = (req, res) => {
         name,
         quotation,
         dueDate,
+        image,
       },
     })
       .then((result) => {
