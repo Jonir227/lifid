@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Alignment, Navbar, NavbarGroup, NavbarHeading, NavbarDivider, Button, InputGroup, Icon } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import { Modals, UserIcon } from 'components';
+import SearchBar from './SearchBar';
 import styles from './TopNavbar.scss';
 
 const cx = classNames.bind(styles);
@@ -18,11 +19,18 @@ class TopNavbar extends Component {
   // isLoginOpen 상태에 따라서 Login component의 랜더링 여부 결정.
   state = {
     modalState: 'Exit',
+    isSearchOut: false,
   }
 
   modalModify = (modalAction) => {
     this.setState({
       modalState: modalAction,
+    });
+  }
+
+  toggleSearchBar = boolean => () => {
+    this.setState({
+      isSearchOut: boolean,
     });
   }
 
@@ -50,17 +58,17 @@ class TopNavbar extends Component {
             <Link to="/"><NavbarHeading><strong>LiFiD</strong></NavbarHeading></Link>
           </NavbarGroup>
           <NavbarGroup align={Alignment.RIGHT}>
-            <Icon
-              className={cx('pt-icon-search')}
+            <Button
+              className="pt-minimal"
               icon="search"
-              iconSize={15}
+              onClick={this.toggleSearchBar(true)}
             />
-            <InputGroup
-              className={cx('pt-round')}
-              placeholder="search"
-              leftIcon="search"
-              rightElement={<Button className="pt-minimal" icon="arrow-right" />}
-            />
+            {
+              this.state.isSearchOut &&
+                <SearchBar
+                  toggleSearchBar={this.toggleSearchBar(false)}
+                />
+            }
             <NavbarDivider />
             {
               !pending && !isLoggedIn ?

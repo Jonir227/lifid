@@ -26,12 +26,13 @@ exports.now = (req, res) => {
     });
 };
 
-// GET /api/today-novel/?offset=x&limit=x
+// GET /api/today-novel?offset=x&limit=x
 exports.list = (req, res) => {
   const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
-  const limit = typeof req.query.limit === 'undefined' ? 0 : parseInt(req.query.limit, 10);
+  const limit = typeof req.query.limit === 'undefined' ? 10 : parseInt(req.query.limit, 10);
   TodayNovel.find()
-    .skip(offset).limit(limit).sort({ dueDate: -1 })
+    .sort({ dueDate: -1 })
+    .skip(offset).limit(limit)
     .then((todayNovels) => {
       res.json({
         success: true,
@@ -95,17 +96,26 @@ exports.post = (req, res) => {
 // PUT api.today-novel/:id
 exports.put = (req, res) => {
   if (!req.decoded.admin) {
-    res.status(403).json({
+    return res.status(403).json({
       success: false,
       message: 'you are not admin',
     });
-  } else {
-    const { id } = req.params;
-    const {
+  }
+  const { id } = req.params;
+  const {
+    author,
+    name,
+    quotation,
+    dueDate,
+  } = req.body;
+
+  TodayNovel.findOneAndUpdate({ _id: id }, {
+    $set: {
       author,
       name,
       quotation,
       dueDate,
+<<<<<<< HEAD
       image,
     } = req.body;
 
@@ -117,20 +127,22 @@ exports.put = (req, res) => {
         dueDate,
         image,
       },
-    })
-      .then((result) => {
-        res.json({
-          success: true,
-          result,
-        });
-      })
-      .catch((err) => {
-        res.status(403).json({
-          success: false,
-          error: err,
-        });
+=======
+    },
+  })
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
       });
-  }
+>>>>>>> bd629dbb2f0564c16ab7d7158ec174dcc2f5194e
+    })
+    .catch((err) => {
+      res.status(403).json({
+        success: false,
+        error: err,
+      });
+    });
 };
 
 // DELETE /api/today-novel/:id

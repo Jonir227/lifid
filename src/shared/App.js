@@ -50,9 +50,8 @@ class App extends Component {
           <PropsRoute path="/search" component={SearchView} novelData={novelData} />
           {/*
               TODO:
-              1. Search Page
-              2. User Info Page
-              3. My Page
+              1. User Info Page
+              2. My Page
           */}
         </div>
         <BtmFooter />

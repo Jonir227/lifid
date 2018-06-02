@@ -12,7 +12,6 @@ import styles from './TextEditor.scss';
 
 const cx = ClassNames.bind(styles);
 
-// TODO: title field 추가
 class TextEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -98,9 +97,11 @@ class TextEditor extends React.Component {
               docNo: this.props.match.params.docNo,
               isBlocking: false,
               novelData: novella.todayNovel,
+              isPublished: novella.isPublished,
             }),
             () => { this.editor.getEditor().enable(true); },
           );
+          console.log(this.state);
         })
         .catch(res => console.error(res));
     }
@@ -157,8 +158,6 @@ class TextEditor extends React.Component {
       tags: this.state.tags,
       isPublished,
     };
-
-    console.log(publishData);
 
     let pendingStatus = 'tmpSavePending';
 
