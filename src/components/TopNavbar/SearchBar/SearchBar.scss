@@ -1,0 +1,18 @@
+@import 'utils';
+
+.search-bar {
+  position: fixed;
+  top: 12px;
+  left: 25%;
+  width: 50%;
+  z-index: 30;
+  @include respond-to(handhelds) {
+    left: 5%;
+    width: 90%;
+  }
+  .support-bar {
+    margin-top: 15px;
+    background-color: white;
+    border-radius: 5px;
+  }
+}

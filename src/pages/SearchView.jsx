@@ -18,6 +18,7 @@ class SearchView extends Component {
     value: '',
     todayNovel: '',
   }
+
   componentDidMount() {
     const queryData = queryString.parse(this.props.location.search);
     this.setState(() => ({
@@ -65,7 +66,7 @@ class SearchView extends Component {
         });
       this.setState(() => ({
         lazyLoad: true,
-      }), load.resolve);
+      }));
     }
   });
 

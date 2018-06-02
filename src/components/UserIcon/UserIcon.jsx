@@ -106,7 +106,7 @@ class UserIcon extends React.Component {
               <div>
                 {
                   (admin !== false) &&
-                  <Link to="./admin">
+                  <Link to="/admin">
                     <Button className="pt-minimal" icon="build" title="어드민" onClick={this.handleClick} />
                   </Link>
                 }
