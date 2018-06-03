@@ -9,7 +9,7 @@ class ReaderView extends React.Component {
   state = {
     novella: {},
     comments: [],
-    author: {},
+    userData: {},
     load: true,
   };
   componentDidMount() {
@@ -20,7 +20,7 @@ class ReaderView extends React.Component {
         this.setState({
           novella: res.novella,
           comments: res.novella.comments,
-          author: res.userData,
+          userData: res.userData,
           load: false,
         });
       })
@@ -30,8 +30,12 @@ class ReaderView extends React.Component {
   }
 
   getUserData = (novelData) => {
-    if (typeof novelData.data.author === 'object') {
-      return Promise.resolve({ userData: novelData.data.author, novella: novelData.data.novella });
+    console.log(novelData.data.novella);
+    if (typeof novelData.data.novella.author === 'object') {
+      return Promise.resolve({
+        userData: novelData.data.novella.author,
+        novella: novelData.data.novella,
+      });
     }
     return new Promise((resolve, reject) => {
       axios.get(`/api/user/${novelData.data.novella.author}`)
@@ -85,7 +89,7 @@ class ReaderView extends React.Component {
             <Spinner />
           :
             <Fragment>
-              <Reader novella={this.state.novella} author={this.state.author} />
+              <Reader novella={this.state.novella} author={this.state.userData} />
               <Comment
                 isLoggedIn={this.props.isLoggedIn}
                 userData={this.props.userData}

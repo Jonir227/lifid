@@ -11,8 +11,6 @@ const NovellaListItem = ({
   novellaName,
   novellaContent,
   author,
-  authorInfo,
-  className,
   docNo,
 }) => (
   <Card className={cx('card')}>
@@ -33,6 +31,7 @@ NovellaListItem.propTypes = {
   novellaName: PropTypes.string.isRequired,
   novellaContent: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
+  docNo: PropTypes.number.isRequired,
 };
 
 export default NovellaListItem;

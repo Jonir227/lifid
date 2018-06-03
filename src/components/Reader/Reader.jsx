@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import ClassNames from 'classnames/bind';
 import _ from 'lodash';
 import { Button } from '@blueprintjs/core';
@@ -113,7 +114,7 @@ class Reader extends React.Component {
           <div className={cx('quotation')}>{novella.todayNovel.quotation}</div>
           <div id="content" className={cx('content')} dangerouslySetInnerHTML={{ __html: novella.content }} />
           <div className={cx('author-wrapper')}>
-            <div className={cx('author')}>{novella.author}</div>
+            <div className={cx('author')}>{author.username}</div>
             <div className={cx('author-description')}>{author.description}</div>
           </div>
           <div className={cx('divider')} />
@@ -143,5 +144,20 @@ class Reader extends React.Component {
     );
   }
 }
+
+Reader.propTypes = {
+  novella: PropTypes.shape({
+    views: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    todayNovel: PropTypes.shape({
+      quotation: PropTypes.string.isRequired,
+    }).isRequired,
+    content: PropTypes.string.isRequired,
+  }).isRequired,
+  author: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default Reader;

@@ -23,16 +23,18 @@ const NovellaList = ({ novelData, isLoggedIn }) => {
             </div>
             <div className={cx('list-wrapper')}>
               {
-                _.map(usertag, novel => (
-                  <NovellaListItem
-                    key={novel.doc_number}
-                    className={cx('novella-item')}
-                    docNo={novel.doc_number}
-                    novellaName={novel.title}
-                    novellaContent={novel.content}
-                    author={novel.author}
-                  />
-                ))
+                _.map(usertag, (novel) => {
+                  const author = typeof novel.author === 'object' ? novel.author.username : novel.author;
+                  return (
+                    <NovellaListItem
+                      key={novel.doc_number}
+                      className={cx('novella-item')}
+                      docNo={novel.doc_number}
+                      novellaName={novel.title}
+                      novellaContent={novel.content}
+                      author={author}
+                    />);
+                })
               }
             </div>
           </Fragment>
