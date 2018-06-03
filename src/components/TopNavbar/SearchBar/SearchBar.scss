@@ -1,7 +1,7 @@
 @import 'utils';
 
 .search-bar {
-  position: fixed;
+  position: absolute;
   top: 12px;
   left: 25%;
   width: 50%;
@@ -11,8 +11,16 @@
     width: 90%;
   }
   .support-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 15px;
-    background-color: white;
+    background-color: #DCDCDC;
     border-radius: 5px;
+    width: 350px;
+    .switch {
+      margin-top: 10px;
+      padding-right: 10px;
+    }
   }
 }

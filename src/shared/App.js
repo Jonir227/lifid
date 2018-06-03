@@ -36,6 +36,7 @@ class App extends Component {
           logout={logout}
           isLoggedIn={isLoggedIn}
           userData={userData}
+          novelData={novelData}
           pending={pending}
         />
         <div className={cx('content-body')}>

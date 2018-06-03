@@ -2,11 +2,13 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import queryString from 'query-string';
+import _ from 'lodash';
 import { SearchResultItem, QuoteCard } from 'components';
 import lazyLoad from 'util/LazyLoad';
 import { Spinner } from '@blueprintjs/core';
 
 class SearchView extends Component {
+
   state = {
     loading: true,
     lazyLoad: false,
@@ -16,7 +18,7 @@ class SearchView extends Component {
     searchData: [],
     type: '',
     value: '',
-    todayNovel: '',
+    today_novel: '',
   }
 
   componentDidMount() {
@@ -24,10 +26,25 @@ class SearchView extends Component {
     this.setState(() => ({
       type: queryData.type,
       value: queryData.value,
-      todayNovel: queryData.todayNovel,
+      todayNovel: queryData.today_novel,
     }));
     window.addEventListener('scroll', this.itemLoader);
-    this.getSerchValue(queryData.type, queryData.value, queryData.todayNovel);
+    this.getSerchValue(queryData.type, queryData.value, queryData.today_novel);
+  }
+
+  componentWillReceiveProps(nextProps, prevState) {
+    const queryData = queryString.parse(nextProps.location.search);
+    if (queryData.type !== prevState.type ||
+      queryData.value !== prevState.value ||
+      queryData.today_novel !== prevState.today_novel) {
+      this.setState({
+        type: queryData.type,
+        value: queryData.value,
+        today_novel: queryData.today_novel,
+      });
+      this.getSerchValue(queryData.type, queryData.value, queryData.today_novel);
+    }
+    return null;
   }
 
   componentWillUnmount() {
@@ -35,7 +52,8 @@ class SearchView extends Component {
   }
 
   getSerchValue = (type, value, todayNovel) => {
-    axios.get(`/api/novella/search?type=${type}&value=${value}&todayNovel=${todayNovel}`)
+    const novelQuery = typeof todayNovel === 'undefined' ? '' : `&today_novel=${todayNovel}`;
+    axios.get(`/api/novella/search?type=${type}&value=${value}${novelQuery}`)
       .then((res) => {
         this.setState({
           loading: false,
@@ -50,7 +68,8 @@ class SearchView extends Component {
 
   itemLoader = lazyLoad(() => {
     if (!this.state.lazyLoad && !this.state.loading && !this.state.isEnd) {
-      const load = axios.get(`/api/novella/search?type=${this.state.type}&value=${this.state.value}&todayNovel=${this.state.todayNovel}&offset=${this.state.offset}&limit${this.state.limit}`)
+      const novelQuery = typeof this.state.today_novel === 'undefined' ? '' : `&today_novel=${this.state.today_novel}`;
+      axios.get(`/api/novella/search?type=${this.state.type}&value=${this.state.value}&offset=${this.state.offset}&limit${this.state.limit}${novelQuery}`)
         .then((res) => {
           const fetchedVal = res.data.novellas.length;
           if (fetchedVal === 0) {
@@ -76,7 +95,7 @@ class SearchView extends Component {
     const {
       type,
       value,
-      todayNovel,
+      today_novel,
       searchData,
     } = this.state;
 
