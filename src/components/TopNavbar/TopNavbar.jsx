@@ -67,6 +67,7 @@ class TopNavbar extends Component {
               this.state.isSearchOut &&
                 <SearchBar
                   toggleSearchBar={this.toggleSearchBar(false)}
+                  novelData={this.props.novelData}
                 />
             }
             <NavbarDivider />
