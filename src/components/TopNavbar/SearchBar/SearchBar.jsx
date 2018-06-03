@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ClassNames from 'classnames/bind';
-import { InputGroup, Icon, Button } from '@blueprintjs/core';
+import { InputGroup, Button } from '@blueprintjs/core';
 import styles from './SearchBar.scss';
 
 const cx = ClassNames.bind(styles);
