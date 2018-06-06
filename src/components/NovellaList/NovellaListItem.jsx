@@ -31,7 +31,7 @@ NovellaListItem.propTypes = {
   novellaName: PropTypes.string.isRequired,
   novellaContent: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
-  docNo: PropTypes.number.isRequired,
+  docNo: PropTypes.string.isRequired,
 };
 
 export default NovellaListItem;

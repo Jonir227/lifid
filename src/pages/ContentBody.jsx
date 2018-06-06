@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import axios from 'axios';
+import _ from 'lodash';
 import { TodayNovel, NovellaList } from 'components';
 import { Spinner } from '@blueprintjs/core';
 
@@ -10,38 +11,38 @@ class ContentBody extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.pending) {
-      if (this.props.isLoggedIn) {
-        this.setNotLoginData();
-        this.setLoginedData(this.props);
-      } else {
-        this.setNotLoginData();
-      }
+    console.log(this.props);
+    if (this.props.pending || this.props.novelData.name === '') {
+      return;
     }
+    this.setNotLoginData(this.props.novelData.name);
+    if (this.props.isLoggedIn === false) {
+      return;
+    }
+    this.setLoginedData(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.pending === false) {
+    if (!_.isEqual(this.props, nextProps) && nextProps.novelData.name !== '') {
+      this.setNotLoginData(nextProps.novelData.name);
       if (nextProps.isLoggedIn === false) {
-        this.setNotLoginData();
         return;
       }
-      if (JSON.stringify(this.props.userData) !== JSON.stringify(nextProps.userData)) {
-        this.setNotLoginData();
-        this.setLoginedData(nextProps);
-      }
+      this.setLoginedData(nextProps);
     }
   }
 
   setLoginedData = (props) => {
     const { tags } = props.userData;
+    const { name } = props.novelData;
     tags.map((tag) => {
-      this.fetchData('tag', tag);
+      this.fetchData('tag', tag, name);
     });
   }
 
-  setNotLoginData = () => {
-    axios.get('/api/novella/search?limit=3')
+  setNotLoginData = (todayNovelName) => {
+    console.log(todayNovelName);
+    axios.get(`/api/novella/search?today_novel=${todayNovelName}&limit=3`)
       .then((res) => {
         this.setState(prevState => ({
           load: false,
@@ -55,8 +56,8 @@ class ContentBody extends React.Component {
       });
   }
 
-  fetchData = (type, value) => {
-    axios.get(`/api/novella/search?type=${type}&value=${value}&limit=3`)
+  fetchData = (type, value, name) => {
+    axios.get(`/api/novella/search?type=${type}&today_novel=${name}&value=${value}&limit=3`)
       .then((res) => {
         this.setState(prevState => ({
           load: false,
@@ -84,6 +85,7 @@ class ContentBody extends React.Component {
       <Fragment>
         <TodayNovel style={{ padding: 5 }} novelData={novelData} />
         {
+          // main contents
           this.state.load ?
             <div style={{
               display: 'flex',
@@ -100,7 +102,7 @@ class ContentBody extends React.Component {
           :
             React.createElement(
               NovellaList,
-              Object.assign({}, { novelData: novelDatas, isLoggedIn }),
+              Object.assign({}, { novelData: novelDatas, isLoggedIn, todayNovel: novelData.name }),
             )
         }
       </Fragment>

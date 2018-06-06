@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Alignment, Navbar, NavbarGroup, NavbarHeading, NavbarDivider, Button, InputGroup, Icon } from '@blueprintjs/core';
+import { Alignment, Navbar, NavbarGroup, NavbarHeading, NavbarDivider, Button } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import { Modals, UserIcon } from 'components';
 import SearchBar from './SearchBar';

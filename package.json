@@ -43,7 +43,7 @@
     "prop-types": "^15.6.1",
     "query-string": "^6.1.0",
     "raf": "3.4.0",
-    "react": "^16.3.0",
+    "react": "^16.4.0",
     "react-dev-utils": "^5.0.0",
     "react-dom": "^16.2.0",
     "react-quill": "^1.2.6",

@@ -26,6 +26,7 @@ class App extends Component {
       isLoggedIn,
       userData,
       pending,
+      novelPending,
       novelData,
     } = this.props;
 
@@ -40,7 +41,7 @@ class App extends Component {
           pending={pending}
         />
         <div className={cx('content-body')}>
-          <PropsRoute exact path="/" pending={pending} isLoggedIn={isLoggedIn} component={ContentBody} novelData={novelData} userData={userData} />
+          <PropsRoute exact path="/" pending={pending} novelPending={novelPending} isLoggedIn={isLoggedIn} component={ContentBody} novelData={novelData} userData={userData} />
           <PrivateRoute exact path="/my-novellas" isLoggedIn={isLoggedIn} component={MyNovelList} redirectTo="/" />
           <Switch>
             <PrivateRoute path="/my-novellas/editor/:docNo" isLoggedIn={isLoggedIn} component={Editor} novelData={novelData} userData={userData} redirectTo="/" />
@@ -65,7 +66,7 @@ App.propTypes = {
   login: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  pending: PropTypes.func.isRequired,
+  pending: PropTypes.bool.isRequired,
   userData: PropTypes.shape({
     username: PropTypes.string.isRequired,
     tags: PropTypes.array.isRequired,

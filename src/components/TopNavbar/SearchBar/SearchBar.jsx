@@ -116,6 +116,9 @@ class SearchBar extends React.Component {
 
 SearchBar.propTypes = {
   toggleSearchBar: PropTypes.func.isRequired,
+  novelData: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default SearchBar;

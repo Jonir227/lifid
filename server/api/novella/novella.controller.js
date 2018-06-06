@@ -274,7 +274,7 @@ exports.search = (req, res) => {
   } else if (type === 'tag') {
     searchQuery = { tags: [req.query.value] };
   } else if (type === 'author') {
-    searchQuery = { 'author.name': searchCondition };
+    searchQuery = { $or: [{ author: searchCondition }, { 'author.username': searchCondition }] };
   }
   // today_novel query가 들어왔을때
 

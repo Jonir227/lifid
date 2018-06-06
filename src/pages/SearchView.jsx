@@ -8,7 +8,6 @@ import lazyLoad from 'util/LazyLoad';
 import { Spinner } from '@blueprintjs/core';
 
 class SearchView extends Component {
-
   state = {
     loading: true,
     lazyLoad: false,
@@ -20,6 +19,7 @@ class SearchView extends Component {
     value: '',
     today_novel: '',
   }
+
 
   componentDidMount() {
     const queryData = queryString.parse(this.props.location.search);
@@ -53,6 +53,7 @@ class SearchView extends Component {
 
   getSerchValue = (type, value, todayNovel) => {
     const novelQuery = typeof todayNovel === 'undefined' ? '' : `&today_novel=${todayNovel}`;
+    this.prevQuote = {};
     axios.get(`/api/novella/search?type=${type}&value=${value}${novelQuery}`)
       .then((res) => {
         this.setState({
@@ -65,6 +66,8 @@ class SearchView extends Component {
         console.error(err);
       });
   }
+
+  prevQuote = {};
 
   itemLoader = lazyLoad(() => {
     if (!this.state.lazyLoad && !this.state.loading && !this.state.isEnd) {
@@ -89,14 +92,11 @@ class SearchView extends Component {
     }
   });
 
-  prevQuote = {};
 
   render() {
     const {
       type,
       value,
-      today_novel,
-      searchData,
     } = this.state;
 
     return (
@@ -122,7 +122,7 @@ class SearchView extends Component {
             }}
           >
             {
-              value === 'undefined' ?
+              value !== undefined ?
                 <Fragment>
                   {type} : {value}
                 </Fragment>
@@ -139,7 +139,7 @@ class SearchView extends Component {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
               }}
             >
               <Spinner />
