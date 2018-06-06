@@ -12,7 +12,7 @@ const cx = classNames.bind(styles);
 class App extends Component {
   componentDidMount() {
     this.props.checkUser();
-    this.props.getTodayNovel();
+    this.props.getTodayNovel('now');
   }
 
   render() {

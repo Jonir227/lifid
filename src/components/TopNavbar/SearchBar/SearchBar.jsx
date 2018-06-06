@@ -78,7 +78,10 @@ class SearchBar extends React.Component {
       >
         {
           pressEnter &&
-            <Redirect to={`/search/?type=${searchMode}&value=${input}${todayNovel}`} push />
+            (() => {
+              this.setState({ pressEnter: false });
+              return <Redirect to={`/search/?type=${searchMode}&value=${input}${todayNovel}`} push />
+            })()
         }
         <InputGroup
           className="pt-round"

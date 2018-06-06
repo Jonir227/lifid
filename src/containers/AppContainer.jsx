@@ -20,8 +20,8 @@ class AppContainer extends Component {
     this.props.LoginStateActions.getCheck();
   }
 
-  handlefetchTodayNovel = () => {
-    this.props.TodayNovelActions.getTodayNovel();
+  handlefetchTodayNovel = (query) => {
+    this.props.TodayNovelActions.getTodayNovel(query);
   }
 
   render() {

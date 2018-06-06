@@ -53,7 +53,6 @@ class SearchView extends Component {
 
   getSerchValue = (type, value, todayNovel) => {
     const novelQuery = typeof todayNovel === 'undefined' ? '' : `&today_novel=${todayNovel}`;
-    this.prevQuote = {};
     axios.get(`/api/novella/search?type=${type}&value=${value}${novelQuery}`)
       .then((res) => {
         this.setState({
@@ -66,8 +65,6 @@ class SearchView extends Component {
         console.error(err);
       });
   }
-
-  prevQuote = {};
 
   itemLoader = lazyLoad(() => {
     if (!this.state.lazyLoad && !this.state.loading && !this.state.isEnd) {
@@ -98,6 +95,7 @@ class SearchView extends Component {
       type,
       value,
     } = this.state;
+    this.prevQuote = {}
 
     return (
       <Fragment>
