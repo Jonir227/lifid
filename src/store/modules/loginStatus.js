@@ -21,6 +21,7 @@ const emptyUserData = {
   description: '',
   profilePicture: '',
   admin: false,
+  bookMark: [],
 };
 
 const initialState = {
@@ -29,6 +30,7 @@ const initialState = {
   userData: emptyUserData,
 };
 
+// User Tocken check function
 export const getCheck = () => (dispatch) => {
   dispatch({ type: CHECK_PENDING });
 
@@ -60,6 +62,7 @@ export default handleActions({
     {
       isLoggedIn: true,
       userData: action.payload,
+      pending: false,
     }
   ),
   [LOGOUT]: () => {

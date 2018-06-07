@@ -11,7 +11,6 @@ class ContentBody extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     if (this.props.pending || this.props.novelData.name === '') {
       return;
     }
@@ -24,7 +23,7 @@ class ContentBody extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(this.props, nextProps) && nextProps.novelData.name !== '') {
-      this.setNotLoginData(nextProps.novelData.name);
+      this.setNotLoginData(nextProps);
       if (nextProps.isLoggedIn === false) {
         return;
       }
@@ -40,15 +39,21 @@ class ContentBody extends React.Component {
     });
   }
 
-  setNotLoginData = (todayNovelName) => {
-    console.log(todayNovelName);
-    axios.get(`/api/novella/search?today_novel=${todayNovelName}&limit=3`)
+  setNotLoginData = (nextProps) => {
+    const {
+      novelData,
+      isLoggedIn,
+    } = nextProps;
+    axios.get(`/api/novella/search?today_novel=${novelData.name}&limit=3`)
       .then((res) => {
         this.setState(prevState => ({
           load: false,
-          novelDatas: Object.assign({}, {
-            top: [...res.data.novellas],
-          }, prevState.novelDatas),
+          novelDatas: isLoggedIn ?
+            Object.assign({}, {
+              top: [...res.data.novellas],
+            }, prevState.novelDatas)
+            :
+            { top: [...res.data.novellas] },
         }));
       })
       .catch((res) => {

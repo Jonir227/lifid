@@ -24,6 +24,10 @@ const User = new Schema({
     type: Boolean,
     default: false,
   },
+  bookMark: {
+    type: Array,
+    default: [],
+  },
 });
 
 const hashKey = 'thiSIsHaSh!Key';

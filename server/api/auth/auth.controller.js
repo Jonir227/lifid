@@ -144,6 +144,7 @@ exports.login = (req, res) => {
       description: user.description,
       profilePicture: user.profilePicture,
       admin: user.admin,
+      bookMark: user.bookMark,
     });
     res.json({
       message: 'logged in successfully',
