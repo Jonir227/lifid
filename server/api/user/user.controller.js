@@ -1,5 +1,4 @@
 const User = require('../../models/user');
-const Novella = require('../../models/novella');
 const path = require('path');
 const crypto = require('crypto');
 
@@ -95,14 +94,16 @@ exports.put = (req, res) => {
       message: 'you are not admin',
     });
   } else {
+    const proPic = typeof req.body.profilePicture === 'undefined' ? 'default' : req.body.profilePicture;
+
     const { id } = req.params;
     const {
       username,
       password,
       tags,
-      profilePicture,
       description,
     } = req.body;
+
     const hashKey = 'thiSIsHaSh!Key';
     const encrypted = crypto.createHmac('sha1', hashKey)
       .update(password)
@@ -112,7 +113,7 @@ exports.put = (req, res) => {
         username,
         password: encrypted,
         tags,
-        profilePicture,
+        proPic,
         description,
       },
     })
