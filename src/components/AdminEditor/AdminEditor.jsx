@@ -140,7 +140,7 @@ class AdminEditor extends React.Component {
         </Card>
         {
           !this.state.loading ? this.state.todayNovelData.map(data => (
-            <div key={data.name} className={cx('card-list')}>
+            <div key={data._id} className={cx('card-list')}>
               <div className={cx('title')}>
                 <div style={{ fontSize: '1.6rem' }}>{data.name}</div>
                 <div>
