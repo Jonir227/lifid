@@ -81,45 +81,43 @@ exports.profilepic = (req, res) => {
 // PUT /api/user/:id
 exports.put = (req, res) => {
   if (!req.decoded.admin) {
-    res.status(403).json({
-      success: false,
+    return res.status(403).json({
       message: 'you are not admin',
     });
-  } else {
-    const proPic = typeof req.body.profilePicture === 'undefined' ? 'default' : req.body.profilePicture;
-
-    const { id } = req.params;
-    const {
-      username,
-      password,
-      tags,
-      description,
-    } = req.body;
-
-    const hashKey = 'thiSIsHaSh!Key';
-    const encrypted = crypto.createHmac('sha1', hashKey)
-      .update(password)
-      .digest('base64');
-    User.findOneAndUpdate({ _id: id }, {
-      $set: {
-        username,
-        password: encrypted,
-        tags,
-        proPic,
-        description,
-      },
-    })
-      .then((result) => {
-        res.json({
-          success: true,
-          result,
-        });
-      })
-      .catch((err) => {
-        res.status(403).json({
-          success: false,
-          error: err,
-        });
-      });
   }
+  const proPic = typeof req.body.profilePicture === 'undefined' ? 'default' : req.body.profilePicture;
+
+  const { id } = req.params;
+  const {
+    username,
+    password,
+    tags,
+    description,
+  } = req.body;
+
+  const hashKey = 'thiSIsHaSh!Key';
+  const encrypted = crypto.createHmac('sha1', hashKey)
+    .update(password)
+    .digest('base64');
+  User.findOneAndUpdate({ _id: id }, {
+    $set: {
+      username,
+      password: encrypted,
+      tags,
+      proPic,
+      description,
+    },
+  })
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.status(403).json({
+        success: false,
+        error: err,
+      });
+    });
 };
