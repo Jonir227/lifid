@@ -78,7 +78,10 @@ class SearchBar extends React.Component {
       >
         {
           pressEnter &&
-            <Redirect to={`/search/?type=${searchMode}&value=${input}${todayNovel}`} push />
+            (() => {
+              this.setState({ pressEnter: false });
+              return <Redirect to={`/search/?type=${searchMode}&value=${input}${todayNovel}`} push />
+            })()
         }
         <InputGroup
           className="pt-round"
@@ -116,6 +119,9 @@ class SearchBar extends React.Component {
 
 SearchBar.propTypes = {
   toggleSearchBar: PropTypes.func.isRequired,
+  novelData: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default SearchBar;

@@ -105,6 +105,7 @@ class TextEditor extends React.Component {
         })
         .catch(res => console.error(res));
     }
+    this.setState({ isBlocking: false });
   }
 
   checkNovel = _.debounce(() => {
@@ -249,9 +250,12 @@ class TextEditor extends React.Component {
         { this.state.out ? <Redirect to="/my-novellas" />
         :
         <div className={cx('editor')}>
-          <Prompt message={location =>
-            ((this.state.isBlocking && location.pathname.startsWith('/my-novellas/editor')) ? true : '변경사항이 저장되지 않았습니다. 페이지를 떠나시겠습니까?')
+          <Prompt message={(location) => {
+            if (location.pathname.startsWith('/my-novellas/editor')) {
+              return true;
             }
+            return (!this.state.isBlocking ? true : '변경사항이 저장되지 않았습니다. 페이지를 떠나시겠습니까?');
+            }}
           />
           <Card className={cx('today-novel')}>
             <div className={cx('quotation')}>

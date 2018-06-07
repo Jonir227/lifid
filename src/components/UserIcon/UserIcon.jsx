@@ -121,4 +121,13 @@ class UserIcon extends React.Component {
     );
   }
 }
+
+UserIcon.propTypes = {
+  logout: PropTypes.func.isRequired,
+  userData: PropTypes.shape({
+    admin: PropTypes.bool,
+    username: PropTypes.string.isRequired,
+  }).isRequired,
+}
+
 export default UserIcon;

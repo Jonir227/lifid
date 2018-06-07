@@ -19,7 +19,7 @@ exports.editorPost = (req, res) => {
   } = req.body;
 
   Novella.create({
-    author: author,
+    author,
     published_date,
     quillDelta,
     content,
@@ -265,7 +265,7 @@ exports.readerCommentDelete = (req, res) => {
 exports.search = (req, res) => {
   const offset = typeof req.query.offset === 'undefined' ? 0 : parseInt(req.query.offset, 10);
   const limit = typeof req.query.limit === 'undefined' ? 10 : parseInt(req.query.limit, 10);
-  const searchCondition = { $regex: req.query.value };
+  const searchCondition = { $regex: new RegExp(req.query.value, 'i') };
   const { type } = req.query;
   let searchQuery = {};
   // today_novel 퀴리가 들어오지 않았을때
@@ -274,7 +274,7 @@ exports.search = (req, res) => {
   } else if (type === 'tag') {
     searchQuery = { tags: [req.query.value] };
   } else if (type === 'author') {
-    searchQuery = { 'author.name': searchCondition };
+    searchQuery = { $or: [{ author: searchCondition }, { 'author.username': searchCondition }] };
   }
   // today_novel query가 들어왔을때
 

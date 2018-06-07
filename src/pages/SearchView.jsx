@@ -8,7 +8,6 @@ import lazyLoad from 'util/LazyLoad';
 import { Spinner } from '@blueprintjs/core';
 
 class SearchView extends Component {
-
   state = {
     loading: true,
     lazyLoad: false,
@@ -20,6 +19,7 @@ class SearchView extends Component {
     value: '',
     today_novel: '',
   }
+
 
   componentDidMount() {
     const queryData = queryString.parse(this.props.location.search);
@@ -89,15 +89,13 @@ class SearchView extends Component {
     }
   });
 
-  prevQuote = {};
 
   render() {
     const {
       type,
       value,
-      today_novel,
-      searchData,
     } = this.state;
+    this.prevQuote = {}
 
     return (
       <Fragment>
@@ -122,7 +120,7 @@ class SearchView extends Component {
             }}
           >
             {
-              value === 'undefined' ?
+              value !== undefined ?
                 <Fragment>
                   {type} : {value}
                 </Fragment>
@@ -139,7 +137,7 @@ class SearchView extends Component {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
               }}
             >
               <Spinner />

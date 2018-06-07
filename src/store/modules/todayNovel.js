@@ -19,10 +19,10 @@ const defaultData = {
   },
 };
 
-export const getTodayNovel = () => (dispatch) => {
+export const getTodayNovel = data => (dispatch) => {
   dispatch({ type: TODAY_NOVEL_DATA_PENDING });
 
-  return axios.get('/api/today-novel/now')
+  return axios.get(`/api/today-novel/${data}`)
     .then((res) => {
       dispatch({
         type: TODAY_NOVEL_DATA_SUCCESS,
