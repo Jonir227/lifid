@@ -101,7 +101,6 @@ class TextEditor extends React.Component {
             }),
             () => { this.editor.getEditor().enable(true); },
           );
-          console.log(this.state);
         })
         .catch(res => console.error(res));
     }

@@ -51,6 +51,8 @@ class TopNavbar extends Component {
       pending,
     } = this.props;
 
+    console.log(this.props);
+
     return (
       <Fragment>
         <Navbar className={cx('top-nav-bar')}>

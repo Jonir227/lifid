@@ -21,7 +21,15 @@ exports.list = (req, res) => {
 
 // GET /api/user/:username
 exports.info = (req, res) => {
-  User.findOne({ username: req.params.username }, { password: false, admin: false, _id: false })
+  User.findOne(
+    { username: req.params.username },
+    {
+      bookkMark: false,
+      password: false,
+      admin: false,
+      _id: false ,
+    },
+  )
     .then((user) => {
       res.json({
         success: true,
