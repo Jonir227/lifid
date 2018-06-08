@@ -14,7 +14,7 @@ class ContentBody extends React.Component {
     if (this.props.pending || this.props.novelData.name === '') {
       return;
     }
-    this.setNotLoginData(this.props.novelData.name);
+    this.setNotLoginData(this.props);
     if (this.props.isLoggedIn === false) {
       return;
     }
@@ -78,7 +78,6 @@ class ContentBody extends React.Component {
   render() {
     const {
       novelData,
-      userData,
       isLoggedIn,
     } = this.props;
 

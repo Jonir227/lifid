@@ -137,9 +137,10 @@ exports.bookMarkPost = (req, res) => {
         result,
       });
     })
-    .catch(() => {
+    .catch((error) => {
       res.status(403).json({
         success: false,
+        error,
       });
     });
 };
@@ -155,9 +156,54 @@ exports.bookMarkDelete = (req, res) => {
         result,
       });
     })
-    .catch(() => {
+    .catch((error) => {
       res.status(403).json({
         success: false,
+        error,
+      });
+    });
+};
+
+// POST /api/user/:id/follow:username
+exports.followPost = (req, res) => {
+  if (!req.decoded.admin) {
+    return res.status(403).json({
+      message: 'you are not admin',
+    });
+  }
+  User.update({ username: req.decoded.username }, { $push: { follow: req.params.username } })
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((error) => {
+      res.status(403).json({
+        success: false,
+        error,
+      });
+    });
+};
+
+// DELETE /api/user/:id/follow/:username
+exports.followDelete = (req, res) => {
+  if (!req.decoded.admin) {
+    return res.status(403).json({
+      message: 'you are not admin',
+    });
+  }
+  User.update({ username: req.decoded.username }, { $pull: { follow: req.params.username } })
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((error) => {
+      res.status(403).json({
+        success: false,
+        error,
       });
     });
 };

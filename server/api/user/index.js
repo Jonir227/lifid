@@ -11,5 +11,7 @@ router.get('/:username', controller.info);
 router.put('/:id', authMiddleWare, controller.put);
 router.post('/:id/bookmark', authMiddleWare, controller.bookMarkPost);
 router.delete('/:id/bookmark/:docNo', authMiddleWare, controller.bookMarkDelete);
+router.post('/:id/follow/:username', authMiddleWare, controller.followPost);
+router.delete('/:id/follow/:username', authMiddleWare, controller.followDelete);
 
 module.exports = router;
