@@ -1,5 +1,7 @@
 const Novella = require('../../models/novella');
+const Notification = require('../../models/notification');
 const htmlparser = require('htmlparser2');
+
 
 // api for novella
 
@@ -197,12 +199,13 @@ exports.readerGetWithParams = (req, res) => {
     });
 };
 
-// POST /api/novella/reader/:docNo/:comment
+// POST /api/novella/reader/:docNo/comment
 exports.readerCommentPost = (req, res) => {
   const { docNo } = req.params;
   const { comment } = req.body;
   const { username } = req.decoded;
-  Novella.update(
+  console.log(docNo, comment, username);
+  Novella.findOneAndUpdate(
     { doc_number: docNo },
     {
       $push: {
@@ -213,7 +216,16 @@ exports.readerCommentPost = (req, res) => {
         },
       },
     },
-  ).then(() => {
+  ).then((novella) => {
+    // Make Notification Data
+    const to = typeof novella.author === 'object' ? novella.author.username : novella.author;
+    Notification.create({
+      to,
+      from: username,
+      type: 'COMMENT',
+      location: docNo,
+    });
+    // send Data
     res.json({
       success: true,
     });
