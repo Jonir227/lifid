@@ -61,7 +61,7 @@ class AdminEditor extends React.Component {
       });
   }
   itemLoader = lazyLoad(() => {
-    if (!this.state.lazyLoad && !this.state.loading) {
+    if (!this.state.lazyLoad && !this.state.loading && !this.state.isEnd) {
       const load = axios.get(`/api/today-novel/?offset=${this.state.offset}&limit=${this.state.limit}`)
         .then((res) => {
           const fetchedVal = res.data.todayNovels.length;

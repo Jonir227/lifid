@@ -80,7 +80,7 @@ class SearchBar extends React.Component {
           pressEnter &&
             (() => {
               this.setState({ pressEnter: false });
-              return <Redirect to={`/search/?type=${searchMode}&value=${input}${todayNovel}`} push />
+              return <Redirect to={`/search/?type=${searchMode}&value=${input}${todayNovel}`} push />;
             })()
         }
         <InputGroup
