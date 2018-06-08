@@ -30,7 +30,6 @@ class ReaderView extends React.Component {
   }
 
   getUserData = (novelData) => {
-    console.log(novelData.data.novella);
     if (typeof novelData.data.novella.author === 'object') {
       return Promise.resolve({
         userData: novelData.data.novella.author,

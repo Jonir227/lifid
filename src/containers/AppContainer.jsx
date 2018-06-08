@@ -57,7 +57,7 @@ class AppContainer extends Component {
 }
 
 AppContainer.propTypes = {
-  isLoggedIn: PropTypes.bool,
+  isLoggedIn: PropTypes.bool.isRequired,
   userData: PropTypes.shape({
     username: PropTypes.string.isRequired,
     tags: PropTypes.array.isRequired,
@@ -65,7 +65,7 @@ AppContainer.propTypes = {
     profilePicture: PropTypes.string.isRequired,
     admin: PropTypes.bool.isRequired,
   }).isRequired,
-  pending: PropTypes.bool,
+  pending: PropTypes.bool.isRequired,
   novelData: PropTypes.shape({
     name: PropTypes.string.isRequired,
     quotation: PropTypes.string.isRequired,
@@ -75,8 +75,6 @@ AppContainer.propTypes = {
 };
 
 AppContainer.defaultProps = {
-  isLoggedIn: false,
-  pending: true,
   novelPending: true,
 };
 

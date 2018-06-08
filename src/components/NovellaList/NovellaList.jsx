@@ -9,7 +9,7 @@ import NovellaListItem from './NovellaListItem';
 
 const cx = ClassNames.bind(styles);
 
-const NovellaList = ({ novelData, isLoggedIn, todayNovel }) => (
+const NovellaList = ({ novelData, todayNovel }) => (
   <Fragment>
     {
       _.map(novelData, (usertag, key) => (

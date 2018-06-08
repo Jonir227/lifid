@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import ClassNames from 'classnames/bind';
 import axios from 'axios';
-import { Card, Button, Spinner, Intent, ProgressBar } from '@blueprintjs/core';
+import { Card, Button, Spinner, Intent, ProgressBar, Icon } from '@blueprintjs/core';
 import { Modals, AppToaster } from 'components';
 import _ from 'lodash';
 import moment from 'moment';
@@ -24,7 +24,7 @@ class AdminEditor extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('scroll', this.itemLoader);
   }
-  todayDate = () => {
+  lastdayofMonth = () => {
     const date = moment().format('YYYY-MM-DD').toString();
     const year = date.split('-')[0];
     const month = date.split('-')[1];
@@ -106,7 +106,7 @@ class AdminEditor extends React.Component {
       .catch((err) => { console.error(err); });
   };
   render() {
-    const lastday = this.todayDate().split('-')[2];
+    const lastday = this.lastdayofMonth().split('-')[2];
     const nowday = this.nowDayofDate()[2];
     const nowmonth = this.nowDayofDate()[1];
     const nowyear = this.nowDayofDate()[0];
@@ -114,12 +114,12 @@ class AdminEditor extends React.Component {
       <Fragment>
         <Card className={cx('admin-card')}>
           <div className={cx('text-wrapper')}>
-            <div style={{ margin: 'auto', fontSize: '2rem' }}>Add Today&apos;s Novel</div>
+            <div style={{ fontWeight: 'bold', margin: 'auto', fontSize: '2rem' }}>Add Today&apos;s Novel</div>
             <br />
             {
               !this.state.loading
               && ((nowmonth > this.state.todayNovelData[0].dueDate.split('-')[1])
-              || (nowyear >= this.state.todayNovelData[0].dueDate.split('-')[0])
+              || (nowyear > this.state.todayNovelData[0].dueDate.split('-')[0])
               || (nowmonth === this.state.todayNovelData[0].dueDate.split('-')[1] && nowday >= (lastday - 7))) ?
                 <div className={cx('update-button')}>
                   <Button className="pt-minimal" onClick={() => { this.modalModify('Add'); }} text={<div style={{ fontSize: '1.2rem' }}>추가하기</div>} />
@@ -132,7 +132,7 @@ class AdminEditor extends React.Component {
                     <ProgressBar className="pt-no-stripes pt-no-animation" intent="SUCCESS" value={(nowday / lastday)} />
                   </div>
                   <div>
-                    <div style={{ color: 'grey' }}>아직 추가기간이 아닙니다.</div>
+                    <div style={{ color: 'gray' }}>아직 추가기간이 아닙니다.</div>
                   </div>
                 </div>
             }
@@ -140,56 +140,37 @@ class AdminEditor extends React.Component {
         </Card>
         {
           !this.state.loading ? this.state.todayNovelData.map(data => (
-            <div key={data.name} className={cx('card-list')}>
-              <img src={data.image} alt="None" />
+            <div style={{ backgroundImage: `url("${data.image}")`, backgroundSize: '100%' }} key={data.name} className={cx('card-list')}>
               <div className={cx('title')}>
-                <div style={{ fontSize: '1.6rem' }}>{data.name}</div>
-                <div>
-                  <Button icon="cross" className="pt-minimal" onClick={() => this.del(data._id)} />
+                <div className={cx('quotation-text')}>{data.quotation}</div>
+                <div className={cx('cross-button')}>
+                  <Button icon={<Icon icon="cross" color="white" />} className="pt-minimal" onClick={() => this.del(data._id)} />
                 </div>
               </div>
-              <br />
-              <div style={{ fontSize: '1rem' }}>문구: {data.quotation}</div>
-              <div style={{ fontSize: '1rem' }}>작가: {data.author}</div>
-              <div style={{ fontSize: '1rem' }}>날짜: {data.dueDate}</div>
+              <div className={cx('text-wrapper')}>
+                <div className={cx('info-text')}>{data.name}, by {data.author}, {data.dueDate}</div>
+              </div>
             </div>
           ))
           :
-          <div style={{
-            display: 'flex',
-            fontSize: '1.5rem',
-            paddingTop: '10rem',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            }}
-          >
+          <div className={cx('first-loading')}>
             <Spinner />
             <div style={{ textAlign: 'center' }}>로딩중입니다.</div>
           </div>
         }
         {
-          this.state.lazyLoad && <div style={{ padding: 15, display: 'flex', justifyContent: 'center' }}> <Spinner /> </div>
+          this.state.lazyLoad && <div className={cx('lazy-loading')}> <Spinner /> </div>
         }
         {
           !this.state.loading && !this.state.lazyLoad && this.state.isEnd &&
-          <div style={{
-            padding: 15,
-            display: 'flex',
-            justifyContent: 'center',
-            fontSize: '1.2rem',
-            color: '#CCCCCC',
-            }}
-          >
-            문서의 끝입니다
-          </div>
+          <div className={cx('end-loading')}>문서의 끝입니다</div>
         }
         {
           (this.state.modalState !== 'Exit') &&
             <Modals
               modalState={this.state.modalState}
               modalModify={this.modalModify}
-              calLastDayOfMonth={this.todayDate}
+              calLastDayOfMonth={this.lastdayofMonth}
             />
         }
       </Fragment>

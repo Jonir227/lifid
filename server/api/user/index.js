@@ -9,5 +9,7 @@ router.post('/assign-admin', controller.assignAdmin);
 router.get('/profile-pic/:username', controller.profilepic);
 router.get('/:username', controller.info);
 router.put('/:id', authMiddleWare, controller.put);
+router.post('/:id/bookmark', authMiddleWare, controller.bookMarkPost);
+router.delete('/:id/bookmark/:docNo', authMiddleWare, controller.bookMarkDelete);
 
 module.exports = router;

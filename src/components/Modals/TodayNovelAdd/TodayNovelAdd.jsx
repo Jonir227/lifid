@@ -38,44 +38,27 @@ class TodayNovelAdd extends Component {
     this.setState({
       imagePath: input.target.value,
     });
+    this.getDataUri();
   }
-  // onDrop = (acceptedFiles) => {
-  //   const file = acceptedFiles;
-  //   console.log(file);
-  //   const i = new Image();
-  //   i.onload = () => {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     reader.onload = () => {
-  //       console.log({
-  //         src: file.preview,
-  //         width: i.width,
-  //         height: i.height,
-  //         data: reader.result,
-  //       });
-  //     };
-  //   };
-  //   i.src = file.preview;
-  // }
   getDataUri = () => {
     const filename = document.getElementById('file_id');
     const img = document.createElement('img');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
     const fReader = new FileReader();
     fReader.readAsDataURL(filename.files[0]);
-    console.log(filename.files[0]);
     fReader.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-
-      canvas.width = 800;
-      canvas.height = 200;
-
-      ctx.drawImage(img, 0, 0, 800, 200);
-
-      this.setState({
-        imageDataUri: canvas.toDataURL(),
-        imageLoad: true,
-      });
+      const data = fReader.result;
+      img.src = data;
+      img.onload = () => {
+        canvas.width = 800;
+        canvas.height = 300;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        this.setState({
+          imageLoad: true,
+          imageDataUri: canvas.toDataURL('image/png'),
+        });
+      };
       console.log(this.state.imageDataUri);
     };
   }
@@ -84,7 +67,7 @@ class TodayNovelAdd extends Component {
       dueDate: this.props.calLastDayOfMonth(),
       author: this.state.author,
       name: this.state.name,
-      quotation: this.state.quotation,
+      quotation: this.state.quotation, 
       image: this.state.imageDataUri,
     };
     console.log(addData);
@@ -131,11 +114,12 @@ class TodayNovelAdd extends Component {
               <div>
                 <div className={cx('side-text')}>Input your image path </div>
                 <input className={cx('text-input')} type="file" id="file_id" value={this.state.imagePath} onChange={this.onChangeImagePath} />
-                <Button className="button" onClick={() => this.getDataUri()}>console</Button>
               </div>
               {
                 this.state.imageLoad &&
-                <img src={this.state.imageDataUri} id="img" width="800" height="200" alt="None" />
+                <div style={{ alignConten: 'center' }}>
+                  <img width="160" height="60" src={this.state.imageDataUri} alt="preview" />
+                </div>
               }
               <div className={cx('update-button')}>
                 <Button className="button" onClick={this.addTodayNovel} text={<div style={{ fontSize: '1.6rem' }}>Add</div>} />
