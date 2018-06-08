@@ -64,33 +64,31 @@ exports.listWithParams = (req, res) => {
 // POST /api/today-novel/
 exports.post = (req, res) => {
   if (!req.decoded.admin) {
-    res.status(403).json({
-      success: false,
+    return res.status(403).json({
       message: 'you are not admin',
     });
-  } else {
-    const {
-      name,
-      author,
-      quotation,
-      dueDate,
-      image,
-    } = req.body;
-
-    TodayNovel.create(name, author, quotation, dueDate, image)
-      .then((result) => {
-        res.json({
-          success: true,
-          message: result,
-        });
-      })
-      .catch((result) => {
-        res.status(403).json({
-          success: false,
-          message: result,
-        });
-      });
   }
+  const {
+    name,
+    author,
+    quotation,
+    dueDate,
+    image,
+  } = req.body;
+
+  TodayNovel.create(name, author, quotation, dueDate, image)
+    .then((result) => {
+      res.json({
+        success: true,
+        message: result,
+      });
+    })
+    .catch((result) => {
+      res.status(403).json({
+        success: false,
+        message: result,
+      });
+    });
 };
 
 // PUT api.today-novel/:id
@@ -134,23 +132,21 @@ exports.put = (req, res) => {
 // DELETE /api/today-novel/:id
 exports.delete = (req, res) => {
   if (!req.decoded.admin) {
-    res.status(403).json({
-      success: false,
+    return res.status(403).json({
       message: 'you are not admin',
     });
-  } else {
-    const { id } = req.params;
-    TodayNovel.deleteOne({ _id: id })
-      .then(() => {
-        res.json({
-          success: true,
-        });
-      })
-      .catch((err) => {
-        res.status(403).json({
-          success: false,
-          error: err,
-        });
-      });
   }
+  const { id } = req.params;
+  TodayNovel.deleteOne({ _id: id })
+    .then(() => {
+      res.json({
+        success: true,
+      });
+    })
+    .catch((err) => {
+      res.status(403).json({
+        success: false,
+        error: err,
+      });
+    });
 };
