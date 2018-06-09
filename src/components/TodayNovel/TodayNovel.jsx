@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ClassNames from 'classnames/bind';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
+import axios from 'axios';
 import { Card, Button, Icon } from '@blueprintjs/core';
 import styles from './TodayNovel.scss';
 
@@ -21,12 +22,23 @@ class TodayNovel extends Component {
       min: '00',
       sec: '00',
     },
+    loading: true,
+    todayNovelImage: '',
   }
 
   componentDidMount() {
     this.interval = setInterval(this.updateTime, 1000);
+    axios.get('api/today-novel/?offset=0&limit=1')
+      .then((res) => {
+        this.setState(() => ({
+          loading: false,
+          todayNovelImage: res.data.todayNovels[0].image,
+        }));
+      })
+      .catch((res) => {
+        console.error(res);
+      });
   }
-
   componentWillUnmount() {
     clearInterval(this.interval);
   }
@@ -50,7 +62,11 @@ class TodayNovel extends Component {
     } = this.state;
     return (
       <Card className={cx('pt-card')} interactive >
-        <img src="http://lastbookstorela.com/wp-content/uploads/2014/11/bookholelarge.jpg" alt="None" />
+        {
+          !this.state.loading &&
+          // <img src="http://lastbookstorela.com/wp-content/uploads/2014/11/bookholelarge.jpg" alt="None" />
+          <img src={this.state.todayNovelImage} alt="None" />
+        }
         <div className={cx('novel-contents')}>
           <div className={cx('novel-quotation')}>
             <div className={cx('novel-info')}>today&apos;s novel is {this.props.novelData.name}</div>

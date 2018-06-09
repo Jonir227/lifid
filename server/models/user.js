@@ -28,6 +28,10 @@ const User = new Schema({
     type: Array,
     default: [],
   },
+  follow: {
+    type: Array,
+    default: [],
+  },
 });
 
 const hashKey = 'thiSIsHaSh!Key';
