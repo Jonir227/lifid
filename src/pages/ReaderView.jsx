@@ -85,7 +85,15 @@ class ReaderView extends React.Component {
       <Fragment>
         {
           this.state.load ?
-            <Spinner />
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: '8rem',
+            }}
+            >
+              <Spinner />
+            </div>
           :
             <Fragment>
               <Reader novella={this.state.novella} author={this.state.userData} />

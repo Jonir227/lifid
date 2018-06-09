@@ -224,6 +224,7 @@ exports.readerCommentPost = (req, res) => {
       from: username,
       type: 'COMMENT',
       location: docNo,
+      body: comment,
     });
     // send Data
     res.json({

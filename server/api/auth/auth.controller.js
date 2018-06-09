@@ -181,6 +181,8 @@ exports.check = (req, res) => {
           tags: user.tags,
           description: user.description,
           profilePicture: user.profilePicture,
+          admin: user.admin,
+          bookMark: user.bookMark,
         },
       });
     })

@@ -11,6 +11,7 @@ const notificiationSchema = new Schema({
   from: String,
   to: String,
   location: String,
+  body: String,
   time: {
     type: Date,
     default: Date.now(),
