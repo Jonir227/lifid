@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 // TYPE
 //  -COMMENT
-//  -AUTHER_NEW_NOVEL
+//  -AUTHOR_NEW_NOVEL
 
 const notificiationSchema = new Schema({
   type: String,

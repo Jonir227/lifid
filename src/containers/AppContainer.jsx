@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as loginActions from 'store/modules/loginStatus';
 import * as todayNovel from 'store/modules/todayNovel';
+import * as notifications from 'store/modules/notification';
 import App from 'shared/App';
 
 class AppContainer extends Component {
@@ -24,12 +25,22 @@ class AppContainer extends Component {
     this.props.TodayNovelActions.getTodayNovel(query);
   }
 
+  handlefetchNotifications = (isLoggedIn, username, offset, limit, right) => {
+    this.props.NotificationActions.fetchNotifications(isLoggedIn, username, offset, limit, right);
+  }
+
+  handleReadNotifications = (notiID) => {
+    this.props.NotificationActions.readNotification(notiID);
+  }
+
   render() {
     const {
       handleLogin,
       handleLogout,
       handleCheckUser,
       handlefetchTodayNovel,
+      handlefetchNotifications,
+      handleReadNotifications,
     } = this;
 
     const {
@@ -38,19 +49,38 @@ class AppContainer extends Component {
       pending,
       novelData,
       novelPending,
+      notiLimit,
+      notiOffset,
+      notificationStatus,
+      notifications,
+      notiCount,
+      notiPending,
+      readPending,
     } = this.props;
 
     return (
       <App
+        // login
         login={handleLogin}
         logout={handleLogout}
         isLoggedIn={isLoggedIn}
         userData={userData}
         pending={pending}
         checkUser={handleCheckUser}
+        // todayNovel
         getTodayNovel={handlefetchTodayNovel}
         novelData={novelData}
         novelPending={novelPending}
+        // notification
+        notiOffset={notiOffset}
+        notiLimit={notiLimit}
+        notiCount={notiCount}
+        fetchNotifications={handlefetchNotifications}
+        readNotification={handleReadNotifications}
+        notificationStatus={notificationStatus}
+        notiPending={notiPending}
+        notifications={notifications}
+        readPending={readPending}
       />
     );
   }
@@ -71,24 +101,31 @@ AppContainer.propTypes = {
     quotation: PropTypes.string.isRequired,
     dueDate: PropTypes.string.isRequired,
   }).isRequired,
-  novelPending: PropTypes.bool,
-};
-
-AppContainer.defaultProps = {
-  novelPending: true,
+  novelPending: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
+  // loginStatus
   isLoggedIn: state.loginStatus.isLoggedIn,
   userData: state.loginStatus.userData,
   pending: state.loginStatus.pending,
+  // todayNovel
   novelData: state.todayNovel.novelData,
   novelPending: state.todayNovel.novelPending,
+  // notification
+  notificationStatus: state.notification.notificationStatus,
+  notiPending: state.notification.notiPending,
+  notifications: state.notification.notifications,
+  readPending: state.notification.readPending,
+  notiOffset: state.notification.notiOffset,
+  notiLimit: state.notification.notiLimit,
+  notiCount: state.notification.notiCount,
 });
 
 const mapDispatchToProps = dispatch => ({
   LoginStateActions: bindActionCreators(loginActions, dispatch),
   TodayNovelActions: bindActionCreators(todayNovel, dispatch),
+  NotificationActions: bindActionCreators(notifications, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AppContainer));

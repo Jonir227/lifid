@@ -49,9 +49,18 @@ class TopNavbar extends Component {
       isLoggedIn,
       userData,
       pending,
+      notiOffset,
+      notiLimit,
+      notiCount,
+      fetchNotifications,
+      readNotification,
+      notificationStatus,
+      notiPending,
+      notifications,
+      readPedning,
     } = this.props;
 
-    console.log(this.props);
+    console.log(this.props, this.props.notifications);
 
     return (
       <Fragment>
@@ -74,7 +83,7 @@ class TopNavbar extends Component {
             }
             <NavbarDivider />
             {
-              !pending && !isLoggedIn ?
+              !pending && !isLoggedIn && notificationStatus ?
                 <Fragment>
                   <Button
                     className="pt-minimal"
@@ -99,7 +108,20 @@ class TopNavbar extends Component {
                     />
                   </Link>
                   <NavbarDivider />
-                  <UserIcon userData={userData} logout={logout} />
+                  <UserIcon
+                    userData={userData}
+                    logout={logout}
+                    // notification data
+                    notiOffset={notiOffset}
+                    notiLimit={notiLimit}
+                    notiCount={notiCount}
+                    fetchNotifications={fetchNotifications}
+                    readNotification={readNotification}
+                    notificationStatus={notificationStatus}
+                    notifications={notifications}
+                    notiPending={notiPending}
+                    readPedning={readPedning}
+                  />
                 </Fragment>
             }
           </NavbarGroup>

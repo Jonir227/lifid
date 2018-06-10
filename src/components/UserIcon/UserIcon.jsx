@@ -8,35 +8,18 @@ import styles from './UserIcon.scss';
 
 const cx = ClassNames.bind(styles);
 
-class UserIcon extends React.Component {
+class UserIcon extends React.PureComponent {
+  /*
+    Notification Schema
+    - type: COMMENT or AUTHOR_NEW_NOVEL : String
+    - from: username : String
+    - to : username : must same with current user : String
+    - location : target document location: String
+    - time : Time which event occured : Date
+    - read : Boolean
+  */
   state = {
     menuOut: false,
-    notifiCations: [
-      {
-        checked: 'false',
-        from: 'myarticle',
-        who: 'bjbj6363@gmail.com',
-        type: 'comment',
-        data: '좋은 글 감사합니다.',
-        read: false,
-      },
-      {
-        checked: 'false',
-        from: 'myarticle',
-        who: 'bjbj6363@gmail.com',
-        type: 'comment',
-        data: '좋은 글 감사합니다.',
-        read: true,
-      },
-      {
-        checked: 'false',
-        from: 'myarticle',
-        who: 'bjbj6363@gmail.com',
-        type: 'comment',
-        data: '좋은 글 감사합니다.',
-        read: false,
-      },
-    ],
   };
 
   onProfileClick = () => {
@@ -49,32 +32,65 @@ class UserIcon extends React.Component {
     this.props.logout();
   }
 
+  onRead = (read, _id) => () => {
+    return !read && this.props.readNotification(_id);
+  }
+
+  onRightClick = () => {
+    const {
+      isLoggendIn,
+      notiOffset,
+      notiLimit,
+      userData,
+    } = this.props;
+    this.props.fetchNotifications(isLoggendIn, userData.username, notiOffset, notiLimit, true);
+  }
+  
+  onLeftClick = () => {
+    const {
+      isLoggendIn,
+      notiOffset,
+      notiLimit,
+      userData,
+    } = this.props;
+    if (notiOffset < notiLimit) {
+      return;
+    }
+    this.props.fetchNotifications(isLoggendIn, userData.username, notiOffset, notiLimit, false);
+  }
+
   render() {
     const {
       admin,
       username,
     } = this.props.userData;
 
+    const {
+      notifications,
+      notiCount,
+    } = this.props;
+
     return (
       <Fragment>
         <button className={cx('profile-btn-wrapper')} onClick={this.onProfileClick}>
           <img className={cx('round-icon')} src={`/api/user/profile-pic/${username}`} alt="profile" />
           <div className={cx('circle')}>
-            {_.reduce(this.state.notifiCations, (prev, curr) => (!curr.read ? prev + 1 : prev), 0)}
+            {notiCount}
           </div>
         </button>
         {
           this.state.menuOut &&
           <div className={cx('profile-menu')}>
             {
-              _.map(this.state.notifiCations, (notifiCation, index) => {
+              notifications.length !== 0 ?
+              _.map(notifications, (notifiCation, index) => {
                 let notiLine = null;
                 switch (notifiCation.type) {
-                  case 'comment':
-                    notiLine = `내 소설에 ${notifiCation.who}님이 새로운 댓글을 달았습니다`;
+                  case 'COMMENT':
+                    notiLine = `내 소설에 ${notifiCation.from}님이 새로운 댓글을 달았습니다`;
                     break;
-                  case 'author':
-                    notiLine = `팔로우하는 ${notifiCation.who}님이 새 소설을 게시했습니다`;
+                  case 'AUTHOR_NEW_NOVEL':
+                    notiLine = `팔로우하는 ${notifiCation.from}님이 새 소설을 게시했습니다`;
                     break;
                   default:
                     console.error('invalid input');
@@ -85,18 +101,25 @@ class UserIcon extends React.Component {
                   itemStyle = 'read-noti-item';
                 }
                 return (
-                  <div key={index} className={cx(itemStyle)}>
-                    <img className={cx('round-icon')} src={`/api/user/profile-pic/${notifiCation.who}`} alt="profile" />
-                    <div className={cx('noti-text')}>
-                      <div style={{ color: '#8F8F8F' }}>
-                        {notiLine}
-                      </div>
-                      <div>
-                        {notifiCation.data}
+                  <Link to={`/reader/${notifiCation.location}`} onClick={this.onRead(notifiCation.read, notifiCation._id)}>
+                    <div key={index} className={cx(itemStyle)}>
+                      <img className={cx('round-icon')} src={`/api/user/profile-pic/${notifiCation.from}`} alt="profile" />
+                      <div className={cx('noti-text')}>
+                        <div style={{ color: '#8F8F8F' }}>
+                          {notiLine}
+                        </div>
+                        <div>
+                          {notifiCation.body}
+                        </div>
                       </div>
                     </div>
-                  </div>);
+                  </Link>
+                );
               })
+              :
+              <div>
+                알림이 없습니다.
+              </div>
             }
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div>

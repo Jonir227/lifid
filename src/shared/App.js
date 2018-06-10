@@ -15,6 +15,21 @@ class App extends Component {
     this.props.getTodayNovel('now');
   }
 
+  componentWillReceiveProps(props) {
+    if (props.isLoggedIn && props.notificationStatus === false) {
+      console.log('fetched!');
+      this.props.fetchNotifications(
+        props.isLoggedIn,
+        props.userData.username,
+        props.notiOffset,
+        props.notiLimit,
+        true
+      );
+      return true;
+    }
+    return true;
+  }
+
   render() {
     // Blueprintjs의 특징은 Focus가 갔을때 파란 테두리가 쳐지는 점인데,
     // 이거 보기 싫어서 나오지 않는 옵션을 넣엇음.
@@ -28,6 +43,15 @@ class App extends Component {
       pending,
       novelPending,
       novelData,
+      notiOffset,
+      notiLimit,
+      notiCount,
+      fetchNotifications,
+      readNotification,
+      notificationStatus,
+      notiPending,
+      notifications,
+      readPedning,
     } = this.props;
 
     return (
@@ -39,6 +63,15 @@ class App extends Component {
           userData={userData}
           novelData={novelData}
           pending={pending}
+          notiOffset={notiOffset}
+          notiLimit={notiLimit}
+          notiCount={notiCount}
+          fetchNotifications={fetchNotifications}
+          readNotification={readNotification}
+          notificationStatus={notificationStatus}
+          notifications={notifications}
+          notiPending={notiPending}
+          readPedning={readPedning}
         />
         <div className={cx('content-body')}>
           <PropsRoute exact path="/" pending={pending} novelPending={novelPending} isLoggedIn={isLoggedIn} component={ContentBody} novelData={novelData} userData={userData} />
