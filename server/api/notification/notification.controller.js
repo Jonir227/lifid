@@ -14,6 +14,12 @@ exports.get = (req, res) => {
   const offset = parseInt(req.query.offset, 10);
   const limit = parseInt(req.query.limit, 10);
 
+  // Count unReadValue
+  const countUnread = (countData) => {
+    const unread = countData.reduce((prev, curr) => (curr.read ? prev : prev + 1), 0);
+    return Promise.resolve({ unread, total: countData.length });
+  }
+
   // to Get Notifications
   const getNotiData = countData =>
     new Promise((resolve, reject) => {
@@ -30,13 +36,15 @@ exports.get = (req, res) => {
       error: err,
     });
 
-  Notification.find({ to: username, read: false }).count()
+  Notification.find({ to: username })
+    .then(countUnread)
     .then(getNotiData)
     .then(data =>
       res.json({
         success: true,
         notifications: data.noti,
-        count: parseInt(data.countData, 10),
+        count: parseInt(data.countData.unread, 10),
+        total: parseInt(data.countData.total, 10),
       }))
     .catch(onError);
 };

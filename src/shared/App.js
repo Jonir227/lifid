@@ -16,14 +16,12 @@ class App extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.isLoggedIn && props.notificationStatus === false) {
-      console.log('fetched!');
+    if (props.isLoggedIn && !props.notiPending && props.notificationStatus === false) {
       this.props.fetchNotifications(
         props.isLoggedIn,
         props.userData.username,
         props.notiOffset,
         props.notiLimit,
-        true
       );
       return true;
     }
@@ -51,6 +49,9 @@ class App extends Component {
       notificationStatus,
       notiPending,
       notifications,
+      notiNext,
+      notiBefore,
+      notiTotal,
       readPedning,
     } = this.props;
 
@@ -71,6 +72,9 @@ class App extends Component {
           notificationStatus={notificationStatus}
           notifications={notifications}
           notiPending={notiPending}
+          notiTotal={notiTotal}
+          notiNext={notiNext}
+          notiBefore={notiBefore}
           readPedning={readPedning}
         />
         <div className={cx('content-body')}>

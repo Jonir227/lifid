@@ -57,10 +57,13 @@ class TopNavbar extends Component {
       notificationStatus,
       notiPending,
       notifications,
+      notiTotal,
+      notiNext,
+      notiBefore,
       readPedning,
     } = this.props;
 
-    console.log(this.props, this.props.notifications);
+    console.log(isLoggedIn);
 
     return (
       <Fragment>
@@ -111,6 +114,7 @@ class TopNavbar extends Component {
                   <UserIcon
                     userData={userData}
                     logout={logout}
+                    isLoggedIn={isLoggedIn}
                     // notification data
                     notiOffset={notiOffset}
                     notiLimit={notiLimit}
@@ -120,6 +124,9 @@ class TopNavbar extends Component {
                     notificationStatus={notificationStatus}
                     notifications={notifications}
                     notiPending={notiPending}
+                    notiTotal={notiTotal}
+                    notiNext={notiNext}
+                    notiBefore={notiBefore}
                     readPedning={readPedning}
                   />
                 </Fragment>

@@ -32,26 +32,23 @@ const initialState = {
   notiPending: false,
   notifications: [],
   notiCount: 0,
+  notiTotal: 0,
   readPending: false,
 };
 
 // fetch Noti Datas
-export const fetchNotifications = (isLoggedIn, username, offset, limit, right) => (dispatch) => {
+export const fetchNotifications = (isLoggedIn, username, offset, limit) => (dispatch) => {
   dispatch({ type: NOTI_PENDING });
 
   if (!isLoggedIn) {
-    dispatch({ type: NOTI_NONE });
+    dispatch({ type: NOTI_FAIL });
     return;
   }
-
-  const moveVal = right ? 0 : -limit;
-
-  return fetchNotificationsAPI(username, offset + moveVal, limit)
+  return fetchNotificationsAPI(username, offset, limit)
     .then((res) => {
-      console.log(res.data);
       dispatch({
         type: NOTI_SUCCESS,
-        payload: res.data,
+        payload: { data: res.data, moveVal: 0 },
       });
     })
     .catch((err) => {
@@ -61,6 +58,52 @@ export const fetchNotifications = (isLoggedIn, username, offset, limit, right) =
       });
     });
 };
+
+export const notiNext = (isLoggedIn, username, offset, limit) => (dispatch) => {
+  dispatch({ type: NOTI_PENDING });
+
+  if (!isLoggedIn) {
+    dispatch({ type: NOTI_FAIL });
+    return;
+  }
+
+  return fetchNotificationsAPI(username, offset + limit, limit)
+    .then((res) => {
+      dispatch({
+        type: NOTI_SUCCESS,
+        payload: { data: res.data, moveVal: limit },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: NOTI_FAIL,
+      });
+    });
+};
+
+export const notiBefore = (isLoggedIn, username, offset, limit) => (dispatch) => {
+  dispatch({ type: NOTI_PENDING });
+
+  if (!isLoggedIn) {
+    dispatch({ type: NOTI_FAIL });
+    return;
+  }
+
+  return fetchNotificationsAPI(username, offset - limit, limit)
+    .then((res) => {
+      dispatch({
+        type: NOTI_SUCCESS,
+        payload: { data: res.data, moveVal: -limit },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: NOTI_FAIL,
+      });
+    });
+}
 
 // post readed Notification
 export const readNotification = notiID => (dispatch) => {
@@ -81,15 +124,17 @@ export const readNotification = notiID => (dispatch) => {
     });
 };
 
+
 export default handleActions({
   [NOTI_PENDING]: state => ({ ...state, notiPending: true }),
   [NOTI_SUCCESS]: (state, action) => ({
     ...state,
     notiPending: false,
     notificationStatus: true,
-    notifications: action.payload.notifications,
-    notiCount: action.payload.count,
-    offset: state.offset + action.payload.notifications.length,
+    notifications: action.payload.data.notifications,
+    notiCount: action.payload.data.count,
+    notiOffset: state.notiOffset + action.payload.moveVal,
+    notiTotal: action.payload.data.total,
   }),
   [NOTI_FAIL]: state => ({
     ...state,

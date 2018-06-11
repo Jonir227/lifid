@@ -32,31 +32,26 @@ class UserIcon extends React.PureComponent {
     this.props.logout();
   }
 
-  onRead = (read, _id) => () => {
-    return !read && this.props.readNotification(_id);
-  }
+  onRead = (read, _id) => () => !read && this.props.readNotification(_id);
 
   onRightClick = () => {
     const {
-      isLoggendIn,
+      isLoggedIn,
       notiOffset,
       notiLimit,
       userData,
     } = this.props;
-    this.props.fetchNotifications(isLoggendIn, userData.username, notiOffset, notiLimit, true);
+    this.props.notiNext(isLoggedIn, userData.username ,notiOffset, notiLimit)
   }
-  
+
   onLeftClick = () => {
     const {
-      isLoggendIn,
+      isLoggedIn,
       notiOffset,
       notiLimit,
       userData,
     } = this.props;
-    if (notiOffset < notiLimit) {
-      return;
-    }
-    this.props.fetchNotifications(isLoggendIn, userData.username, notiOffset, notiLimit, false);
+    this.props.notiBefore(isLoggedIn, userData.username, notiOffset, notiLimit)
   }
 
   render() {
@@ -68,6 +63,9 @@ class UserIcon extends React.PureComponent {
     const {
       notifications,
       notiCount,
+      notiOffset,
+      notiLimit,
+      notiTotal,
     } = this.props;
 
     return (
@@ -101,7 +99,7 @@ class UserIcon extends React.PureComponent {
                   itemStyle = 'read-noti-item';
                 }
                 return (
-                  <Link to={`/reader/${notifiCation.location}`} onClick={this.onRead(notifiCation.read, notifiCation._id)}>
+                  <Link to={`/reader/${notifiCation.location}`} onClick={this.onRead(notifiCation.read, notifiCation._id)} style={{ textDecoration: 'none' }}>
                     <div key={index} className={cx(itemStyle)}>
                       <img className={cx('round-icon')} src={`/api/user/profile-pic/${notifiCation.from}`} alt="profile" />
                       <div className={cx('noti-text')}>
@@ -123,8 +121,18 @@ class UserIcon extends React.PureComponent {
             }
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div>
-                <Button className="pt-minimal" icon="caret-left" />
-                <Button className="pt-minimal" icon="caret-right" />
+                <Button
+                  className="pt-minimal"
+                  icon="caret-left"
+                  onClick={this.onLeftClick}
+                  disabled={notiOffset === 0}
+                />
+                <Button
+                  className="pt-minimal"
+                  icon="caret-right"
+                  onClick={this.onRightClick}
+                  disabled={notiTotal - notiOffset < notiLimit}
+                />
               </div>
               <div>
                 {

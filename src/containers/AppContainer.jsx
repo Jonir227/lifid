@@ -25,8 +25,16 @@ class AppContainer extends Component {
     this.props.TodayNovelActions.getTodayNovel(query);
   }
 
-  handlefetchNotifications = (isLoggedIn, username, offset, limit, right) => {
-    this.props.NotificationActions.fetchNotifications(isLoggedIn, username, offset, limit, right);
+  handlefetchNotifications = (isLoggedIn, username, offset, limit) => {
+    this.props.NotificationActions.fetchNotifications(isLoggedIn, username, offset, limit);
+  }
+
+  handleNotiNext = (isLoggedIn, username, offset, limit) => {
+    this.props.NotificationActions.notiNext(isLoggedIn, username, offset, limit);
+  }
+
+  handleNotiBefore = (isLoggedIn, username, offset, limit) => {
+    this.props.NotificationActions.notiBefore(isLoggedIn, username, offset, limit);
   }
 
   handleReadNotifications = (notiID) => {
@@ -55,6 +63,9 @@ class AppContainer extends Component {
       notifications,
       notiCount,
       notiPending,
+      notiTotal,
+      notiNext,
+      notiBefore,
       readPending,
     } = this.props;
 
@@ -80,7 +91,12 @@ class AppContainer extends Component {
         notificationStatus={notificationStatus}
         notiPending={notiPending}
         notifications={notifications}
+        notiTotal={notiTotal}
+        notiNext={notiNext}
+        notiBefore={notiBefore}
         readPending={readPending}
+        notiNext={this.handleNotiNext}
+        notiBefore={this.handleNotiBefore}
       />
     );
   }
@@ -120,6 +136,7 @@ const mapStateToProps = state => ({
   notiOffset: state.notification.notiOffset,
   notiLimit: state.notification.notiLimit,
   notiCount: state.notification.notiCount,
+  notiTotal: state.notification.notiTotal,
 });
 
 const mapDispatchToProps = dispatch => ({
