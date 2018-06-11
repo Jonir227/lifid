@@ -39,7 +39,11 @@ Modals.propTypes = {
   modalState: PropTypes.string.isRequired,
   modalModify: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
-  calLastDayOfMonth: PropTypes.func.isRequired,
+  calLastDayOfMonth: PropTypes.func,
 };
+
+Modals.defaultProps = {
+  calLastDayOfMonth: () => {},
+}
 
 export default Modals;

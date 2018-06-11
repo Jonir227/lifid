@@ -65,15 +65,15 @@ export default handleActions({
       pending: false,
     }
   ),
-  [LOGOUT]: () => {
+  [LOGOUT]: state => {
     localStorage.removeItem('token');
     delete axios.defaults.headers['x-access-token'];
-    return { isLoggedIn: false, userData: emptyUserData };
+    return { ...state, isLoggedIn: false, userData: emptyUserData };
   },
   [CHECK_PENDING]: state => ({ ...state, pending: true }),
   [CHECK_SUCCESS]: (state, action) => {
     const { userData } = action.payload;
     return { pending: false, isLoggedIn: true, userData };
   },
-  [CHECK_FAIL]: () => ({ pending: false, isLoggedIn: false }),
+  [CHECK_FAIL]: state => ({ ...state, pending: false, isLoggedIn: false }),
 }, initialState);

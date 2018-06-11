@@ -72,7 +72,6 @@ class ReaderView extends React.Component {
     return item => () => {
       axios.delete(`/api/novella/reader/${docNo}/comment?comment=${item.comment}&time=${item.time}`)
         .then((result) => {
-          console.log(result);
           this.setState(prevState => ({
             comments: _.reject(prevState.comments, item),
           }));
