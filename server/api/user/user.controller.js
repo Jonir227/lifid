@@ -80,11 +80,6 @@ exports.profilepic = (req, res) => {
 
 // PUT /api/user/:id
 exports.put = (req, res) => {
-  if (!req.decoded.admin) {
-    return res.status(403).json({
-      message: 'you are not admin',
-    });
-  }
   const proPic = typeof req.body.profilePicture === 'undefined' ? 'default' : req.body.profilePicture;
 
   const { id } = req.params;
@@ -124,11 +119,6 @@ exports.put = (req, res) => {
 
 // POST /api/user/:id/bookmark
 exports.bookMarkPost = (req, res) => {
-  if (!req.decoded.admin) {
-    return res.status(403).json({
-      message: 'you are not admin',
-    });
-  }
   const { docNo } = req.body;
   User.update({ username: req.decoded.username }, { $push: { bookMark: docNo } })
     .then((result) => {
@@ -164,13 +154,8 @@ exports.bookMarkDelete = (req, res) => {
     });
 };
 
-// POST /api/user/:id/follow:username
+// POST /api/user/:id/follow/:username
 exports.followPost = (req, res) => {
-  if (!req.decoded.admin) {
-    return res.status(403).json({
-      message: 'you are not admin',
-    });
-  }
   User.update({ username: req.decoded.username }, { $push: { follow: req.params.username } })
     .then((result) => {
       res.json({
@@ -188,11 +173,6 @@ exports.followPost = (req, res) => {
 
 // DELETE /api/user/:id/follow/:username
 exports.followDelete = (req, res) => {
-  if (!req.decoded.admin) {
-    return res.status(403).json({
-      message: 'you are not admin',
-    });
-  }
   User.update({ username: req.decoded.username }, { $pull: { follow: req.params.username } })
     .then((result) => {
       res.json({
