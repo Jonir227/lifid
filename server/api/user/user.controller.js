@@ -20,7 +20,7 @@ exports.list = (req, res) => {
 
 // GET /api/user/:username
 exports.info = (req, res) => {
-  User.findOne({ username: req.params.username }, { password: false, admin: false, _id: false })
+  User.findOne({ username: req.params.username }, { admin: false })
     .then((user) => {
       res.json({
         success: true,
@@ -94,27 +94,50 @@ exports.put = (req, res) => {
   const encrypted = crypto.createHmac('sha1', hashKey)
     .update(password)
     .digest('base64');
-  User.findOneAndUpdate({ _id: id }, {
-    $set: {
-      username,
-      password: encrypted,
-      tags,
-      proPic,
-      description,
-    },
-  })
-    .then((result) => {
-      res.json({
-        success: true,
-        result,
-      });
+  if (password.length > 15) {
+    User.findOneAndUpdate({ _id: id }, {
+      $set: {
+        username,
+        tags,
+        proPic,
+        description,
+      },
     })
-    .catch((err) => {
-      res.status(403).json({
-        success: false,
-        error: err,
+      .then((result) => {
+        res.json({
+          success: true,
+          result,
+        });
+      })
+      .catch((err) => {
+        res.status(403).json({
+          success: false,
+          error: err,
+        });
       });
-    });
+  } else {
+    User.findOneAndUpdate({ _id: id }, {
+      $set: {
+        username,
+        password: encrypted,
+        tags,
+        proPic,
+        description,
+      },
+    })
+      .then((result) => {
+        res.json({
+          success: true,
+          result,
+        });
+      })
+      .catch((err) => {
+        res.status(403).json({
+          success: false,
+          error: err,
+        });
+      });
+  }
 };
 
 // POST /api/user/:id/bookmark
