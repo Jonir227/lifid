@@ -5,6 +5,16 @@
   position: relative;
   flex-direction: column;
   max-height: 12rem;
+  margin-left: 10%;
+  margin-right: 10%;
+  @include respond-to(medium-screen) {
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+  @include respond-to(handhelds) {
+    margin-left: 0%;
+    margin-right: 0%;
+  }
   margin-top: 10px;
   overflow: hidden;
   .text-wrapper {
@@ -45,6 +55,16 @@
 }
 .card-list{
   overflow: hidden;
+  margin-left: 10%;
+  margin-right: 10%;
+  @include respond-to(medium-screen) {
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+  @include respond-to(handhelds) {
+    margin-left: 0%;
+    margin-right: 0%;
+  }
   background: {
     color: rgba(0, 0, 0, 0.5);
     blend-mode: darken;
@@ -55,7 +75,13 @@
   border-color: #CCCCCC;
   .cross-button{
     position: absolute;
-    margin-left: 33%;
+    margin-left: 25%;
+    @include respond-to(medium-screen) {
+      margin-left: 35%;
+    }
+    @include respond-to(handhelds) {
+      margin-left: 40%;
+    }
     // justify-content: right;
     // align-content: right;
   }

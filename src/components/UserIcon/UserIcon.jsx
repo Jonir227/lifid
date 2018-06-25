@@ -142,8 +142,6 @@ class UserIcon extends React.PureComponent {
                     <Button className="pt-minimal" icon="build" title="어드민" onClick={this.handleClick} />
                   </Link>
                 }
-                <Button className="pt-minimal" icon="timeline-line-chart" title="통계" />
-                <Button className="pt-minimal" icon="cog" title="설정" />
                 <Button className="pt-minimal" icon="log-out" title="로그 아웃" onClick={this.onClickLogout} />
               </div>
             </div>
