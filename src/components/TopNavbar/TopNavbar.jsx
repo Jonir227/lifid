@@ -63,6 +63,8 @@ class TopNavbar extends Component {
       readPedning,
     } = this.props;
 
+    console.log(isLoggedIn);
+
     return (
       <Fragment>
         <Navbar className={cx('top-nav-bar')}>
@@ -84,7 +86,7 @@ class TopNavbar extends Component {
             }
             <NavbarDivider />
             {
-              !pending && !isLoggedIn ?
+              !pending && !isLoggedIn && notificationStatus ?
                 <Fragment>
                   <Button
                     className="pt-minimal"

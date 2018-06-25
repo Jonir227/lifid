@@ -81,6 +81,7 @@ class SearchView extends Component {
             offset: (prevState.offset + fetchedVal),
             lazyLoad: false,
           }));
+          console.log(this.state);
         });
       this.setState(() => ({
         lazyLoad: true,

@@ -29,7 +29,6 @@ class UserIcon extends React.PureComponent {
   }
 
   onClickLogout = () => {
-    this.setState({ menuOut: false });
     this.props.logout();
   }
 
