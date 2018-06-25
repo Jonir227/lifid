@@ -93,15 +93,15 @@ class AdminEditor extends React.Component {
       todayNovelData: _.reject(prevState.todayNovelData, ['_id', _id]),
     }));
   }
-  del = (_id) => {
-    console.log(_id);
-    axios.delete(`/api/today-novel/${_id}`)
+  del = (data) => {
+    console.log(data._id);
+    axios.delete(`/api/today-novel/${data._id}`)
       .then(() => {
         AppToaster.show({
           message: '삭제되었습니다',
           intent: Intent.PRIMARY,
         });
-        this.deleteFunc(_id);
+        this.deleteFunc(data._id);
       })
       .catch((err) => { console.error(err); });
   };
@@ -144,7 +144,7 @@ class AdminEditor extends React.Component {
               <div className={cx('title')}>
                 <div className={cx('quotation-text')}>{data.quotation}</div>
                 <div className={cx('cross-button')}>
-                  <Button icon={<Icon icon="cross" color="white" />} className="pt-minimal" onClick={() => this.del(data._id)} />
+                  <Button icon={<Icon icon="cross" color="white" />} className="pt-minimal" onClick={() => this.del(data)} />
                 </div>
               </div>
               <div className={cx('text-wrapper')}>
