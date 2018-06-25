@@ -4,6 +4,7 @@ import ClassNames from 'classnames/bind';
 import { Button, Intent } from '@blueprintjs/core';
 import { AppToaster } from 'components';
 import axios from 'axios';
+import moment from 'moment';
 import styles from './TodayNovelAdd.scss';
 
 const cx = ClassNames.bind(styles);
@@ -62,12 +63,23 @@ class TodayNovelAdd extends Component {
       console.log(this.state.imageDataUri);
     };
   }
+  calDueDate = () => {
+    let date = this.props.calLastDayOfMonth();
+    moment(date).add(1, 'months').format('YYYY-MM-DD');
+    date = moment(date).add(1, 'months').format('YYYY-MM-DD');
+    const event = moment(date).endOf('month');
+    const lastday = event._d.toString().split(' ')[2];
+    date = date.split('-');
+    date[2] = lastday;
+    date = date.join('-');
+    return date;
+  }
   addTodayNovel = () => {
     const addData = {
-      dueDate: this.props.calLastDayOfMonth(),
+      dueDate: this.calDueDate(),
       author: this.state.author,
       name: this.state.name,
-      quotation: this.state.quotation, 
+      quotation: this.state.quotation,
       image: this.state.imageDataUri,
     };
     console.log(addData);
@@ -83,6 +95,7 @@ class TodayNovelAdd extends Component {
         console.error(res);
       });
     this.props.modalModify('Exit');
+    window.location.reload();
   }
   render() {
     const {
