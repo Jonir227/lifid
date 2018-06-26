@@ -11,7 +11,7 @@ class MyNovelList extends Component {
     myNovelList: {},
     loading: true,
     offset: 0,
-    limit: 25,
+    limit: 15,
     lazyLoad: false,
   }
 
